@@ -15,7 +15,7 @@
     "glob": "^11.0.1",
     "concurrently": "^9.1.2",
     "uglify-js": "^3.19.3",
-    "@types/chrome": "^0.0.294"
+    "@types/chrome": "^0.0.296"
   },
   "include": [
     "./wwwroot/TypeScript/**/*.ts"
