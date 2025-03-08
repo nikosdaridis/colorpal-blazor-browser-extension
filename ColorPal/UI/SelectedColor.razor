@@ -3,13 +3,13 @@
 <div class="relative flex h-[125px] w-full cursor-pointer flex-col items-center justify-center text-black"
      style="background-color: @(_selectedHEXColor)"
      @onclick=OpenColorPickerAsync>
-    <div class="absolute left-4 right-4 top-2 flex items-center justify-between">
+    <div class="absolute top-2 right-4 left-4 flex items-center justify-between">
         <RoundButton IconPath="Icons\eyedropper.svg"
                      IconThemeFilter=false
                      HandleClick=HandleEyeDropperClickAsync />
         @if (_colorName.Show && !string.IsNullOrWhiteSpace(_colorName.Selected) && JSRuntime is not null)
         {
-            <h3 class="cursor-pointer rounded-lg bg-white bg-opacity-50 px-2 py-1 text-center text-[11px] font-semibold shadow-xl backdrop-blur-xl transition-all duration-200 hover:bg-opacity-75 active:scale-90"
+            <h3 class="cursor-pointer rounded-lg bg-white/50 px-2 py-1 text-center font-semibold text-[11px] shadow-xl backdrop-blur-xl transition-all duration-200 hover:bg-white/75 active:scale-90"
             @onclick:stopPropagation
                 @onclick=@(async() => await JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), _colorName.Selected))>
                 @_colorName.Selected
@@ -31,7 +31,7 @@
     }
 </div>
 
-<input class="b-0 absolute left-[34px] m-0 h-0 w-0 p-0 opacity-0"
+<input class="border-0 absolute left-[34px] m-0 h-0 w-0 p-0 opacity-0"
        type="color"
        id="colorPicker"
        value=@_selectedHEXColor

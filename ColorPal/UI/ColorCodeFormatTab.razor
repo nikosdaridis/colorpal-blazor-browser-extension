@@ -1,6 +1,6 @@
 ﻿@implements IDisposable
 
-<button class="@GetTabHighlightClass() @GetTextClass() inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 font-medium"
+<button class="@GetTabHighlightClass() @GetTextClass() inline-flex cursor-pointer items-center justify-center rounded-md px-3 py-1 font-medium whitespace-nowrap"
         id=@($"colorCodeTab-{Name}")
         @ref=_button
         @onclick=HandleOnClickAsync>

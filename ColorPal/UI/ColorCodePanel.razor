@@ -4,24 +4,26 @@
     <div class="flex items-center space-x-2">
         @if (JSRuntime is not null)
         {
-            <button class="inline-flex h-8 w-10 items-center justify-center rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] font-medium transition-transform duration-100 hover:bg-[var(--secondary-color)] active:scale-90"
+            <button class="inline-flex h-8 w-10 cursor-pointer items-center justify-center rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] font-medium transition-transform duration-100 hover:bg-[var(--secondary-color)] active:scale-90"
                     @onclick=@(() => JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), _colorCodeValue))>
 
                 @if (_activeColorCodeFormat == ColorCodeFormat.Filter)
                 {
                     <img class="h-[15px] w-[15px]"
                          style=@_iconCSSFilter.Filter
+                         draggable="false"
                          src="Icons/copyClipboard.svg" />
                 }
                 else
                 {
                     <img class="theme-filter h-[15px] w-[15px]"
+                         draggable="false"
                          src="Icons/copyClipboard.svg" />
                 }
             </button>
         }
 
-        <div class="flex min-h-8 w-full select-text items-center justify-center break-words rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] text-center text-sm text-[var(--theme-invert-color)]"
+        <div class="flex min-h-8 w-full items-center justify-center rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] text-center text-sm break-words text-[var(--theme-invert-color)] select-text"
              style="font-size: @((_activeColorCodeFormat == ColorCodeFormat.Filter) ? "11" : "14")px;"
              contenteditable="false">
             @_colorCodeValue

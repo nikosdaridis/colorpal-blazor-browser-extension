@@ -12,6 +12,6 @@
     {
         await base.OnParametersSetAsync();
 
-        Class = $"inline-flex items-center justify-center h-8 w-8 rounded-md text-sm transition-colors duration-200 {(IsActive ? "bg-[var(--primary-color)] active" : string.Empty)}";
+        Class = $"inline-flex cursor-pointer items-center justify-center h-8 w-8 rounded-md text-sm transition-colors duration-200 {(IsActive ? "bg-[var(--primary-color)] active" : string.Empty)}";
     }
 }

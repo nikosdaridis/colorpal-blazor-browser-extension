@@ -11,7 +11,7 @@
                    IsActive=@(_activeColorTool == tool.Value()) />
     }
 
-    <select class="w-13 h-8 items-center justify-center rounded-md bg-[var(--secondary-color)] p-2 text-sm text-[var(--text-color)] focus:outline-none focus:ring-0"
+    <select class="h-8 w-13 cursor-pointer items-center justify-center rounded-md bg-[var(--secondary-color)] p-2 text-sm text-[var(--text-color)] focus:outline-none focus:ring-0"
             id="colorsPerLine"
             @bind:get=_colorsPerLine
             @bind:set=HandleColorsPerLineChangeAndPublishEventAsync>

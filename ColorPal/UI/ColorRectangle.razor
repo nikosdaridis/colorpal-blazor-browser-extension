@@ -7,7 +7,7 @@
 
     @if (ActiveColorTool == ColorToolType.TintsShades && TintsShadesIndex is not null)
     {
-        <h4 class="absolute bottom-0 left-1/2 -translate-x-1/2 transform text-[8px] font-semibold"
+        <h4 class="absolute bottom-0 left-1/2 -translate-x-1/2 transform font-semibold text-[8px]"
             style="color: @(TintsShadesIndex <= 50 ? "white" : "black");">
             @TintsShadesIndex
         </h4>
@@ -15,8 +15,8 @@
     else
     {
         <img class="w-[60%]"
-             src=@GetImgSrc()
-             draggable="false" />
+             draggable="false"
+             src=@GetImgSrc() />
     }
 </span>
 

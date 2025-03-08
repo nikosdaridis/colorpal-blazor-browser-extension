@@ -1,7 +1,7 @@
 ﻿<div class="flex items-center justify-between">
     <h3 class="font-semibold">@Label</h3>
 
-    <button class="toggle-option"
+    <button class="toggle-option cursor-pointer"
             active=@(_isActive.ToString().ToLower())
             @onclick=ToggleButtonAsync></button>
 </div>
