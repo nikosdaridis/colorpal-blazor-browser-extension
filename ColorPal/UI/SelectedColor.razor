@@ -1,273 +1,274 @@
 ﻿@implements IDisposable
 
 <div class="relative flex h-[125px] w-full cursor-pointer flex-col items-center justify-center text-black"
-     style="background-color: @(_selectedHEXColor)"
-     @onclick=OpenColorPickerAsync>
-    <div class="absolute top-2 right-4 left-4 flex items-center justify-between">
-        <RoundButton IconPath="Icons\eyedropper.svg"
-                     IconThemeFilter=false
-                     HandleClick=HandleEyeDropperClickAsync />
-        @if (_colorName.Show && !string.IsNullOrWhiteSpace(_colorName.Selected) && JSRuntime is not null)
-        {
-            <h3 class="cursor-pointer rounded-lg bg-white/50 px-2 py-1 text-center font-semibold text-[11px] shadow-xl backdrop-blur-xl transition-all duration-200 hover:bg-white/75 active:scale-90"
-            @onclick:stopPropagation
-                @onclick=@(async() => await JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), _colorName.Selected))>
-                @_colorName.Selected
-            </h3>
-        }
+	 style=@($"background-color: {_selectedHEXColor}")
+	 @onclick=OpenColorPickerAsync>
+	<div class="absolute top-2 right-4 left-4 flex items-center justify-between">
+		<RoundButton IconPath="Icons\eyedropper.svg"
+					 IconThemeFilter=false
+					 HandleClick=HandleEyeDropperClickAsync />
+		@if (_colorName.Show && !string.IsNullOrWhiteSpace(_colorName.Selected) && JSRuntime is not null)
+		{
+			<h3 class="cursor-pointer rounded-lg bg-white/50 px-2 py-1 text-center font-semibold text-[11px] shadow-xl backdrop-blur-xl transition-all duration-200 hover:bg-white/75 active:scale-90"
+			@onclick:stopPropagation
+				@onclick=@(async() => await JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), _colorName.Selected))>
+				@_colorName.Selected
+			</h3>
+		}
 
-        <RoundButton IconPath="Icons\settings.svg"
-                     IconThemeFilter=false
-                     HandleClick=@(() => NavigationManager?.NavigateTo("/settings")) />
-    </div>
+		<RoundButton IconPath="Icons\settings.svg"
+					 IconThemeFilter=false
+					 HandleClick=@(() => NavigationManager?.NavigateTo("/settings")) />
+	</div>
 
-    @if (!_isSelectedColorSaved)
-    {
-        <div class="absolute bottom-2">
-            <RoundButton IconPath="Icons\plus.svg"
-                         IconThemeFilter=false
-                         HandleClick=@(async () => await SaveColorAsync(_selectedHEXColor)) />
-        </div>
-    }
+	@if (!_isSelectedColorSaved)
+	{
+		<div class="absolute bottom-2">
+			<RoundButton IconPath="Icons\plus.svg"
+						 IconThemeFilter=false
+						 HandleClick=@(async () => await SaveColorAsync(_selectedHEXColor)) />
+		</div>
+	}
 </div>
 
 <input class="border-0 absolute left-[34px] m-0 h-0 w-0 p-0 opacity-0"
-       type="color"
-       id="colorPicker"
-       value=@_selectedHEXColor
-       @oninput=HandleColorPickerInput>
+	   type="color"
+	   id="colorPicker"
+	   value=@_selectedHEXColor
+	   @oninput=HandleColorPickerInput>
 
 @code {
-    [Parameter]
-    public NavigationManager? NavigationManager { get; set; }
+	[Parameter]
+	public NavigationManager? NavigationManager { get; set; }
 
-    [Parameter]
-    public IJSRuntime? JSRuntime { get; set; }
+	[Parameter]
+	public IJSRuntime? JSRuntime { get; set; }
 
-    [Parameter]
-    public LocalStorageService? LocalStorageService { get; set; }
+	[Parameter]
+	public LocalStorageService? LocalStorageService { get; set; }
 
-    [Parameter]
-    public EventAggregator<string>? EventAggregator { get; set; }
+	[Parameter]
+	public EventAggregator<string>? EventAggregator { get; set; }
 
-    [Parameter]
-    public StateService? StateService { get; set; }
+	[Parameter]
+	public StateService? StateService { get; set; }
 
-    private string _selectedHEXColor = "#000000";
-    private bool _isSelectedColorSaved;
-    private (bool Show, string Selected) _colorName = (false, string.Empty);
-    private Timer? _colorPickerDebounceTimer;
-
-
-    /// <summary>
-    /// Subscribes to events, intializes selected color and names
-    /// </summary>
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        if (JSRuntime is null || LocalStorageService is null || EventAggregator is null || StateService is null)
-            return;
-
-        EventAggregator.GetService(Event.EyedropperPick).Subscribe(SetSelectedColorAndPublishEventAsync);
-        EventAggregator.GetService(Event.EyedropperPick).Subscribe(SaveEyedropperColorAsync);
-        EventAggregator.GetService(Event.SetSelectedColor).Subscribe(SetSelectedColorAsync);
-        EventAggregator.GetService(Event.DeleteSavedColor).Subscribe(RenderSelectedColorAsync);
-        EventAggregator.GetService(Event.DeleteAllSavedColors).Subscribe(RenderSelectedColorAsync);
-
-        _selectedHEXColor = await LocalStorageService.GetKeyAsync<string>(StorageKey.SelectedHexColor) ?? "#000000";
-        _isSelectedColorSaved = (await IsColorSavedAsync(_selectedHEXColor)).IsSaved;
-        _colorName.Show = await LocalStorageService.GetKeyAsync<string>(StorageKey.ShowColorNames) == "true";
-
-        _ = Task.Run(async () =>
-        {
-            while (!StateService.ColorNamesInitialized())
-                await Task.Delay(50);
-
-            _colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFuncs.HexToRgb.Value(), _selectedHEXColor));
-            StateHasChanged();
-        });
-    }
-
-    /// <summary>
-    /// Renders the component
-    /// </summary>
-    private async Task RenderSelectedColorAsync(string? input = null)
-    {
-        _isSelectedColorSaved = false;
-        await InvokeAsync(StateHasChanged);
-    }
-
-    /// <summary>
-    /// Handles eyedropper color pick and publishes event
-    /// </summary>
-    private async Task HandleEyeDropperClickAsync()
-    {
-        if (JSRuntime is null)
-            return;
-
-        string eyeDropperColor = await JSRuntime.InvokeAsync<string?>(JsFuncs.ActivateEyeDropper.Value()) ?? string.Empty;
-        EventAggregator?.GetService(Event.EyedropperPick).PublishAsync(eyeDropperColor);
-    }
-
-    /// <summary>
-    /// Sets selected color
-    /// </summary>
-    private async Task SetSelectedColorAsync(string hexColor)
-    {
-        if (JSRuntime is null || LocalStorageService is null || StateService is null)
-            return;
-
-        if (_selectedHEXColor == hexColor)
-            return;
-
-        _selectedHEXColor = hexColor;
-        (bool isSaved, string[] savedColors) = await IsColorSavedAsync(_selectedHEXColor);
-        _isSelectedColorSaved = isSaved;
-
-        if (_colorName.Show)
-            _colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFuncs.HexToRgb.Value(), _selectedHEXColor));
-
-        await LocalStorageService.SetKeyAsync(StorageKey.SelectedHexColor, hexColor);
-        StateHasChanged();
-    }
-
-    //// <summary>
-    /// Sets selected color and publishes event
-    /// </summary>
-    private async Task SetSelectedColorAndPublishEventAsync(string hexColor)
-    {
-        if (string.IsNullOrWhiteSpace(hexColor) || EventAggregator is null)
-            return;
-
-        await SetSelectedColorAsync(hexColor);
-        await EventAggregator.GetService(Event.SetSelectedColor).PublishAsync(_selectedHEXColor);
-        StateHasChanged();
-    }
-
-    /// <summary>
-    /// Checks if color is saved in local storage
-    /// </summary>
-    private async Task<(bool IsSaved, string[] SavedColors)> IsColorSavedAsync(string color)
-    {
-        if (LocalStorageService is null)
-            return (false, []);
-
-        string[] savedColors = await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [];
-
-        return (savedColors.Contains(color), savedColors);
-    }
-
-    private async Task SaveEyedropperColorAsync(string color) =>
-        await SaveColorAsync(color, true);
+	private string _selectedHEXColor = "#000000";
+	private bool _isSelectedColorSaved;
+	private (bool Show, string Selected) _colorName = (false, string.Empty);
+	private Timer? _colorPickerDebounceTimer;
 
 
-    /// <summary>
-    /// Saves color to local storage and copies code format to clipboard
-    /// </summary>
-    private async Task SaveColorAsync(string hexColor, bool checkAutoSaveEyedropperSetting = false)
-    {
-        if (LocalStorageService is null || EventAggregator is null)
-            return;
+	/// <summary>
+	/// Subscribes to events, intializes selected color and names
+	/// </summary>
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
 
-        if (string.IsNullOrWhiteSpace(hexColor))
-            return;
+		if (JSRuntime is null || LocalStorageService is null || EventAggregator is null || StateService is null)
+			return;
 
-        (bool isSaved, string[] savedColors) = await IsColorSavedAsync(_selectedHEXColor);
-        _isSelectedColorSaved = isSaved;
+		EventAggregator.GetService(Event.EyedropperPick).Subscribe(SetSelectedColorAndPublishEventAsync);
+		EventAggregator.GetService(Event.EyedropperPick).Subscribe(SaveEyedropperColorAsync);
+		EventAggregator.GetService(Event.SetSelectedColor).Subscribe(SetSelectedColorAsync);
+		EventAggregator.GetService(Event.DeleteSavedColor).Subscribe(RenderSelectedColorAsync);
+		EventAggregator.GetService(Event.DeleteAllSavedColors).Subscribe(RenderSelectedColorAsync);
 
-        if (checkAutoSaveEyedropperSetting && await LocalStorageService.GetKeyAsync<string>(StorageKey.AutoSaveEyedropper) != "true")
-            return;
+		_selectedHEXColor = await LocalStorageService.GetKeyAsync<string>(StorageKey.SelectedHexColor) ?? "#000000";
+		_isSelectedColorSaved = (await IsColorSavedAsync(_selectedHEXColor)).IsSaved;
+		_colorName.Show = await LocalStorageService.GetKeyAsync<string>(StorageKey.ShowColorNames) == "true";
 
-        await CopyColorCodeToClipboardAsync(_selectedHEXColor);
+		if (_colorName.Show)
+			_ = Task.Run(async () =>
+			{
+				while (!StateService.ColorNamesInitialized())
+					await Task.Delay(50);
 
-        if (savedColors.Contains(hexColor))
-            return;
+				_colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFuncs.HexToRgb.Value(), _selectedHEXColor));
+				StateHasChanged();
+			});
+	}
 
-        Array.Resize(ref savedColors, savedColors.Length + 1);
-        savedColors[^1] = hexColor;
-        _isSelectedColorSaved = true;
-        await LocalStorageService.SetKeyAsync(StorageKey.SavedColorsArray, savedColors);
-        await EventAggregator.GetService(Event.SaveColor).PublishAsync(hexColor);
+	/// <summary>
+	/// Renders the component
+	/// </summary>
+	private async Task RenderSelectedColorAsync(string? input = null)
+	{
+		_isSelectedColorSaved = false;
+		await InvokeAsync(StateHasChanged);
+	}
 
-        StateHasChanged();
-    }
+	/// <summary>
+	/// Handles eyedropper color pick and publishes event
+	/// </summary>
+	private async Task HandleEyeDropperClickAsync()
+	{
+		if (JSRuntime is null)
+			return;
 
-    /// <summary>
-    /// Opens color picker and publishes event
-    /// </summary>
-    private async Task OpenColorPickerAsync()
-    {
-        if (JSRuntime is null || EventAggregator is null)
-            return;
+		string eyeDropperColor = await JSRuntime.InvokeAsync<string?>(JsFuncs.ActivateEyeDropper.Value()) ?? string.Empty;
+		EventAggregator?.GetService(Event.EyedropperPick).PublishAsync(eyeDropperColor);
+	}
 
-        await JSRuntime.InvokeVoidAsync(JsFuncs.OpenColorPicker.Value(), "colorPicker");
-        await EventAggregator.GetService(Event.OpenColorPicker).PublishAsync(_selectedHEXColor);
-    }
+	/// <summary>
+	/// Sets selected color
+	/// </summary>
+	private async Task SetSelectedColorAsync(string hexColor)
+	{
+		if (JSRuntime is null || LocalStorageService is null || StateService is null)
+			return;
 
-    /// <summary>
-    /// Handles color picker input, debounces rapid input, sets selected color and publishes event
-    /// </summary>
-    private void HandleColorPickerInput(ChangeEventArgs e)
-    {
-        if (e.Value is not string color || string.IsNullOrWhiteSpace(color))
-            return;
+		if (_selectedHEXColor == hexColor)
+			return;
 
-        _colorPickerDebounceTimer?.Dispose();
+		_selectedHEXColor = hexColor;
+		(bool isSaved, string[] savedColors) = await IsColorSavedAsync(_selectedHEXColor);
+		_isSelectedColorSaved = isSaved;
 
-        _colorPickerDebounceTimer = new Timer(async _ =>
-       {
-           await InvokeAsync(async () => await SetSelectedColorAndPublishEventAsync(color));
-       }, null, 2, Timeout.Infinite);
-    }
+		if (_colorName.Show)
+			_colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFuncs.HexToRgb.Value(), _selectedHEXColor));
 
-    /// <summary>
-    /// Copies color code to clipboard depending on active color code format
-    /// </summary>
-    private async Task CopyColorCodeToClipboardAsync(string hexColor)
-    {
-        if (JSRuntime is null || LocalStorageService is null)
-            return;
+		await LocalStorageService.SetKeyAsync(StorageKey.SelectedHexColor, hexColor);
+		StateHasChanged();
+	}
 
-        if (await LocalStorageService.GetKeyAsync<string>(StorageKey.AutoCopyCode) != "true")
-            return;
+	//// <summary>
+	/// Sets selected color and publishes event
+	/// </summary>
+	private async Task SetSelectedColorAndPublishEventAsync(string hexColor)
+	{
+		if (string.IsNullOrWhiteSpace(hexColor) || EventAggregator is null)
+			return;
 
-        ColorCodeFormat activeColorCodeFormat = Enum.Parse<ColorCodeFormat>(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat) ?? ColorCodeFormat.HEX.Value());
-        CssFilter filter = new();
+		await SetSelectedColorAsync(hexColor);
+		await EventAggregator.GetService(Event.SetSelectedColor).PublishAsync(_selectedHEXColor);
+		StateHasChanged();
+	}
 
-        if (activeColorCodeFormat == ColorCodeFormat.Filter)
-        {
-            filter = await JSRuntime.InvokeAsync<CssFilter>(JsFuncs.HexToFilter.Value(), hexColor);
+	/// <summary>
+	/// Checks if color is saved in local storage
+	/// </summary>
+	private async Task<(bool IsSaved, string[] SavedColors)> IsColorSavedAsync(string color)
+	{
+		if (LocalStorageService is null)
+			return (false, []);
 
-            if (await LocalStorageService.GetKeyAsync<string>(StorageKey.PrependBlackFilter) == "true")
-                filter.Filter = filter.Filter?.Replace("filter:", "filter: brightness(0) saturate(100%)");
-        }
+		string[] savedColors = await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [];
 
-        string colorCode = activeColorCodeFormat switch
-        {
-            ColorCodeFormat.HEX => await LocalStorageService.GetKeyAsync<string>(StorageKey.AddHexCharacter) == "true" ? hexColor : hexColor[1..],
-            ColorCodeFormat.RGB => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToRgb.Value(), hexColor, "string"),
-            ColorCodeFormat.HSL => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToHsl.Value(), hexColor, "string"),
-            ColorCodeFormat.HSV => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToHsv.Value(), hexColor, "string"),
-            ColorCodeFormat.Filter => filter.Filter ?? hexColor,
-            _ => hexColor
-        };
+		return (savedColors.Contains(color), savedColors);
+	}
 
-        await JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), colorCode);
-    }
+	private async Task SaveEyedropperColorAsync(string color) =>
+		await SaveColorAsync(color, true);
 
-    /// <summary>
-    /// Unsubscribes from events
-    /// </summary>
-    public void Dispose()
-    {
-        if (EventAggregator is null)
-            return;
 
-        EventAggregator.GetService(Event.EyedropperPick).Unsubscribe(SetSelectedColorAndPublishEventAsync);
-        EventAggregator.GetService(Event.EyedropperPick).Unsubscribe(SaveEyedropperColorAsync);
-        EventAggregator.GetService(Event.SetSelectedColor).Unsubscribe(SetSelectedColorAsync);
-        EventAggregator.GetService(Event.DeleteSavedColor).Unsubscribe(RenderSelectedColorAsync);
-        EventAggregator.GetService(Event.DeleteAllSavedColors).Unsubscribe(RenderSelectedColorAsync);
-    }
+	/// <summary>
+	/// Saves color to local storage and copies code format to clipboard
+	/// </summary>
+	private async Task SaveColorAsync(string hexColor, bool checkAutoSaveEyedropperSetting = false)
+	{
+		if (LocalStorageService is null || EventAggregator is null)
+			return;
+
+		if (string.IsNullOrWhiteSpace(hexColor))
+			return;
+
+		(bool isSaved, string[] savedColors) = await IsColorSavedAsync(_selectedHEXColor);
+		_isSelectedColorSaved = isSaved;
+
+		if (checkAutoSaveEyedropperSetting && await LocalStorageService.GetKeyAsync<string>(StorageKey.AutoSaveEyedropper) != "true")
+			return;
+
+		await CopyColorCodeToClipboardAsync(_selectedHEXColor);
+
+		if (savedColors.Contains(hexColor))
+			return;
+
+		Array.Resize(ref savedColors, savedColors.Length + 1);
+		savedColors[^1] = hexColor;
+		_isSelectedColorSaved = true;
+		await LocalStorageService.SetKeyAsync(StorageKey.SavedColorsArray, savedColors);
+		await EventAggregator.GetService(Event.SaveColor).PublishAsync(hexColor);
+
+		StateHasChanged();
+	}
+
+	/// <summary>
+	/// Opens color picker and publishes event
+	/// </summary>
+	private async Task OpenColorPickerAsync()
+	{
+		if (JSRuntime is null || EventAggregator is null)
+			return;
+
+		await JSRuntime.InvokeVoidAsync(JsFuncs.OpenColorPicker.Value(), "colorPicker");
+		await EventAggregator.GetService(Event.OpenColorPicker).PublishAsync(_selectedHEXColor);
+	}
+
+	/// <summary>
+	/// Handles color picker input, debounces rapid input, sets selected color and publishes event
+	/// </summary>
+	private void HandleColorPickerInput(ChangeEventArgs e)
+	{
+		if (e.Value is not string color || string.IsNullOrWhiteSpace(color))
+			return;
+
+		_colorPickerDebounceTimer?.Dispose();
+
+		_colorPickerDebounceTimer = new Timer(async _ =>
+				{
+					await InvokeAsync(async () => await SetSelectedColorAndPublishEventAsync(color));
+				}, null, 2, Timeout.Infinite);
+	}
+
+	/// <summary>
+	/// Copies color code to clipboard depending on active color code format
+	/// </summary>
+	private async Task CopyColorCodeToClipboardAsync(string hexColor)
+	{
+		if (JSRuntime is null || LocalStorageService is null)
+			return;
+
+		if (await LocalStorageService.GetKeyAsync<string>(StorageKey.AutoCopyCode) != "true")
+			return;
+
+		ColorCodeFormat activeColorCodeFormat = Enum.Parse<ColorCodeFormat>(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat) ?? ColorCodeFormat.HEX.Value());
+		CssFilter filter = new();
+
+		if (activeColorCodeFormat == ColorCodeFormat.Filter)
+		{
+			filter = await JSRuntime.InvokeAsync<CssFilter>(JsFuncs.HexToFilter.Value(), hexColor);
+
+			if (await LocalStorageService.GetKeyAsync<string>(StorageKey.PrependBlackFilter) == "true")
+				filter.Filter = filter.Filter?.Replace("filter:", "filter: brightness(0) saturate(100%)");
+		}
+
+		string colorCode = activeColorCodeFormat switch
+		{
+			ColorCodeFormat.HEX => await LocalStorageService.GetKeyAsync<string>(StorageKey.AddHexCharacter) == "true" ? hexColor : hexColor[1..],
+			ColorCodeFormat.RGB => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToRgb.Value(), hexColor, "string"),
+			ColorCodeFormat.HSL => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToHsl.Value(), hexColor, "string"),
+			ColorCodeFormat.HSV => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToHsv.Value(), hexColor, "string"),
+			ColorCodeFormat.Filter => filter.Filter ?? hexColor,
+			_ => hexColor
+		};
+
+		await JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), colorCode);
+	}
+
+	/// <summary>
+	/// Unsubscribes from events
+	/// </summary>
+	public void Dispose()
+	{
+		if (EventAggregator is null)
+			return;
+
+		EventAggregator.GetService(Event.EyedropperPick).Unsubscribe(SetSelectedColorAndPublishEventAsync);
+		EventAggregator.GetService(Event.EyedropperPick).Unsubscribe(SaveEyedropperColorAsync);
+		EventAggregator.GetService(Event.SetSelectedColor).Unsubscribe(SetSelectedColorAsync);
+		EventAggregator.GetService(Event.DeleteSavedColor).Unsubscribe(RenderSelectedColorAsync);
+		EventAggregator.GetService(Event.DeleteAllSavedColors).Unsubscribe(RenderSelectedColorAsync);
+	}
 }

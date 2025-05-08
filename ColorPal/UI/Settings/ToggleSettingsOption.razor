@@ -1,48 +1,54 @@
 ﻿<div class="flex items-center justify-between">
-    <h3 class="font-semibold">@Label</h3>
+	<h3 class="font-semibold">@Label</h3>
 
-    <button class="toggle-option cursor-pointer"
-            active=@(_isActive.ToString().ToLower())
-            @onclick=ToggleButtonAsync></button>
+	<button class="toggle-option cursor-pointer"
+			active=@(_isActive.ToString().ToLower())
+			@onclick=ToggleButtonAsync></button>
 </div>
 
 @code {
-    [Parameter]
-    public LocalStorageService? LocalStorageService { get; set; }
+	[Parameter]
+	public LocalStorageService? LocalStorageService { get; set; }
 
-    [Parameter]
-    public string? Label { get; set; }
+	[Parameter]
+	public StateService? StateService { get; set; }
 
-    [Parameter]
-    public StorageKey StorageKey { get; set; }
+	[Parameter]
+	public string? Label { get; set; }
 
-    private bool _isActive = false;
+	[Parameter]
+	public StorageKey StorageKey { get; set; }
 
-    /// <summary>
-    /// Gets local storage active state
-    /// </summary>
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
+	private bool _isActive = false;
 
-        if (LocalStorageService is null)
-            return;
+	/// <summary>
+	/// Gets local storage active state
+	/// </summary>
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
 
-        string? localStorageIsActive = await LocalStorageService.GetKeyAsync<string>(StorageKey);
+		if (LocalStorageService is null)
+			return;
 
-        _isActive = localStorageIsActive == "true";
-    }
+		string? localStorageIsActive = await LocalStorageService.GetKeyAsync<string>(StorageKey);
 
-    /// <summary>
-    /// Toggles button and saves to local storage
-    /// </summary>
-    private async Task ToggleButtonAsync()
-    {
-        _isActive = !_isActive;
+		_isActive = localStorageIsActive == "true";
+	}
 
-        if (LocalStorageService is null)
-            return;
+	/// <summary>
+	/// Toggles button and saves to local storage
+	/// </summary>
+	private async Task ToggleButtonAsync()
+	{
+		_isActive = !_isActive;
 
-        await LocalStorageService.SetKeyAsync<string>(StorageKey, _isActive.ToString().ToLower());
-    }
+		if (LocalStorageService is null)
+			return;
+
+		await LocalStorageService.SetKeyAsync<string>(StorageKey, _isActive.ToString().ToLower());
+
+		if (StorageKey == StorageKey.ShowColorNames && _isActive)
+			_ = StateService?.DecompressParseAndCacheColorNamesAsync();
+	}
 }

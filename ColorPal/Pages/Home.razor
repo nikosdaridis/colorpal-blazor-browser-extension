@@ -3,35 +3,39 @@
 @page "/"
 
 @if (!_isInitialized)
-    return;
+	return;
 
 <SelectedColor NavigationManager=NavigationManager JSRuntime=JSRuntime LocalStorageService=LocalStorageService EventAggregator=EventAggregator StateService=StateService />
 <div class="px-3 py-2">
-    <ColorCodeFormatTabs LocalStorageService=LocalStorageService EventAggregator=EventAggregator />
-    <ColorCodePanel JSRuntime=JSRuntime LocalStorageService=LocalStorageService EventAggregator=EventAggregator />
+	<ColorCodeFormatTabs LocalStorageService=LocalStorageService EventAggregator=EventAggregator />
+	<ColorCodePanel JSRuntime=JSRuntime LocalStorageService=LocalStorageService EventAggregator=EventAggregator />
 </div>
 
 <div class="grid gap-3 bg-[var(--secondary-color)] px-3 pt-1 pb-2">
-    <ColorsToolBar JSRuntime=JSRuntime LocalStorageService=LocalStorageService EventAggregator=EventAggregator StateService=StateService />
-    <ColorsGrid JSRuntime=JSRuntime LocalStorageService=LocalStorageService EventAggregator=EventAggregator />
+	<ColorsToolBar JSRuntime=JSRuntime LocalStorageService=LocalStorageService EventAggregator=EventAggregator StateService=StateService />
+	<ColorsGrid JSRuntime=JSRuntime LocalStorageService=LocalStorageService EventAggregator=EventAggregator />
 </div>
 
 @code {
-    private bool _isInitialized;
+	private bool _isInitialized;
 
-    /// <summary>
-    /// Validates local storage and sets theme
-    /// </summary>
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
+	/// <summary>
+	/// Validates local storage and sets theme
+	/// </summary>
+	protected override async Task OnInitializedAsync()
+	{
+		await base.OnInitializedAsync();
 
-        if (JSRuntime is null || LocalStorageService is null)
-            return;
+		if (JSRuntime is null || LocalStorageService is null)
+			return;
 
-        await LocalStorageService.ValidateAsync();
-        _isInitialized = true;
-        _ = JSRuntime.InvokeVoidAsync(JsFuncs.IsInitialized.Value());
-        StateHasChanged();
-    }
+		await LocalStorageService.ValidateAsync();
+		_isInitialized = true;
+
+		if (await LocalStorageService.GetKeyAsync<string>(StorageKey.ShowColorNames) == "true")
+			_ = StateService?.DecompressParseAndCacheColorNamesAsync();
+
+		_ = JSRuntime.InvokeVoidAsync(JsFuncs.IsInitialized.Value());
+		StateHasChanged();
+	}
 }

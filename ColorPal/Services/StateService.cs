@@ -18,7 +18,7 @@ namespace ColorPal.Services
             _httpClient = httpClient;
             _jsRuntime = jsRuntime;
 
-            _jsRuntime.InvokeVoidAsync(JsFuncs.InitializeStateService.Value(), DotNetObjectReference.Create(this));
+            _ = _jsRuntime.InvokeVoidAsync(JsFuncs.InitializeStateService.Value(), DotNetObjectReference.Create(this));
         }
 
         /// <summary>
@@ -32,6 +32,9 @@ namespace ColorPal.Services
         /// </summary>
         public async Task DecompressParseAndCacheColorNamesAsync()
         {
+            if (ColorNamesInitialized())
+                return;
+
             try
             {
                 byte[] colorNamesData = await _httpClient.GetByteArrayAsync(@$"Data/colorNamesStep{_colorNamesStep}.dat");

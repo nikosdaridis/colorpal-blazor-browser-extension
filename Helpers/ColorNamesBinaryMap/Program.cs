@@ -1,10 +1,10 @@
-﻿using MessagePack;
-using MessagePack.Resolvers;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using MessagePack;
+using MessagePack.Resolvers;
 
 namespace ColorNamesBinaryMap
 {
@@ -22,7 +22,7 @@ namespace ColorNamesBinaryMap
 
             int step = GetPrecisionStep();
             string inputUri = "https://unpkg.com/color-name-list/dist/colornames.json";
-            string outputFilePath = @$"C:\Users\nikos\Desktop\_repos\colorpal\ColorPal\wwwroot\Data\colorNamesStep{step}.dat";
+            string outputFilePath = @$"C:\Users\nikos\Desktop\colorNamesStep{step}.dat";
 
             Console.WriteLine($"⏳ Generating colors map with step = {step}...");
             Console.WriteLine($"📂 Output Path: {outputFilePath}");
