@@ -14,7 +14,7 @@
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "glob": "^11.0.2",
-    "tailwindcss": "^4.1.4",
+    "tailwindcss": "^4.1.6",
     "typescript": "^5.8.3",
     "uglify-js": "^3.19.3"
   },
