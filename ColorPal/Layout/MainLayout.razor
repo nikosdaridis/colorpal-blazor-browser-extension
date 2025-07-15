@@ -2,16 +2,16 @@
 
 @inject NavigationManager NavigationManager
 
-<main class="hidden max-w-[300px] min-w-[300px] bg-[var(--primary-color)] text-[var(--text-color)] transition-all duration-1000">
-	@Body
+<main>
+    @Body
 </main>
 
 @code {
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		await base.OnAfterRenderAsync(firstRender);
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
 
-		if (firstRender)
-			NavigationManager.NavigateTo("/");
-	}
+        if (firstRender)
+            NavigationManager.NavigateTo("/");
+    }
 }

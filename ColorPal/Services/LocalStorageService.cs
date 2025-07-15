@@ -25,11 +25,11 @@ namespace ColorPal.Services
 
         public async Task ValidateAsync()
         {
-            // Validate Version
+            // Version
             string version = await JSRuntime.InvokeAsync<string>(JsFuncs.GetManifestVersionAsync.Value()) ?? string.Empty;
             _ = SetKeyAsync(StorageKey.Version, version);
 
-            // Validate Theme
+            // Theme
             string? storedTheme = await GetKeyAsync<string>(StorageKey.Theme);
             string theme = storedTheme == "light" || storedTheme == "dark"
                 ? storedTheme
@@ -37,41 +37,41 @@ namespace ColorPal.Services
             _ = SetKeyAsync(StorageKey.Theme, theme);
             _ = SetThemeAsync(theme);
 
-            // Validate SelectedHexColor
+            // SelectedHexColor
             string storedSelectedHexColor = await GetKeyAsync<string>(StorageKey.SelectedHexColor) ?? "#000000";
             string selectedHexColor = HexColorValidationRegex().IsMatch(storedSelectedHexColor) ? storedSelectedHexColor : "#000000";
             _ = SetKeyAsync(StorageKey.SelectedHexColor, selectedHexColor);
 
-            // Validate SavedColorsArray
+            // SavedColorsArray
             List<string> storedsavedColorsArray = await ValidateJsonArrayAsync(StorageKey.SavedColorsArray, "[]");
             storedsavedColorsArray = storedsavedColorsArray.Where(color => HexColorValidationRegex().IsMatch(color)).ToList();
             _ = SetKeyAsync(StorageKey.SavedColorsArray, storedsavedColorsArray);
 
-            // Validate AutoSaveEyedropper
+            // AutoSaveEyedropper
             _ = ValidateTrueOrFalseAsync(StorageKey.AutoSaveEyedropper, "true");
 
-            // Validate AutoCopyCode
+            // AutoCopyCode
             _ = ValidateTrueOrFalseAsync(StorageKey.AutoCopyCode, "true");
 
-            // Validate ColorCodeFormat
+            // ColorCodeFormat
             string? storedColorCodeFormat = await GetKeyAsync<string>(StorageKey.ColorCodeFormat);
             if (!EnumExtensions.TryParse(storedColorCodeFormat, out ColorCodeFormat codeFormatEnum))
                 codeFormatEnum = ColorCodeFormat.HEX;
             _ = SetKeyAsync(StorageKey.ColorCodeFormat, codeFormatEnum.Value());
 
-            // Validate AddHexCharacter
+            // AddHexCharacter
             _ = ValidateTrueOrFalseAsync(StorageKey.AddHexCharacter, "true");
 
-            // Validate ColorsPerLine
+            // ColorsPerLine
             string storedColorsPerLine = await GetKeyAsync<string>(StorageKey.ColorsPerLine) ?? "5";
             _ = int.TryParse(storedColorsPerLine, out int colorsPerLine);
             colorsPerLine = colorsPerLine >= 5 && colorsPerLine <= 10 ? colorsPerLine : 5;
             _ = SetKeyAsync(StorageKey.ColorsPerLine, colorsPerLine.ToString());
 
-            // Validate ShowColorNames
-            _ = ValidateTrueOrFalseAsync(StorageKey.ShowColorNames, "true");
+            // ShowColorNames
+            _ = ValidateTrueOrFalseAsync(StorageKey.ShowColorNames, "false");
 
-            // Validate PrependBlackFilter
+            // PrependBlackFilter
             await ValidateTrueOrFalseAsync(StorageKey.PrependBlackFilter, "false");
 
             async Task<List<string>> ValidateJsonArrayAsync(StorageKey key, string fallbackValue)

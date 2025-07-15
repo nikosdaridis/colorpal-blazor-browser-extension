@@ -16,13 +16,9 @@ function initializeColorsGridComponent(dotNetObjectReference: any) {
     colorsGridComponent = dotNetObjectReference;
 }
 
-// Shows body and main content after initialization
+// Shows body after initialization
 function isInitialized(): void {
-    const bodyElement = document.querySelector("body");
-    const mainElement = document.querySelector("main");
-
-    bodyElement?.classList.remove("hidden");
-    mainElement?.classList.remove("hidden");
+    document.querySelector("body")?.classList.remove("hidden");
 }
 
 // Gets client color scheme

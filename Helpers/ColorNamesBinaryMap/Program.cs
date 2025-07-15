@@ -1,10 +1,10 @@
-﻿using System.Collections.Concurrent;
+﻿using MessagePack;
+using MessagePack.Resolvers;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using MessagePack;
-using MessagePack.Resolvers;
 
 namespace ColorNamesBinaryMap
 {
@@ -16,7 +16,7 @@ namespace ColorNamesBinaryMap
          * The map, built from online JSON data, stores each 32-bit encoded RGB key with its closest color name for O(1) lookup
          */
 
-        static async Task Main(string[] args)
+        static async Task Main()
         {
             Console.OutputEncoding = Encoding.UTF8;
 

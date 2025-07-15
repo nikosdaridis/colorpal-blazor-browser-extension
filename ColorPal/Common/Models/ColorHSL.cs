@@ -12,9 +12,7 @@
         }
 
         public int H { get; set; }
-
         public int S { get; set; }
-
         public int L { get; set; }
     }
 }
