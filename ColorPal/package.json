@@ -15,7 +15,7 @@
     "cross-env": "^10.1.0",
     "glob": "^11.0.3",
     "tailwindcss": "^4.1.13",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "uglify-js": "^3.19.3"
   },
   "include": [
