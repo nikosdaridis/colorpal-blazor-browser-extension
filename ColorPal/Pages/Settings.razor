@@ -50,7 +50,7 @@
 									IconPath="Icons\github.svg"
 									IconSize=Size.Small
 									HandleClick=@(async () => await JSRuntime.InvokeVoidAsync("window.open", "https://github.com/nikosdaridis/colorpal-blazor-browser-extension", "_blank")) />
-			<h4 id="version">v2.0.3</h4>
+			<h4 id="version">@_manifestVersion</h4>
 		}
 	</div>
 </div>
@@ -69,6 +69,5 @@
 			return;
 
 		_manifestVersion = await JSRuntime.InvokeAsync<string>(JsFuncs.GetManifestVersionAsync.Value());
-		_ = JSRuntime.InvokeVoidAsync(JsFuncs.SetElementValueById.Value(), "version", $"v{_manifestVersion}");
 	}
 }
