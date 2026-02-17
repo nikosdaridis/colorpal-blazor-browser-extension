@@ -13,7 +13,7 @@
     "@types/chrome": "^0.1.36",
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
-    "glob": "^13.0.3",
+    "glob": "^13.0.4",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
     "uglify-js": "^3.19.3"
