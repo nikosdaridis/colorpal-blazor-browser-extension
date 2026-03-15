@@ -131,7 +131,7 @@
         if (!savedColors.Contains(HEXColor))
             return false;
 
-        savedColors = savedColors.Where(color => color != HEXColor).ToArray();
+        savedColors = [.. savedColors.Where(color => color != HEXColor)];
 
         await LocalStorageService.SetKeyAsync(StorageKey.SavedColorsArray, savedColors);
         await EventAggregator.GetService(Event.DeleteSavedColor).PublishAsync(HEXColor);

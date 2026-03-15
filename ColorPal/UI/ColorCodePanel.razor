@@ -80,10 +80,12 @@
     /// <summary>
     /// Updates color code value based on active format with debounce
     /// </summary>
-    private async Task UpdateColorCodeWithDebounceAsync(string hexColor)
+    private Task UpdateColorCodeWithDebounceAsync(string hexColor)
     {
         if (string.IsNullOrWhiteSpace(hexColor))
-            return;
+        {
+            return Task.CompletedTask;
+        }
 
         _updateColorCodeDebounceTimer?.Dispose();
 
@@ -92,7 +94,7 @@
             await UpdateColorCodeAsync(hexColor);
         }, null, 2, Timeout.Infinite);
 
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>

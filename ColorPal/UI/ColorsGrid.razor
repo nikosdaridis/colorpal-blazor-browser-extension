@@ -126,14 +126,16 @@
     /// <summary>
     /// Handles selected color change
     /// </summary>
-    private async Task HandleSetSelectedColorAsync(string hexColor)
+    private Task HandleSetSelectedColorAsync(string hexColor)
     {
         if (string.IsNullOrWhiteSpace(hexColor))
-            return;
+        {
+            return Task.CompletedTask;
+        }
 
         _selectedHexColor = hexColor;
         StateHasChanged();
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>

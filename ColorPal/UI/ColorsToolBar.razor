@@ -105,8 +105,8 @@
                 JsFuncs.DownloadPng.Value(),
                 await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [],
                 Int32.Parse(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorsPerLine) ?? "5"),
-                await LocalStorageService.GetKeyAsync<string>(StorageKey.ShowColorNames) == "true" ? true : false,
-                await LocalStorageService.GetKeyAsync<string>(StorageKey.AddHexCharacter) == "true" ? true : false
+                await LocalStorageService.GetKeyAsync<string>(StorageKey.ShowColorNames) == "true",
+                await LocalStorageService.GetKeyAsync<string>(StorageKey.AddHexCharacter) == "true"
             );
         }
 
@@ -114,7 +114,7 @@
         {
             string[] savedColors = await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [];
 
-            if (!savedColors.Any())
+            if (savedColors.Length == 0)
                 return;
 
             StringBuilder csvBuilder = new();
@@ -135,7 +135,7 @@
                     await JSRuntime.InvokeAsync<string>(JsFuncs.RgbToHsv.Value(), rgbColor, "string") ?? string.Empty,
                     cssFilter.Filter ?? string.Empty,
                     cssFilter.Filter?.Replace("filter:", "filter: brightness(0) saturate(100%)") ?? string.Empty,
-                    $"{cssFilter.Loss?.ToString("0.##")}%" ?? string.Empty
+                    cssFilter.Loss is not null ? $"{cssFilter.Loss:0.##}%" : string.Empty
                 ));
             }
 

@@ -4,7 +4,7 @@ var stateServiceReference: any;
 var colorsGridComponent: any;
 var draggingElement: HTMLElement | null = null;
 var replacingElement: HTMLElement | null = null;
-var mouseOverColor = false;
+var mouseOverColor: boolean = false;
 
 // Initializes state service reference
 function initializeStateService(dotNetObjectReference: any) {
@@ -45,15 +45,17 @@ function setColorPickerPosition() {
     const colorToolsBar = document.getElementById("colorToolsBar");
     const colorPicker = document.getElementById("colorPicker");
 
-    if (colorToolsBar && colorPicker)
+    if (colorToolsBar && colorPicker) {
         colorPicker.style.top = `${colorToolsBar.getBoundingClientRect().top}px`;
+    }
 }
 
 // Sets value of select element
 function setSelectValue(elementId: string, value: string): void {
     const selectElement = document.getElementById(elementId) as HTMLSelectElement;
-    if (!selectElement)
+    if (!selectElement) {
         return;
+    }
 
     selectElement.value = value;
 }
@@ -61,8 +63,9 @@ function setSelectValue(elementId: string, value: string): void {
 // Sets value of grid columns
 function setGridColumns(elementId: string, columns: string): void {
     const gridElement = document.getElementById(elementId) as HTMLElement;
-    if (!gridElement)
+    if (!gridElement) {
         return;
+    }
 
     gridElement.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
 }
@@ -107,8 +110,9 @@ function copyToClipboard(text: string): void {
 // Sets value of element by id
 function setElementValueById(elementId: string, value: string): void {
     const element = document.getElementById(elementId);
-    if (!element)
+    if (!element) {
         return;
+    }
 
     element.textContent = value;
 }

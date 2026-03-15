@@ -35,13 +35,13 @@
     /// <summary>
     /// Handles tab change event
     /// </summary>
-    private async Task HandleTabChangeAsync(string activeTabName)
+    private Task HandleTabChangeAsync(string activeTabName)
     {
         IsActive = Name == activeTabName;
 
         StateHasChanged();
 
-        await Task.CompletedTask;
+        return Task.CompletedTask;
     }
 
     /// <summary>

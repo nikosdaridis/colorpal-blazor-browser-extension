@@ -1,8 +1,7 @@
-﻿namespace ColorPal.Common.Models
+namespace ColorPal.Common.Models;
+
+public sealed class CssFilter
 {
-    public class CssFilter
-    {
-        public string? Filter { get; set; }
-        public double? Loss { get; set; }
-    }
+    public string? Filter { get; set; }
+    public double? Loss { get; set; }
 }

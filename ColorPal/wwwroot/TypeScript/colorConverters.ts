@@ -134,8 +134,12 @@ function hslToHex(h: number, s: number, l: number): string {
         r = g = b = l;
     } else {
         function hueToRgb(p: number, q: number, t: number): number {
-            if (t < 0) t += 1;
-            if (t > 1) t -= 1;
+            if (t < 0) {
+                t += 1;
+            }
+            if (t > 1) {
+                t -= 1;
+            }
             return t < 1 / 6
                 ? p + (q - p) * 6 * t
                 : t < 1 / 2
@@ -357,10 +361,11 @@ class FilterSolver {
     fix(value: number, idx: number): number {
         let max = 100;
 
-        if (idx === 2)
+        if (idx === 2) {
             max = 7500;
-        else if (idx === 4 || idx === 5)
+        } else if (idx === 4 || idx === 5) {
             max = 200;
+        }
 
 
         if (idx === 3) {
