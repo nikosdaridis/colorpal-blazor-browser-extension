@@ -21,13 +21,23 @@ public static class EnumExtensions
             key.GetType().GetField(key.ToString())?
             .GetCustomAttribute<ValueAttribute>()?.Value ?? string.Empty);
 
+    private static readonly ConcurrentDictionary<Type, object> _reverseLookupCache = new();
+
     /// <summary>
-    /// Tries to parse string to an enum value based on the ValueAttribute
+    /// Tries to parse string to an enum value based on the ValueAttribute.
     /// </summary>
     public static bool TryParse<TEnum>(string? value, out TEnum result) where TEnum : struct, Enum
     {
-        result = Enum.GetValues(typeof(TEnum)).Cast<TEnum>().FirstOrDefault(enumValue => enumValue.Value() == value);
+        Dictionary<string, TEnum> map = (Dictionary<string, TEnum>)_reverseLookupCache.GetOrAdd(
+            typeof(TEnum),
+            _ => Enum.GetValues<TEnum>().Cast<TEnum>().ToDictionary(enumValue => enumValue.Value(), enumValue => enumValue));
 
-        return !EqualityComparer<TEnum>.Default.Equals(result, default) || value == result.Value();
+        if (value is not null && map.TryGetValue(value, out result))
+        {
+            return true;
+        }
+
+        result = default;
+        return false;
     }
 }

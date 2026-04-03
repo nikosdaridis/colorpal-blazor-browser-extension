@@ -1,7 +1,7 @@
 ﻿@implements IDisposable
 
 <div id="colorToolsBar" class="flex items-center justify-between">
-    @foreach (ColorToolType tool in Enum.GetValues(typeof(ColorToolType)).Cast<ColorToolType>().Skip(1))
+    @foreach (ColorToolType tool in _colorToolTypes)
     {
         <ColorTool Id=@($"colorTool-{tool.Value()}")
                    IconPath=@($"Icons/{tool.Value()}.svg")
@@ -23,6 +23,8 @@
 </div>
 
 @code {
+    private static readonly ColorToolType[] _colorToolTypes = [.. Enum.GetValues(typeof(ColorToolType)).Cast<ColorToolType>().Skip(1)];
+
     [Parameter]
     public IJSRuntime? JSRuntime { get; set; }
 

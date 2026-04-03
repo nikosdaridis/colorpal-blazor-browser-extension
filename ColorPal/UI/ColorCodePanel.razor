@@ -98,20 +98,20 @@
     }
 
     /// <summary>
-    /// Updates color code value based on active format
+    /// Updates color code value based on active format.
     /// </summary>
     private async Task UpdateColorCodeAsync(string hexColor)
     {
         if (JSRuntime is null || LocalStorageService is null || string.IsNullOrWhiteSpace(hexColor))
-            return;
-
-        if (_activeColorCodeFormat == ColorCodeFormat.Filter)
         {
-            _iconCSSFilter = await JSRuntime.InvokeAsync<CssFilter>(JsFuncs.HexToFilter.Value(), hexColor);
+            return;
+        }
 
-            if (await LocalStorageService.GetKeyAsync<string>(StorageKey.PrependBlackFilter) == "true")
-                _iconCSSFilter.Filter = _iconCSSFilter.Filter?.Replace("filter:", "filter: brightness(0) saturate(100%)");
+        (string colorCode, CssFilter? filter) = await LocalStorageService.GetFormattedColorCodeAsync(JSRuntime, hexColor, _activeColorCodeFormat);
 
+        if (_activeColorCodeFormat == ColorCodeFormat.Filter && filter is not null)
+        {
+            _iconCSSFilter = filter;
             await JSRuntime.InvokeVoidAsync(JsFuncs.SetElementValueById.Value(), "colorCodeTab-Filter", $"{_iconCSSFilter.Loss:0.#}% Loss");
         }
         else
@@ -119,27 +119,23 @@
             await JSRuntime.InvokeVoidAsync(JsFuncs.SetElementValueById.Value(), "colorCodeTab-Filter", "Filter");
         }
 
-        _colorCodeValue = _activeColorCodeFormat switch
-        {
-            ColorCodeFormat.HEX => await LocalStorageService.GetKeyAsync<string>(StorageKey.AddHexCharacter) == "true" ? hexColor : hexColor[1..],
-            ColorCodeFormat.RGB => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToRgb.Value(), hexColor, "string"),
-            ColorCodeFormat.HSL => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToHsl.Value(), hexColor, "string"),
-            ColorCodeFormat.HSV => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToHsv.Value(), hexColor, "string"),
-            ColorCodeFormat.Filter => _iconCSSFilter.Filter ?? string.Empty,
-            _ => hexColor
-        };
+        _colorCodeValue = colorCode;
 
         await InvokeAsync(StateHasChanged);
         _ = JSRuntime.InvokeVoidAsync(JsFuncs.SetColorPickerPosition.Value());
     }
 
     /// <summary>
-    /// Unsubscribes from events
+    /// Unsubscribes from events.
     /// </summary>
     public void Dispose()
     {
+        _updateColorCodeDebounceTimer?.Dispose();
+
         if (EventAggregator is null)
+        {
             return;
+        }
 
         EventAggregator.GetService(Event.ColorCodeActiveTab).Unsubscribe(UpdateActiveColorCodeFormatAsync);
         EventAggregator.GetService(Event.SetSelectedColor).Unsubscribe(UpdateColorCodeWithDebounceAsync);

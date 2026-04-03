@@ -185,8 +185,7 @@
 		if (savedColors.Contains(hexColor))
 			return;
 
-		Array.Resize(ref savedColors, savedColors.Length + 1);
-		savedColors[^1] = hexColor;
+		savedColors = [.. savedColors, hexColor];
 		_isSelectedColorSaved = true;
 		await LocalStorageService.SetKeyAsync(StorageKey.SavedColorsArray, savedColors);
 		await EventAggregator.GetService(Event.SaveColor).PublishAsync(hexColor);
@@ -223,36 +222,22 @@
 	}
 
 	/// <summary>
-	/// Copies color code to clipboard depending on active color code format
+	/// Copies color code to clipboard depending on active color code format.
 	/// </summary>
 	private async Task CopyColorCodeToClipboardAsync(string hexColor)
 	{
 		if (JSRuntime is null || LocalStorageService is null)
-			return;
-
-		if (await LocalStorageService.GetKeyAsync<string>(StorageKey.AutoCopyCode) != "true")
-			return;
-
-		ColorCodeFormat activeColorCodeFormat = Enum.Parse<ColorCodeFormat>(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat) ?? ColorCodeFormat.HEX.Value());
-		CssFilter filter = new();
-
-		if (activeColorCodeFormat == ColorCodeFormat.Filter)
 		{
-			filter = await JSRuntime.InvokeAsync<CssFilter>(JsFuncs.HexToFilter.Value(), hexColor);
-
-			if (await LocalStorageService.GetKeyAsync<string>(StorageKey.PrependBlackFilter) == "true")
-				filter.Filter = filter.Filter?.Replace("filter:", "filter: brightness(0) saturate(100%)");
+			return;
 		}
 
-		string colorCode = activeColorCodeFormat switch
+		if (await LocalStorageService.GetKeyAsync<string>(StorageKey.AutoCopyCode) != "true")
 		{
-			ColorCodeFormat.HEX => await LocalStorageService.GetKeyAsync<string>(StorageKey.AddHexCharacter) == "true" ? hexColor : hexColor[1..],
-			ColorCodeFormat.RGB => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToRgb.Value(), hexColor, "string"),
-			ColorCodeFormat.HSL => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToHsl.Value(), hexColor, "string"),
-			ColorCodeFormat.HSV => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToHsv.Value(), hexColor, "string"),
-			ColorCodeFormat.Filter => filter.Filter ?? hexColor,
-			_ => hexColor
-		};
+			return;
+		}
+
+		ColorCodeFormat activeColorCodeFormat = Enum.Parse<ColorCodeFormat>(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat) ?? ColorCodeFormat.HEX.Value());
+		(string colorCode, _) = await LocalStorageService.GetFormattedColorCodeAsync(JSRuntime, hexColor, activeColorCodeFormat);
 
 		await JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), colorCode);
 	}
@@ -262,8 +247,12 @@
 	/// </summary>
 	public void Dispose()
 	{
+		_colorPickerDebounceTimer?.Dispose();
+
 		if (EventAggregator is null)
+		{
 			return;
+		}
 
 		EventAggregator.GetService(Event.EyedropperPick).Unsubscribe(SetSelectedColorAndPublishEventAsync);
 		EventAggregator.GetService(Event.EyedropperPick).Unsubscribe(SaveEyedropperColorAsync);

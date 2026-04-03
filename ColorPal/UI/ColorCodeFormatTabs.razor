@@ -1,5 +1,5 @@
 ﻿<div class="grid h-9 grid-cols-5 items-center justify-center rounded-lg bg-[var(--secondary-color)] p-1">
-    @foreach (ColorCodeFormat colorFormat in Enum.GetValues(typeof(ColorCodeFormat)).Cast<ColorCodeFormat>().Skip(1))
+    @foreach (ColorCodeFormat colorFormat in _colorCodeFormats)
     {
         <ColorCodeFormatTab Name=@colorFormat.Value()
                             IsActive=@(_currentColorCodeFormat == colorFormat)
@@ -9,6 +9,8 @@
 </div>
 
 @code {
+    private static readonly ColorCodeFormat[] _colorCodeFormats = [.. Enum.GetValues(typeof(ColorCodeFormat)).Cast<ColorCodeFormat>().Skip(1)];
+
     [Parameter]
     public LocalStorageService? LocalStorageService { get; set; }
 

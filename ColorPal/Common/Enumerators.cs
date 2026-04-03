@@ -170,6 +170,9 @@ public enum JsFuncs
     [Value("hslToHex")]
     HslToHex,
 
+    [Value("hslToHexRange")]
+    HslToHexRange,
+
     [Value("hexToFilter")]
     HexToFilter
 }

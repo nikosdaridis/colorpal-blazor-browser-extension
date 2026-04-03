@@ -160,19 +160,19 @@
     }
 
     /// <summary>
-    /// Renders tints and shades
+    /// Renders tints and shades.
     /// </summary>
     private async Task HandleRenderTintsShades(string hexColor)
     {
         if (JSRuntime is null || EventAggregator is null)
+        {
             return;
+        }
 
         await EventAggregator.GetService(Event.ColorsPerLine).PublishAsync("10");
 
         _tintsShadesBaseHslColor = await JSRuntime.InvokeAsync<ColorHSL>(JsFuncs.HexToHsl.Value(), hexColor);
-
-        for (int i = 1; i < 100; i++)
-            _tintsShadesHexColors[i - 1] = await JSRuntime.InvokeAsync<string>(JsFuncs.HslToHex.Value(), _tintsShadesBaseHslColor.H, _tintsShadesBaseHslColor.S, i);
+        _tintsShadesHexColors = await JSRuntime.InvokeAsync<string[]>(JsFuncs.HslToHexRange.Value(), _tintsShadesBaseHslColor.H, _tintsShadesBaseHslColor.S);
 
         StateHasChanged();
     }

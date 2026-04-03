@@ -185,13 +185,8 @@ async function downloadPng(savedColors: string[], colorsPerLine: number, showCol
                 nameText.textContent = await findClosestColorName(rgbColor) as string;
 
                 const nameLength = nameText.textContent.length;
-                if (nameLength > 33) nameText.style.fontSize = "10px";
-                else if (nameLength > 30) nameText.style.fontSize = "11px";
-                else if (nameLength > 25) nameText.style.fontSize = "12px";
-                else if (nameLength > 20) nameText.style.fontSize = "13px";
-                else if (nameLength > 15) nameText.style.fontSize = "15px";
-                else if (nameLength > 10) nameText.style.fontSize = "16px";
-                else nameText.style.fontSize = "18px";
+                const fontSizeThresholds: [number, string][] = [[33, "10px"], [30, "11px"], [25, "12px"], [20, "13px"], [15, "15px"], [10, "16px"]];
+                nameText.style.fontSize = fontSizeThresholds.find(([threshold]) => nameLength > threshold)?.[1] ?? "18px";
 
                 colorRect.appendChild(nameText);
             }

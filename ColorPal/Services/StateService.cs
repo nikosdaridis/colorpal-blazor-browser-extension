@@ -10,8 +10,8 @@ public sealed class StateService
 {
     private readonly HttpClient _httpClient;
     private readonly IJSRuntime _jsRuntime;
+    private const int COLOR_NAMES_STEP = 4;
     private Dictionary<uint, string> _colorNamesMap = [];
-    private readonly int _colorNamesStep = 4;
 
     public StateService(HttpClient httpClient, IJSRuntime jsRuntime)
     {
@@ -22,13 +22,13 @@ public sealed class StateService
     }
 
     /// <summary>
-    /// Checks if color names have been initialized
+    /// Checks if color names have been initialized.
     /// </summary>
     public bool ColorNamesInitialized() =>
         _colorNamesMap.Count > 0;
 
     /// <summary>
-    /// Decompresses, parses, and caches color names
+    /// Decompresses, parses, and caches color names.
     /// </summary>
     public async Task DecompressParseAndCacheColorNamesAsync()
     {
@@ -39,7 +39,7 @@ public sealed class StateService
 
         try
         {
-            byte[] colorNamesData = await _httpClient.GetByteArrayAsync(@$"Data/colorNamesStep{_colorNamesStep}.dat");
+            byte[] colorNamesData = await _httpClient.GetByteArrayAsync(@$"Data/colorNamesStep{COLOR_NAMES_STEP}.dat");
 
             _colorNamesMap = MessagePackSerializer.Deserialize<Dictionary<uint, string>>(colorNamesData,
                 ContractlessStandardResolver.Options.WithCompression(MessagePackCompression.Lz4Block));
@@ -51,12 +51,12 @@ public sealed class StateService
     }
 
     /// <summary>
-    /// Finds the closest rounded color name
+    /// Finds the closest rounded color name.
     /// </summary>
     [JSInvokable]
     public string FindClosestRoundedColorName(ColorRGB colorRGB)
     {
-        ColorRGB roundedColor = RoundColor(colorRGB, _colorNamesStep);
+        ColorRGB roundedColor = RoundColor(colorRGB, COLOR_NAMES_STEP);
         uint roundedColorKey = GetColorKey(roundedColor);
         if (_colorNamesMap.TryGetValue(roundedColorKey, out string? closestColorName) && closestColorName is not null)
         {

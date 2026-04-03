@@ -46,44 +46,33 @@
     public EventAggregator<string>? EventAggregator { get; set; }
 
     /// <summary>
-    /// Handles on click event, copies color code to clipboard based on active format and handles active color tool event
+    /// Handles on click event, copies color code to clipboard based on active format and handles active color tool event.
     /// </summary>
     public async Task HandleOnClickAsync(MouseEventArgs args)
     {
         if (JSRuntime is null || LocalStorageService is null || EventAggregator is null)
-            return;
-
-        ColorCodeFormat activeColorCodeFormat = Enum.Parse<ColorCodeFormat>(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat) ?? ColorCodeFormat.HEX.Value());
-        CssFilter filter = new();
-
-        if (activeColorCodeFormat == ColorCodeFormat.Filter)
         {
-            filter = await JSRuntime.InvokeAsync<CssFilter>(JsFuncs.HexToFilter.Value(), HEXColor);
-
-            if (await LocalStorageService.GetKeyAsync<string>(StorageKey.PrependBlackFilter) == "true")
-                filter.Filter = filter.Filter?.Replace("filter:", "filter: brightness(0) saturate(100%)");
+            return;
         }
 
-        string colorCodeValue = ActiveColorCodeFormat switch
-        {
-            ColorCodeFormat.HEX => await LocalStorageService.GetKeyAsync<string>(StorageKey.AddHexCharacter) == "true" ? HEXColor : HEXColor[1..],
-            ColorCodeFormat.RGB => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToRgb.Value(), HEXColor, "string"),
-            ColorCodeFormat.HSL => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToHsl.Value(), HEXColor, "string"),
-            ColorCodeFormat.HSV => await JSRuntime.InvokeAsync<string>(JsFuncs.HexToHsv.Value(), HEXColor, "string"),
-            ColorCodeFormat.Filter => filter.Filter ?? HEXColor,
-            _ => HEXColor
-        };
+        (string colorCodeValue, _) = await LocalStorageService.GetFormattedColorCodeAsync(JSRuntime, HEXColor, ActiveColorCodeFormat);
 
         if (await LocalStorageService.GetKeyAsync<string>(StorageKey.AutoCopyCode) == "true")
+        {
             _ = JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), colorCodeValue);
+        }
 
         await EventAggregator.GetService(Event.SetSelectedColor).PublishAsync(HEXColor);
 
         if (ActiveColorTool == ColorToolType.Delete)
+        {
             await DeleteSavedColor();
+        }
 
         if (ActiveColorTool == ColorToolType.TintsShades)
+        {
             await EventAggregator.GetService(Event.RenderTintsShades).PublishAsync(HEXColor);
+        }
     }
 
     /// <summary>

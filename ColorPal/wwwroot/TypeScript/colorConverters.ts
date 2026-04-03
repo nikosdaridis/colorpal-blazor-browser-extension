@@ -21,6 +21,10 @@ interface ColorName {
     rgb: ColorRGB;
 }
 
+function toHex(num: number): string {
+    return Math.round(num).toString(16).padStart(2, "0");
+}
+
 function hexToRgb(hex: string): ColorRGB;
 function hexToRgb(hex: string, returnType: "string"): string;
 function hexToRgb(hex: string, returnType?: "string" | "ColorRGB"): string | ColorRGB {
@@ -48,7 +52,6 @@ function hexToHsv(hex: string, returnType?: "string" | "ColorHSV"): string | Col
 }
 
 function rgbToHex(rgb: ColorRGB): string {
-    const toHex = (num: number) => Math.round(num).toString(16).padStart(2, "0");
     return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`.toLowerCase();
 }
 
@@ -155,13 +158,11 @@ function hslToHex(h: number, s: number, l: number): string {
         b = hueToRgb(p, q, h - 1 / 3);
     }
 
-    return `#${Math.round(r * 255)
-        .toString(16)
-        .padStart(2, "0")}${Math.round(g * 255)
-            .toString(16)
-            .padStart(2, "0")}${Math.round(b * 255)
-                .toString(16)
-                .padStart(2, "0")}`;
+    return `#${toHex(r * 255)}${toHex(g * 255)}${toHex(b * 255)}`;
+}
+
+function hslToHexRange(h: number, s: number): string[] {
+    return Array.from({ length: 99 }, (_, index) => hslToHex(h, s, index + 1));
 }
 
 function normalizeRgb(rgb: ColorRGB) {

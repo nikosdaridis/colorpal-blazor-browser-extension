@@ -1,5 +1,6 @@
 using Blazored.LocalStorage;
 using ColorPal.Common;
+using ColorPal.Common.Models;
 using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -31,7 +32,7 @@ public sealed partial class LocalStorageService(ILocalStorageService LocalStorag
 
         // Theme
         string? storedTheme = await GetKeyAsync<string>(StorageKey.Theme);
-        string theme = storedTheme == "light" || storedTheme == "dark"
+        string theme = storedTheme is "light" or "dark"
             ? storedTheme
             : (await JSRuntime.InvokeAsync<string>(JsFuncs.GetClientColorScheme.Value()));
         _ = SetKeyAsync(StorageKey.Theme, theme);
@@ -43,9 +44,9 @@ public sealed partial class LocalStorageService(ILocalStorageService LocalStorag
         _ = SetKeyAsync(StorageKey.SelectedHexColor, selectedHexColor);
 
         // SavedColorsArray
-        List<string> storedsavedColorsArray = await ValidateJsonArrayAsync(StorageKey.SavedColorsArray, "[]");
-        storedsavedColorsArray = [.. storedsavedColorsArray.Where(color => HexColorValidationRegex().IsMatch(color))];
-        _ = SetKeyAsync(StorageKey.SavedColorsArray, storedsavedColorsArray);
+        List<string> storedSavedColorsArray = await ValidateJsonArrayAsync(StorageKey.SavedColorsArray, "[]");
+        storedSavedColorsArray = [.. storedSavedColorsArray.Where(color => HexColorValidationRegex().IsMatch(color))];
+        _ = SetKeyAsync(StorageKey.SavedColorsArray, storedSavedColorsArray);
 
         // AutoSaveEyedropper
         _ = ValidateTrueOrFalseAsync(StorageKey.AutoSaveEyedropper, "true");
@@ -93,7 +94,7 @@ public sealed partial class LocalStorageService(ILocalStorageService LocalStorag
         async Task ValidateTrueOrFalseAsync(StorageKey key, string defaultValue)
         {
             string? storedValue = await GetKeyAsync<string>(key);
-            if (storedValue != "true" && storedValue != "false")
+            if (storedValue is not "true" and not "false")
             {
                 _ = SetKeyAsync(key, defaultValue);
             }
@@ -101,7 +102,41 @@ public sealed partial class LocalStorageService(ILocalStorageService LocalStorag
     }
 
     /// <summary>
-    /// Sets localstorage theme and updates css variables
+    /// Converts a hex color to the specified format string.
+    /// </summary>
+    /// <param name="jsRuntime">The JS runtime for interop calls.</param>
+    /// <param name="hexColor">The hex color to convert.</param>
+    /// <param name="format">The target color code format.</param>
+    /// <returns>The formatted color code string and the CSS filter if applicable.</returns>
+    public async Task<(string ColorCode, CssFilter? Filter)> GetFormattedColorCodeAsync(IJSRuntime jsRuntime, string hexColor, ColorCodeFormat format)
+    {
+        CssFilter? filter = null;
+
+        if (format == ColorCodeFormat.Filter)
+        {
+            filter = await jsRuntime.InvokeAsync<CssFilter>(JsFuncs.HexToFilter.Value(), hexColor);
+
+            if (await GetKeyAsync<string>(StorageKey.PrependBlackFilter) == "true")
+            {
+                filter.Filter = filter.Filter?.Replace("filter:", "filter: brightness(0) saturate(100%)");
+            }
+        }
+
+        string colorCode = format switch
+        {
+            ColorCodeFormat.HEX => await GetKeyAsync<string>(StorageKey.AddHexCharacter) == "true" ? hexColor : hexColor[1..],
+            ColorCodeFormat.RGB => await jsRuntime.InvokeAsync<string>(JsFuncs.HexToRgb.Value(), hexColor, "string"),
+            ColorCodeFormat.HSL => await jsRuntime.InvokeAsync<string>(JsFuncs.HexToHsl.Value(), hexColor, "string"),
+            ColorCodeFormat.HSV => await jsRuntime.InvokeAsync<string>(JsFuncs.HexToHsv.Value(), hexColor, "string"),
+            ColorCodeFormat.Filter => filter?.Filter ?? hexColor,
+            _ => hexColor
+        };
+
+        return (colorCode, filter);
+    }
+
+    /// <summary>
+    /// Sets localstorage theme and updates css variables.
     /// </summary>
     public async Task SetThemeAsync(Theme theme, bool saveLocalStorage = true)
     {
