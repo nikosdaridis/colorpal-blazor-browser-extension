@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.2.2",
-    "@types/chrome": "^0.1.38",
+    "@types/chrome": "^0.1.39",
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "glob": "^13.0.6",
