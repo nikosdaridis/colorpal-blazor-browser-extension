@@ -115,6 +115,9 @@ public enum JsFuncs
     [Value("getManifestVersionAsync")]
     GetManifestVersionAsync,
 
+    [Value("openExternalUrl")]
+    OpenExternalUrl,
+
     [Value("setColorPickerPosition")]
     SetColorPickerPosition,
 

@@ -45,17 +45,20 @@
 			<RectangularLabelButton Label="Website"
 									IconPath="Icons\website.svg"
 									IconSize=Size.Small
-									HandleClick=@(async () => await JSRuntime.InvokeVoidAsync("window.open", "https://daridis.com/colorpal", "_blank")) />
+									HandleClick=@(async () => await JSRuntime.InvokeVoidAsync(JsFuncs.OpenExternalUrl.Value(), WEBSITE_URL)) />
 			<RectangularLabelButton Label="GitHub"
 									IconPath="Icons\github.svg"
 									IconSize=Size.Small
-									HandleClick=@(async () => await JSRuntime.InvokeVoidAsync("window.open", "https://github.com/nikosdaridis/colorpal-blazor-browser-extension", "_blank")) />
+									HandleClick=@(async () => await JSRuntime.InvokeVoidAsync(JsFuncs.OpenExternalUrl.Value(), GITHUB_URL)) />
 			<h4 id="version">@_manifestVersion</h4>
 		}
 	</div>
 </div>
 
 @code {
+	private const string WEBSITE_URL = "https://daridis.com/colorpal";
+	private const string GITHUB_URL = "https://github.com/nikosdaridis/colorpal-blazor-browser-extension";
+
 	private string? _manifestVersion { get; set; }
 
 	/// <summary>

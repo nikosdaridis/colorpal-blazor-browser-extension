@@ -40,6 +40,16 @@ async function getManifestVersionAsync(): Promise<string> {
     return manifest.version;
 }
 
+// Opens external URL in new tab, chrome.tabs gives the tab no window.opener into the privileged popup
+async function openExternalUrl(url: string): Promise<void> {
+    if (globalThis.chrome?.tabs !== undefined) {
+        await chrome.tabs.create({ url });
+        return;
+    }
+
+    window.open(url, "_blank", "noopener,noreferrer");
+}
+
 // Sets color picker position based on color tools bar position
 function setColorPickerPosition() {
     const colorToolsBar = document.getElementById("colorToolsBar");

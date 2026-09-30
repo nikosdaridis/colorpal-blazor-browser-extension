@@ -127,18 +127,22 @@
                 ColorRGB rgbColor = await JSRuntime.InvokeAsync<ColorRGB>(JsFuncs.HexToRgb.Value(), hexColor);
                 string closestColorName = StateService.FindClosestRoundedColorName(rgbColor);
                 CssFilter cssFilter = await JSRuntime.InvokeAsync<CssFilter>(JsFuncs.HexToFilter.Value(), hexColor);
+                string rgbText = await JSRuntime.InvokeAsync<string>(JsFuncs.HexToRgb.Value(), hexColor, "string") ?? string.Empty;
+                string hslText = await JSRuntime.InvokeAsync<string>(JsFuncs.RgbToHsl.Value(), rgbColor, "string") ?? string.Empty;
+                string hsvText = await JSRuntime.InvokeAsync<string>(JsFuncs.RgbToHsv.Value(), rgbColor, "string") ?? string.Empty;
 
-                csvBuilder.AppendLine(string.Format("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\"",
+                CsvFormatter.AppendRow(csvBuilder,
+                [
                     closestColorName,
                     hexColor,
                     hexColor.Length > 1 ? hexColor[1..] : string.Empty,
-                    await JSRuntime.InvokeAsync<string>(JsFuncs.HexToRgb.Value(), hexColor, "string") ?? string.Empty,
-                    await JSRuntime.InvokeAsync<string>(JsFuncs.RgbToHsl.Value(), rgbColor, "string") ?? string.Empty,
-                    await JSRuntime.InvokeAsync<string>(JsFuncs.RgbToHsv.Value(), rgbColor, "string") ?? string.Empty,
+                    rgbText,
+                    hslText,
+                    hsvText,
                     cssFilter.Filter ?? string.Empty,
                     cssFilter.Filter?.Replace("filter:", "filter: brightness(0) saturate(100%)") ?? string.Empty,
                     cssFilter.Loss is not null ? $"{cssFilter.Loss:0.##}%" : string.Empty
-                ));
+                ]);
             }
 
             await JSRuntime.InvokeVoidAsync(JsFuncs.DownloadCsv.Value(), csvBuilder.ToString(), "ColorPal-Data");
