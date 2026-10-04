@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace ColorPal.Services;
 
-public sealed partial class LocalStorageService(ILocalStorageService LocalStorageService, IJSRuntime JSRuntime)
+public sealed partial class LocalStorageService(ILocalStorageService LocalStorageService, IJSRuntime JSRuntime, ILogger<LocalStorageService> logger)
 {
     [GeneratedRegex("^#[\\dabcdef]{6}$", RegexOptions.IgnoreCase)]
     private static partial Regex HexColorValidationRegex();
@@ -24,35 +24,37 @@ public sealed partial class LocalStorageService(ILocalStorageService LocalStorag
     public async Task SetKeyAsync<T>(StorageKey key, T value) =>
         await LocalStorageService.SetItemAsync(key.Value(), value);
 
+    /// <summary>
+    /// Validates every stored setting and writes back the corrected values.
+    /// </summary>
     public async Task ValidateAsync()
     {
         // Version
         string version = await JSRuntime.InvokeAsync<string>(JsFuncs.GetManifestVersionAsync.Value()) ?? string.Empty;
-        _ = SetKeyAsync(StorageKey.Version, version);
+        await SetKeyAsync(StorageKey.Version, version);
 
         // Theme
         string? storedTheme = await GetKeyAsync<string>(StorageKey.Theme);
         string theme = storedTheme is "light" or "dark"
             ? storedTheme
             : (await JSRuntime.InvokeAsync<string>(JsFuncs.GetClientColorScheme.Value()));
-        _ = SetKeyAsync(StorageKey.Theme, theme);
-        _ = SetThemeAsync(theme);
+        await SetThemeAsync(theme);
 
         // SelectedHexColor
         string storedSelectedHexColor = await GetKeyAsync<string>(StorageKey.SelectedHexColor) ?? "#000000";
         string selectedHexColor = HexColorValidationRegex().IsMatch(storedSelectedHexColor) ? storedSelectedHexColor : "#000000";
-        _ = SetKeyAsync(StorageKey.SelectedHexColor, selectedHexColor);
+        await SetKeyAsync(StorageKey.SelectedHexColor, selectedHexColor);
 
         // SavedColorsArray
-        List<string> storedSavedColorsArray = await ValidateJsonArrayAsync(StorageKey.SavedColorsArray, "[]");
+        List<string> storedSavedColorsArray = await ValidateJsonArrayAsync(StorageKey.SavedColorsArray);
         storedSavedColorsArray = [.. storedSavedColorsArray.Where(color => HexColorValidationRegex().IsMatch(color))];
-        _ = SetKeyAsync(StorageKey.SavedColorsArray, storedSavedColorsArray);
+        await SetKeyAsync(StorageKey.SavedColorsArray, storedSavedColorsArray);
 
         // AutoSaveEyedropper
-        _ = ValidateTrueOrFalseAsync(StorageKey.AutoSaveEyedropper, "true");
+        await ValidateTrueOrFalseAsync(StorageKey.AutoSaveEyedropper, "true");
 
         // AutoCopyCode
-        _ = ValidateTrueOrFalseAsync(StorageKey.AutoCopyCode, "true");
+        await ValidateTrueOrFalseAsync(StorageKey.AutoCopyCode, "true");
 
         // ColorCodeFormat
         string? storedColorCodeFormat = await GetKeyAsync<string>(StorageKey.ColorCodeFormat);
@@ -60,34 +62,39 @@ public sealed partial class LocalStorageService(ILocalStorageService LocalStorag
         {
             codeFormatEnum = ColorCodeFormat.HEX;
         }
-        _ = SetKeyAsync(StorageKey.ColorCodeFormat, codeFormatEnum.Value());
+        await SetKeyAsync(StorageKey.ColorCodeFormat, codeFormatEnum.Value());
 
         // AddHexCharacter
-        _ = ValidateTrueOrFalseAsync(StorageKey.AddHexCharacter, "true");
+        await ValidateTrueOrFalseAsync(StorageKey.AddHexCharacter, "true");
 
         // ColorsPerLine
         string storedColorsPerLine = await GetKeyAsync<string>(StorageKey.ColorsPerLine) ?? "5";
         _ = int.TryParse(storedColorsPerLine, out int colorsPerLine);
         colorsPerLine = colorsPerLine >= 5 && colorsPerLine <= 10 ? colorsPerLine : 5;
-        _ = SetKeyAsync(StorageKey.ColorsPerLine, colorsPerLine.ToString());
+        await SetKeyAsync(StorageKey.ColorsPerLine, colorsPerLine.ToString());
 
         // ShowColorNames
-        _ = ValidateTrueOrFalseAsync(StorageKey.ShowColorNames, "false");
+        await ValidateTrueOrFalseAsync(StorageKey.ShowColorNames, "false");
 
         // PrependBlackFilter
         await ValidateTrueOrFalseAsync(StorageKey.PrependBlackFilter, "false");
 
-        async Task<List<string>> ValidateJsonArrayAsync(StorageKey key, string fallbackValue)
+        async Task<List<string>> ValidateJsonArrayAsync(StorageKey key)
         {
+            string? storedValue = await GetKeyAsync<string>(key);
+            if (string.IsNullOrWhiteSpace(storedValue))
+            {
+                return [];
+            }
+
             try
             {
-                string storedValue = await GetKeyAsync<string>(key) ?? string.Empty;
-                return JsonSerializer.Deserialize<List<string>>(storedValue) ?? JsonSerializer.Deserialize<List<string>>(fallbackValue)!;
+                return JsonSerializer.Deserialize<List<string>>(storedValue) ?? [];
             }
-            catch
+            catch (JsonException exception)
             {
-                await SetKeyAsync(key, fallbackValue);
-                return JsonSerializer.Deserialize<List<string>>(fallbackValue)!;
+                logger.LogWarning(exception, "Resetting {StorageKey} because its stored value is not a JSON array of strings.", key.Value());
+                return [];
             }
         }
 
@@ -96,7 +103,7 @@ public sealed partial class LocalStorageService(ILocalStorageService LocalStorag
             string? storedValue = await GetKeyAsync<string>(key);
             if (storedValue is not "true" and not "false")
             {
-                _ = SetKeyAsync(key, defaultValue);
+                await SetKeyAsync(key, defaultValue);
             }
         }
     }
