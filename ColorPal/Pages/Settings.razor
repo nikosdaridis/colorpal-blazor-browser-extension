@@ -3,74 +3,74 @@
 @page "/settings"
 
 <div class="space-y-4 p-4 text-[var(--theme-invert-color)]">
-	<div class="flex items-center justify-between">
-		<h2 class="text-xl font-bold">Settings</h2>
-		<TransparentRoundButton IconPath="Icons\arrow.svg"
-								HandleClick=@(() => NavigationManager?.NavigateTo("/")) />
-	</div>
+    <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold">Settings</h2>
+        <TransparentRoundButton IconPath="Icons\arrow.svg"
+                                HandleClick=@(() => NavigationManager?.NavigateTo("/")) />
+    </div>
 
-	<div class="space-y-4">
-		<ThemeSettingsOption LocalStorageService=LocalStorageService
-							 Label="Theme" />
+    <div class="space-y-4">
+        <ThemeSettingsOption LocalStorageService=LocalStorageService
+                             Label="Theme" />
 
-		<ToggleSettingsOption LocalStorageService=LocalStorageService
-							  StateService=StateService
-							  Label="Auto Save EyeDropper"
-							  StorageKey=StorageKey.AutoSaveEyedropper />
+        <ToggleSettingsOption LocalStorageService=LocalStorageService
+                              StateService=StateService
+                              Label="Auto Save EyeDropper"
+                              StorageKey=StorageKey.AutoSaveEyedropper />
 
-		<ToggleSettingsOption LocalStorageService=LocalStorageService
-							  StateService=StateService
-							  Label="Auto Copy Code"
-							  StorageKey=StorageKey.AutoCopyCode />
+        <ToggleSettingsOption LocalStorageService=LocalStorageService
+                              StateService=StateService
+                              Label="Auto Copy Code"
+                              StorageKey=StorageKey.AutoCopyCode />
 
-		<ToggleSettingsOption LocalStorageService=LocalStorageService
-							  StateService=StateService
-							  Label="Add # to HEX"
-							  StorageKey=StorageKey.AddHexCharacter />
+        <ToggleSettingsOption LocalStorageService=LocalStorageService
+                              StateService=StateService
+                              Label="Add # to HEX"
+                              StorageKey=StorageKey.AddHexCharacter />
 
-		<ToggleSettingsOption LocalStorageService=LocalStorageService
-							  StateService=StateService
-							  Label="Show Color Name"
-							  StorageKey=StorageKey.ShowColorNames />
+        <ToggleSettingsOption LocalStorageService=LocalStorageService
+                              StateService=StateService
+                              Label="Show Color Name"
+                              StorageKey=StorageKey.ShowColorNames />
 
-		<ToggleSettingsOption LocalStorageService=LocalStorageService
-							  StateService=StateService
-							  Label="Prepend Black To Filter"
-							  StorageKey=StorageKey.PrependBlackFilter />
-	</div>
+        <ToggleSettingsOption LocalStorageService=LocalStorageService
+                              StateService=StateService
+                              Label="Prepend Black To Filter"
+                              StorageKey=StorageKey.PrependBlackFilter />
+    </div>
 
-	<div class="flex items-center justify-between gap-4 border-t-[var(--invert-theme-color)] pt-4">
-		@if (JSRuntime is not null)
-		{
-			<RectangularLabelButton Label="Website"
-									IconPath="Icons\website.svg"
-									IconSize=Size.Small
-									HandleClick=@(async () => await JSRuntime.InvokeVoidAsync(JsFuncs.OpenExternalUrl.Value(), WEBSITE_URL)) />
-			<RectangularLabelButton Label="GitHub"
-									IconPath="Icons\github.svg"
-									IconSize=Size.Small
-									HandleClick=@(async () => await JSRuntime.InvokeVoidAsync(JsFuncs.OpenExternalUrl.Value(), GITHUB_URL)) />
-			<h4 id="version">@_manifestVersion</h4>
-		}
-	</div>
+    <div class="flex items-center justify-between gap-4 border-t-[var(--invert-theme-color)] pt-4">
+        @if (JSRuntime is not null)
+        {
+            <RectangularLabelButton Label="Website"
+                                    IconPath="Icons\website.svg"
+                                    IconSize=Size.Small
+                                    HandleClick=@(async () => await JSRuntime.InvokeVoidAsync(JsFuncs.OpenExternalUrl.Value(), WEBSITE_URL)) />
+            <RectangularLabelButton Label="GitHub"
+                                    IconPath="Icons\github.svg"
+                                    IconSize=Size.Small
+                                    HandleClick=@(async () => await JSRuntime.InvokeVoidAsync(JsFuncs.OpenExternalUrl.Value(), GITHUB_URL)) />
+            <h4 id="version">@_manifestVersion</h4>
+        }
+    </div>
 </div>
 
 @code {
-	private const string WEBSITE_URL = "https://daridis.com/colorpal";
-	private const string GITHUB_URL = "https://github.com/nikosdaridis/colorpal-blazor-browser-extension";
+    private const string WEBSITE_URL = "https://daridis.com/colorpal";
+    private const string GITHUB_URL = "https://github.com/nikosdaridis/colorpal-blazor-browser-extension";
 
-	private string? _manifestVersion { get; set; }
+    private string? _manifestVersion { get; set; }
 
-	/// <summary>
-	/// Gets manifest version and sets it to version element
-	/// </summary>
-	protected override async Task OnInitializedAsync()
-	{
-		await base.OnInitializedAsync();
+    /// <summary>
+    /// Gets manifest version and sets it to version element
+    /// </summary>
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
 
-		if (JSRuntime is null)
-			return;
+        if (JSRuntime is null)
+            return;
 
-		_manifestVersion = await JSRuntime.InvokeAsync<string>(JsFuncs.GetManifestVersionAsync.Value());
-	}
+        _manifestVersion = await JSRuntime.InvokeAsync<string>(JsFuncs.GetManifestVersionAsync.Value());
+    }
 }
