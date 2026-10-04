@@ -57,7 +57,7 @@
 	<Target Name="CleanupPublish" BeforeTargets="ZipPublish">
 		<ItemGroup>
 			<FilesToRemove Include="$(PublishDir)wwwroot\ColorPal.styles.css" />
-			<FilesToRemove Include="$(PublishDir)wwwroot\CSS\tailwind.css" />
+			<FilesToRemove Include="$(PublishDir)wwwroot\CSS\app.css*" />
 			<FilesToRemove Include="$(PublishDir)wwwroot\JavaScript\uglify.js" />
 		</ItemGroup>
 		<Delete Files="@(FilesToRemove)" />
