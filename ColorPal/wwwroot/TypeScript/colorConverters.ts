@@ -28,9 +28,9 @@ function toHex(num: number): string {
 function hexToRgb(hex: string): ColorRGB;
 function hexToRgb(hex: string, returnType: "string"): string;
 function hexToRgb(hex: string, returnType?: "string" | "ColorRGB"): string | ColorRGB {
-    const [, r, g, b] = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i
+    const [, r = 0, g = 0, b = 0] = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i
         .exec(hex)
-        ?.map((val) => parseInt(val, 16)) || [0, 0, 0];
+        ?.map((val) => parseInt(val, 16)) ?? [];
 
     return returnType === "string" ? `rgb(${r}, ${g}, ${b})` : { r, g, b };
 }

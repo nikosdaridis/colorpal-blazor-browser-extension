@@ -107,14 +107,15 @@ function openColorPicker(elementId: string): void {
 }
 
 // Copies text to clipboard
-function copyToClipboard(text: string): void {
+async function copyToClipboard(text: string): Promise<void> {
     if (!document.hasFocus())
         window.focus();
 
     try {
-        navigator.clipboard.writeText(text);
+        await navigator.clipboard.writeText(text);
+    } catch (error) {
+        console.error("Copying to the clipboard failed.", error);
     }
-    catch { }
 }
 
 // Sets value of element by id
