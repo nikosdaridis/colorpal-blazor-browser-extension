@@ -106,6 +106,9 @@ public enum JsFuncs
     [Value("initializeColorsGridComponent")]
     InitializeColorsGridComponent,
 
+    [Value("disposeColorsGridComponent")]
+    DisposeColorsGridComponent,
+
     [Value("getClientColorScheme")]
     GetClientColorScheme,
 

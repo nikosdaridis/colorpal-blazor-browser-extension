@@ -32,6 +32,8 @@
 </div>
 
 @code {
+    private static readonly TimeSpan _updateColorCodeDebounceDelay = TimeSpan.FromMilliseconds(2);
+
     [Parameter]
     public IJSRuntime? JSRuntime { get; set; }
 
@@ -44,7 +46,7 @@
     private ColorCodeFormat _activeColorCodeFormat = ColorCodeFormat.HEX;
     private string _colorCodeValue = string.Empty;
     private CssFilter _iconCSSFilter = new();
-    private Timer? _updateColorCodeDebounceTimer;
+    private Debouncer? _updateColorCodeDebouncer;
 
     /// <summary>
     /// Subscribes to events, updates active color code format and value
@@ -55,6 +57,8 @@
 
         if (LocalStorageService is null || EventAggregator is null)
             return;
+
+        _updateColorCodeDebouncer = new Debouncer(_updateColorCodeDebounceDelay, DispatchExceptionAsync);
 
         EventAggregator.GetService(Event.ColorCodeActiveTab).Subscribe(UpdateActiveColorCodeFormatAsync);
         EventAggregator.GetService(Event.SetSelectedColor).Subscribe(UpdateColorCodeWithDebounceAsync);
@@ -87,12 +91,7 @@
             return Task.CompletedTask;
         }
 
-        _updateColorCodeDebounceTimer?.Dispose();
-
-        _updateColorCodeDebounceTimer = new Timer(async _ =>
-        {
-            await UpdateColorCodeAsync(hexColor);
-        }, null, 2, Timeout.Infinite);
+        _updateColorCodeDebouncer?.Debounce(() => UpdateColorCodeAsync(hexColor));
 
         return Task.CompletedTask;
     }
@@ -130,7 +129,7 @@
     /// </summary>
     public void Dispose()
     {
-        _updateColorCodeDebounceTimer?.Dispose();
+        _updateColorCodeDebouncer?.Dispose();
 
         if (EventAggregator is null)
         {

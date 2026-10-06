@@ -1,4 +1,4 @@
-﻿@implements IDisposable
+﻿@implements IAsyncDisposable
 
 <div class="grid gap-2"
      style="grid-auto-rows: 1fr;"
@@ -49,6 +49,7 @@
     private string[] _tintsShadesHexColors = new string[99];
     private ColorToolType _activeColorTool = ColorToolType.None;
     private ColorCodeFormat _activeColorCodeFormat = ColorCodeFormat.HEX;
+    private DotNetObjectReference<ColorsGrid>? _dotNetObjectReference;
 
     /// <summary>
     /// Subscribes to events, initializes the component in JS, sets active color and code format and renders saved colors
@@ -69,7 +70,8 @@
         EventAggregator.GetService(Event.SetSelectedColor).Subscribe(HandleSetSelectedColorAsync);
         EventAggregator.GetService(Event.SetActiveColorTool).Subscribe(HandleActiveColorToolAsync);
 
-        await JSRuntime.InvokeVoidAsync(JsFuncs.InitializeColorsGridComponent.Value(), DotNetObjectReference.Create(this));
+        _dotNetObjectReference = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync(JsFuncs.InitializeColorsGridComponent.Value(), _dotNetObjectReference);
 
         _selectedHexColor = await LocalStorageService.GetKeyAsync<string>(StorageKey.SelectedHexColor) ?? string.Empty;
         await UpdateActiveColorCodeFormatAsync();
@@ -177,10 +179,7 @@
         StateHasChanged();
     }
 
-    /// <summary>
-    /// Unsubscribes from events
-    /// </summary>
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         if (EventAggregator is null)
             return;
@@ -193,5 +192,13 @@
         EventAggregator.GetService(Event.DeleteAllSavedColors).Unsubscribe(RenderSavedColorsAsync);
         EventAggregator.GetService(Event.SetSelectedColor).Unsubscribe(HandleSetSelectedColorAsync);
         EventAggregator.GetService(Event.SetActiveColorTool).Unsubscribe(HandleActiveColorToolAsync);
+
+        if (JSRuntime is null || _dotNetObjectReference is null)
+        {
+            return;
+        }
+
+        await JSRuntime.InvokeVoidAsync(JsFuncs.DisposeColorsGridComponent.Value());
+        _dotNetObjectReference.Dispose();
     }
 }

@@ -16,6 +16,10 @@ function initializeColorsGridComponent(dotNetObjectReference: any) {
     colorsGridComponent = dotNetObjectReference;
 }
 
+function disposeColorsGridComponent(): void {
+    colorsGridComponent = null;
+}
+
 // Shows body after initialization
 function isInitialized(): void {
     document.querySelector("body")?.classList.remove("hidden");
@@ -308,5 +312,5 @@ function swapColors(drag: HTMLElement, replace: HTMLElement) {
     [savedColors[dragIndex], savedColors[replaceIndex]] = [replace.dataset.color, drag.dataset.color];
 
     localStorage.setItem("colorpal-saved-colors-array", JSON.stringify(savedColors));
-    colorsGridComponent.invokeMethodAsync("RenderSavedColorsAsync", null);
+    colorsGridComponent?.invokeMethodAsync("RenderSavedColorsAsync", null);
 }

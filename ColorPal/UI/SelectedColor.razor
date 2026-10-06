@@ -38,6 +38,8 @@
        @oninput=HandleColorPickerInput>
 
 @code {
+    private static readonly TimeSpan _colorPickerDebounceDelay = TimeSpan.FromMilliseconds(2);
+
     [Parameter]
     public NavigationManager? NavigationManager { get; set; }
 
@@ -56,7 +58,7 @@
     private string _selectedHEXColor = "#000000";
     private bool _isSelectedColorSaved;
     private (bool Show, string Selected) _colorName = (false, string.Empty);
-    private Timer? _colorPickerDebounceTimer;
+    private Debouncer? _colorPickerDebouncer;
 
 
     /// <summary>
@@ -69,6 +71,8 @@
         if (JSRuntime is null || LocalStorageService is null || EventAggregator is null || StateService is null)
             return;
 
+        _colorPickerDebouncer = new Debouncer(_colorPickerDebounceDelay, DispatchExceptionAsync);
+
         EventAggregator.GetService(Event.EyedropperPick).Subscribe(SetSelectedColorAndPublishEventAsync);
         EventAggregator.GetService(Event.EyedropperPick).Subscribe(SaveEyedropperColorAsync);
         EventAggregator.GetService(Event.SetSelectedColor).Subscribe(SetSelectedColorAsync);
@@ -80,14 +84,11 @@
         _colorName.Show = await LocalStorageService.GetKeyAsync<string>(StorageKey.ShowColorNames) == "true";
 
         if (_colorName.Show)
-            _ = Task.Run(async () =>
-            {
-                while (!StateService.ColorNamesInitialized())
-                    await Task.Delay(50);
-
-                _colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFuncs.HexToRgb.Value(), _selectedHEXColor));
-                StateHasChanged();
-            });
+        {
+            StateHasChanged();
+            await StateService.DecompressParseAndCacheColorNamesAsync();
+            _colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFuncs.HexToRgb.Value(), _selectedHEXColor));
+        }
     }
 
     /// <summary>
@@ -215,12 +216,7 @@
         if (e.Value is not string color || string.IsNullOrWhiteSpace(color))
             return;
 
-        _colorPickerDebounceTimer?.Dispose();
-
-        _colorPickerDebounceTimer = new Timer(async _ =>
-                {
-                    await InvokeAsync(async () => await SetSelectedColorAndPublishEventAsync(color));
-                }, null, 2, Timeout.Infinite);
+        _colorPickerDebouncer?.Debounce(() => InvokeAsync(() => SetSelectedColorAndPublishEventAsync(color)));
     }
 
     /// <summary>
@@ -244,12 +240,9 @@
         await JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), colorCode);
     }
 
-    /// <summary>
-    /// Unsubscribes from events
-    /// </summary>
     public void Dispose()
     {
-        _colorPickerDebounceTimer?.Dispose();
+        _colorPickerDebouncer?.Dispose();
 
         if (EventAggregator is null)
         {

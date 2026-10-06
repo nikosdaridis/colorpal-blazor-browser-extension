@@ -10,33 +10,25 @@ public sealed class StateService
 {
     private readonly HttpClient _httpClient;
     private readonly IJSRuntime _jsRuntime;
+    private readonly ILogger<StateService> _logger;
     private const int COLOR_NAMES_STEP = 4;
     private Dictionary<uint, string> _colorNamesMap = [];
+    private Task? _colorNamesLoadTask;
 
-    public StateService(HttpClient httpClient, IJSRuntime jsRuntime)
+    public StateService(HttpClient httpClient, IJSRuntime jsRuntime, ILogger<StateService> logger)
     {
         _httpClient = httpClient;
         _jsRuntime = jsRuntime;
+        _logger = logger;
 
         _ = _jsRuntime.InvokeVoidAsync(JsFuncs.InitializeStateService.Value(), DotNetObjectReference.Create(this));
     }
 
-    /// <summary>
-    /// Checks if color names have been initialized.
-    /// </summary>
-    public bool ColorNamesInitialized() =>
-        _colorNamesMap.Count > 0;
+    public Task DecompressParseAndCacheColorNamesAsync() =>
+        _colorNamesLoadTask ??= LoadColorNamesAsync();
 
-    /// <summary>
-    /// Decompresses, parses, and caches color names.
-    /// </summary>
-    public async Task DecompressParseAndCacheColorNamesAsync()
+    private async Task LoadColorNamesAsync()
     {
-        if (ColorNamesInitialized())
-        {
-            return;
-        }
-
         try
         {
             byte[] colorNamesData = await _httpClient.GetByteArrayAsync(@$"Data/colorNamesStep{COLOR_NAMES_STEP}.dat");
@@ -44,9 +36,9 @@ public sealed class StateService
             _colorNamesMap = MessagePackSerializer.Deserialize<Dictionary<uint, string>>(colorNamesData,
                 ContractlessStandardResolver.Options.WithCompression(MessagePackCompression.Lz4Block));
         }
-        catch
+        catch (Exception exception) when (exception is HttpRequestException or MessagePackSerializationException)
         {
-            _colorNamesMap = new() { { 0, string.Empty } };
+            _logger.LogError(exception, "Loading the color names failed, color names stay empty.");
         }
     }
 
