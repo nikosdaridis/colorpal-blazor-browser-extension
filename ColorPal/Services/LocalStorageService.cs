@@ -47,7 +47,7 @@ public sealed partial class LocalStorageService(ILocalStorageService LocalStorag
 
         // SavedColorsArray
         List<string> storedSavedColorsArray = await ValidateJsonArrayAsync(StorageKey.SavedColorsArray);
-        storedSavedColorsArray = [.. storedSavedColorsArray.Where(color => HexColorValidationRegex().IsMatch(color))];
+        storedSavedColorsArray = [.. storedSavedColorsArray.Where(color => color is not null && HexColorValidationRegex().IsMatch(color))];
         await SetKeyAsync(StorageKey.SavedColorsArray, storedSavedColorsArray);
 
         // AutoSaveEyedropper
