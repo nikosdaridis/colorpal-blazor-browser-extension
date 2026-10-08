@@ -3,6 +3,8 @@
 
     <button class="toggle-option cursor-pointer"
             active=@(_isActive.ToString().ToLower())
+            aria-label=@Label
+            aria-pressed=@(_isActive.ToString().ToLower())
             @onclick=ToggleButtonAsync></button>
 </div>
 

@@ -5,18 +5,21 @@
         @if (JSRuntime is not null)
         {
             <button class="inline-flex h-8 w-10 cursor-pointer items-center justify-center rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] font-medium transition-transform duration-100 hover:bg-[var(--secondary-color)] active:scale-90"
+                    aria-label="Copy color code"
                     @onclick=@(() => JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), _colorCodeValue))>
 
                 @if (_activeColorCodeFormat == ColorCodeFormat.Filter)
                 {
                     <img class="h-[15px] w-[15px]"
                          style=@_iconCSSFilter.Filter
+                         alt=""
                          draggable="false"
                          src="Icons/copyClipboard.svg" />
                 }
                 else
                 {
                     <img class="theme-filter h-[15px] w-[15px]"
+                         alt=""
                          draggable="false"
                          src="Icons/copyClipboard.svg" />
                 }

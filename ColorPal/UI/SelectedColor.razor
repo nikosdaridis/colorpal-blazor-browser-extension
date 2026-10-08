@@ -6,6 +6,7 @@
     <div class="absolute top-2 right-4 left-4 flex items-center justify-between">
         <RoundButton IconPath="Icons\eyedropper.svg"
                      IconThemeFilter=false
+                     AriaLabel="Eyedropper"
                      HandleClick=HandleEyeDropperClickAsync />
         @if (_colorName.Show && !string.IsNullOrWhiteSpace(_colorName.Selected) && JSRuntime is not null)
         {
@@ -18,6 +19,7 @@
 
         <RoundButton IconPath="Icons\settings.svg"
                      IconThemeFilter=false
+                     AriaLabel="Settings"
                      HandleClick=@(() => NavigationManager?.NavigateTo("/settings")) />
     </div>
 
@@ -26,6 +28,7 @@
         <div class="absolute bottom-2">
             <RoundButton IconPath="Icons\plus.svg"
                          IconThemeFilter=false
+                         AriaLabel="Save color"
                          HandleClick=@(async () => await SaveColorAsync(_selectedHEXColor)) />
         </div>
     }
@@ -34,6 +37,7 @@
 <input class="absolute left-[34px] m-0 h-0 w-0 border-0 p-0 opacity-0"
        type="color"
        id="colorPicker"
+       aria-label="Selected color"
        value=@_selectedHEXColor
        @oninput=HandleColorPickerInput>
 

@@ -2,6 +2,8 @@
     <h3 class="font-semibold">@Label</h3>
 
     <button class="relative right-[30px] inline-flex scale-[0.2] cursor-pointer items-center justify-end"
+            aria-label="Dark theme"
+            aria-pressed=@(_theme == Theme.Dark.Value() ? "true" : "false")
             @onclick="ToggleThemeAsync">
 
         <div id="themeOption"

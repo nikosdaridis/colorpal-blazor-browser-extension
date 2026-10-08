@@ -2,11 +2,13 @@
 
 <button class=@Class
         id=@Id
+        aria-label=@AriaLabel
         @ref=button
         @onclick=HandleOnClickAsync
 @onclick:stopPropagation>
 
     <img class="@GetIconSizeClass() @(IconThemeFilter ? "theme-filter" : string.Empty) @(IconTextFilter ? "text-filter" : string.Empty)"
+         alt=""
          draggable="false"
          src="@IconPath" />
 </button>
@@ -17,6 +19,9 @@
 
     [Parameter]
     public string? Id { get; set; }
+
+    [Parameter]
+    public string? AriaLabel { get; set; }
 
     [Parameter]
     public string? IconPath { get; set; }

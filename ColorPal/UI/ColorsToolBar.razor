@@ -7,12 +7,14 @@
                    IconPath=@($"Icons/{tool.Value()}.svg")
                    IconSize=Size.Small
                    IconTextFilter=true
+                   AriaLabel=@GetColorToolLabel(tool)
                    HandleClick=@(async e => await HandleColorToolClickAsync(tool))
                    IsActive=@(_activeColorTool == tool.Value()) />
     }
 
     <select class="h-8 w-13 cursor-pointer items-center justify-center rounded-md bg-[var(--secondary-color)] p-2 text-sm text-[var(--text-color)] focus:ring-0 focus:outline-none"
             id="colorsPerLine"
+            aria-label="Colors per line"
             @bind:get=_colorsPerLine
             @bind:set=HandleColorsPerLineChangeAndPublishEventAsync>
         @for (int i = 5; i <= 10; i++)
@@ -207,6 +209,18 @@
 
         StateHasChanged();
     }
+
+    private static string GetColorToolLabel(ColorToolType tool) =>
+        tool switch
+        {
+            ColorToolType.Move => "Move colors",
+            ColorToolType.TintsShades => "Tints and shades",
+            ColorToolType.Delete => "Delete colors",
+            ColorToolType.DeleteAll => "Delete all colors",
+            ColorToolType.DownloadPNG => "Download PNG",
+            ColorToolType.DownloadCSV => "Download CSV",
+            _ => throw new ArgumentOutOfRangeException(nameof(tool), $"Not expected: {tool}")
+        };
 
     /// <summary>
     /// Unsubscribes from events
