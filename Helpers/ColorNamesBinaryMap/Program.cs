@@ -16,26 +16,38 @@ sealed class Program
      * The map, built from online JSON data, stores each 32-bit encoded RGB key with its closest color name for O(1) lookup
      */
 
-    static async Task Main()
+    private const string STEP_ARGUMENT = "--step";
+    private const string SOURCE_ARGUMENT = "--source";
+    private const string OUT_ARGUMENT = "--out";
+    private const int DEFAULT_STEP = 4;
+    private const int MIN_STEP = 1;
+    private const int MAX_STEP = byte.MaxValue;
+    private const string DEFAULT_SOURCE_URI = "https://unpkg.com/color-name-list/dist/colornames.json";
+    private const int SUCCESS_EXIT_CODE = 0;
+    private const int FAILURE_EXIT_CODE = 1;
+
+    static async Task<int> Main(string[] arguments)
     {
         Console.OutputEncoding = Encoding.UTF8;
 
-        int step = GetPrecisionStep();
-        string inputUri = "https://unpkg.com/color-name-list/dist/colornames.json";
-        string outputFilePath = @$"C:\Users\nikos\Desktop\colorNamesStep{step}.dat";
-
-        Console.WriteLine($"⏳ Generating colors map with step = {step}...");
-        Console.WriteLine($"📂 Output Path: {outputFilePath}");
-        Console.WriteLine(step switch
-        {
-            <= 2 => "⚠️ Brace yourself, your CPU is about to go turbo",
-            <= 5 => "💻 Things are heating up, CPU is getting a workout",
-            <= 10 => "🙂 Just a light workout for the CPU",
-            _ => "😎 Relaxed mode"
-        });
-
         try
         {
+            Dictionary<string, string> argumentsMap = ParseArguments(arguments);
+            int step = GetPrecisionStep(argumentsMap);
+            string inputUri = GetArgumentOrPrompt(argumentsMap, SOURCE_ARGUMENT, "Enter color names JSON URL", DEFAULT_SOURCE_URI);
+            string outputDirectory = Path.GetFullPath(GetArgumentOrPrompt(argumentsMap, OUT_ARGUMENT, "Enter output folder", GetDefaultOutputDirectory()));
+            string outputFilePath = Path.Combine(outputDirectory, $"colorNamesStep{step}.dat");
+
+            Console.WriteLine($"⏳ Generating colors map with step = {step}...");
+            Console.WriteLine($"📂 Output Path: {outputFilePath}");
+            Console.WriteLine(step switch
+            {
+                <= 2 => "⚠️ Brace yourself, your CPU is about to go turbo",
+                <= 5 => "💻 Things are heating up, CPU is getting a workout",
+                <= 10 => "🙂 Just a light workout for the CPU",
+                _ => "😎 Relaxed mode"
+            });
+
             Stopwatch stopwatch = Stopwatch.StartNew();
             ColorNamesBinaryMap colorNamesBinaryMap = new();
 
@@ -47,28 +59,72 @@ sealed class Program
             stopwatch.Stop();
             Console.WriteLine($"\n👍 Done in {stopwatch.Elapsed.TotalSeconds:F2} seconds!");
             Console.WriteLine($"📦 Total size of saved file: {serializedBytes:N0} bytes ({serializedBytes / 1_048_576.0:F2} MB)");
+
+            return SUCCESS_EXIT_CODE;
         }
-        catch (Exception ex)
+        catch (Exception exception)
         {
-            Console.WriteLine($"👎 Error: {ex.Message}");
+            Console.Error.WriteLine($"👎 Error: {exception.Message}");
+
+            return FAILURE_EXIT_CODE;
         }
     }
 
-    /// <summary>
-    /// Prompts user to enter RGB precision step value
-    /// </summary>
-    private static int GetPrecisionStep()
+    private static Dictionary<string, string> ParseArguments(string[] arguments)
     {
-        Console.WriteLine("Enter RGB precision step value (recommended 3-5)");
-        Console.WriteLine("Lower values will increase CPU load and file size significantly: ");
+        Dictionary<string, string> argumentsMap = [];
 
-        if (!int.TryParse(Console.ReadLine(), out int step) || step < 1 || step > int.MaxValue)
+        for (int index = 0; index < arguments.Length; index += 2)
         {
-            step = 5;
-            Console.WriteLine("⚠️ Invalid input, defaulting to step = 5");
+            string argumentName = arguments[index];
+
+            if (argumentName is not (STEP_ARGUMENT or SOURCE_ARGUMENT or OUT_ARGUMENT))
+            {
+                throw new ArgumentException($"Unknown argument '{argumentName}', expected {STEP_ARGUMENT}, {SOURCE_ARGUMENT} or {OUT_ARGUMENT}.");
+            }
+
+            if (index + 1 >= arguments.Length)
+            {
+                throw new ArgumentException($"Missing value for {argumentName}.");
+            }
+
+            if (!argumentsMap.TryAdd(argumentName, arguments[index + 1]))
+            {
+                throw new ArgumentException($"{argumentName} is given more than once.");
+            }
         }
 
-        return step;
+        return argumentsMap;
+    }
+
+    private static int GetPrecisionStep(Dictionary<string, string> argumentsMap)
+    {
+        string stepText = GetArgumentOrPrompt(argumentsMap, STEP_ARGUMENT,
+            "Enter RGB precision step value (recommended 3-5)\nLower values will increase CPU load and file size significantly", DEFAULT_STEP.ToString());
+
+        return int.TryParse(stepText, out int step) && step is >= MIN_STEP and <= MAX_STEP
+            ? step
+            : throw new ArgumentException($"Step must be a whole number from {MIN_STEP} to {MAX_STEP}, got '{stepText}'.");
+    }
+
+    private static string GetArgumentOrPrompt(Dictionary<string, string> argumentsMap, string argumentName, string prompt, string defaultValue)
+    {
+        if (argumentsMap.TryGetValue(argumentName, out string? argumentValue))
+        {
+            return argumentValue;
+        }
+
+        Console.WriteLine($"{prompt} (default {defaultValue}):");
+        string? input = Console.ReadLine();
+
+        return string.IsNullOrWhiteSpace(input) ? defaultValue : input.Trim();
+    }
+
+    private static string GetDefaultOutputDirectory()
+    {
+        string desktopDirectory = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
+        return desktopDirectory.Length > 0 ? desktopDirectory : Environment.CurrentDirectory;
     }
 }
 
@@ -197,15 +253,13 @@ public sealed class ColorNamesBinaryMap()
                     {
                         lock (consoleLock)
                         {
-                            Console.SetCursorPosition(0, Console.CursorTop);
-                            Console.Write($"Progress: {iteration:N0}/{totalIterations:N0} ({Math.Min((iteration / (double)totalIterations) * 100, 100):F2}%)");
+                            Console.Write($"\rProgress: {iteration:N0}/{totalIterations:N0} ({Math.Min((iteration / (double)totalIterations) * 100, 100):F2}%)");
                         }
                     }
                 }
             });
 
-            Console.SetCursorPosition(0, Console.CursorTop);
-            Console.WriteLine($"Progress: {totalIterations:N0}/{totalIterations:N0} (100.00%)");
+            Console.WriteLine($"\rProgress: {totalIterations:N0}/{totalIterations:N0} (100.00%)");
         }
 
         // Finds the closest named color to the given RGB using Euclidean distance
