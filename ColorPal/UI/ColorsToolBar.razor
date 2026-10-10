@@ -105,11 +105,18 @@
 
         async Task HandleDownloadPNGAsync()
         {
+            bool showColorNames = await LocalStorageService.GetKeyAsync<string>(StorageKey.ShowColorNames) == "true";
+
+            if (showColorNames)
+            {
+                await StateService.DecompressParseAndCacheColorNamesAsync();
+            }
+
             await JSRuntime.InvokeVoidAsync(
                 JsFuncs.DownloadPng.Value(),
                 await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [],
                 Int32.Parse(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorsPerLine) ?? "5"),
-                await LocalStorageService.GetKeyAsync<string>(StorageKey.ShowColorNames) == "true",
+                showColorNames,
                 await LocalStorageService.GetKeyAsync<string>(StorageKey.AddHexCharacter) == "true"
             );
         }
@@ -120,6 +127,8 @@
 
             if (savedColors.Length == 0)
                 return;
+
+            await StateService.DecompressParseAndCacheColorNamesAsync();
 
             StringBuilder csvBuilder = new();
             csvBuilder.AppendLine("Name,#HEX,HEX,RGB,HSL,HSV,Filter,Prepend Black Filter,Filter Loss");
