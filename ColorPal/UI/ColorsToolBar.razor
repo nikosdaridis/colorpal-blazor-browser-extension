@@ -9,7 +9,8 @@
                    IconTextFilter=true
                    AriaLabel=@GetColorToolLabel(tool)
                    HandleClick=@(async e => await HandleColorToolClickAsync(tool))
-                   IsActive=@(_activeColorTool == tool.Value()) />
+                   IsActive=@(_activeColorTool == tool.Value())
+                   IsToggle=@IsToggleColorTool(tool) />
     }
 
     <select class="h-8 w-13 cursor-pointer items-center justify-center rounded-md bg-[var(--secondary-color)] p-2 text-sm text-[var(--text-color)] focus:ring-0 focus:outline-none"
@@ -228,6 +229,14 @@
             ColorToolType.DeleteAll => "Delete all colors",
             ColorToolType.DownloadPNG => "Download PNG",
             ColorToolType.DownloadCSV => "Download CSV",
+            _ => throw new ArgumentOutOfRangeException(nameof(tool), $"Not expected: {tool}")
+        };
+
+    private static bool IsToggleColorTool(ColorToolType tool) =>
+        tool switch
+        {
+            ColorToolType.Move or ColorToolType.TintsShades or ColorToolType.Delete => true,
+            ColorToolType.DeleteAll or ColorToolType.DownloadPNG or ColorToolType.DownloadCSV => false,
             _ => throw new ArgumentOutOfRangeException(nameof(tool), $"Not expected: {tool}")
         };
 

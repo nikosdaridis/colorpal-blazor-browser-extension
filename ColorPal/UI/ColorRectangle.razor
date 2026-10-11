@@ -1,11 +1,12 @@
-﻿<span class=@GetClass()
-      style="background-color: @HEXColor;"
-      data-color=@HEXColor
-      id=@($"colorRectangle{(IsSelected ? "-active" : string.Empty)}")
-      draggable=@(ActiveColorTool == ColorToolType.Move ? "true" : "false")
-      @onclick=HandleOnClickAsync>
+﻿<button class=@GetClass()
+        style="background-color: @HEXColor;"
+        data-color=@HEXColor
+        id=@($"colorRectangle{(IsSelected ? "-active" : string.Empty)}")
+        aria-label=@GetAriaLabel()
+        draggable=@(ActiveColorTool == ColorToolType.Move ? "true" : "false")
+        @onclick=HandleOnClickAsync>
 
-    @if (ActiveColorTool == ColorToolType.TintsShades && TintsShadesIndex is not null)
+    @if (ShowsTintsShadesIndex)
     {
         <h4 class="absolute bottom-0 left-1/2 -translate-x-1/2 transform font-semibold text-[8px]"
             style="color: @(TintsShadesIndex <= 50 ? "white" : "black");">
@@ -19,7 +20,7 @@
              draggable="false"
              src=@GetImgSrc() />
     }
-</span>
+</button>
 
 @code {
     [Parameter]
@@ -45,6 +46,8 @@
 
     [Parameter]
     public EventAggregator<string>? EventAggregator { get; set; }
+
+    private bool ShowsTintsShadesIndex => ActiveColorTool == ColorToolType.TintsShades && TintsShadesIndex is not null;
 
     /// <summary>
     /// Handles on click event, copies color code to clipboard based on active format and handles active color tool event.
@@ -107,6 +110,9 @@
             ColorToolType.Delete => "Icons/delete.svg",
             _ => string.Empty
         };
+
+    private string GetAriaLabel() =>
+        ShowsTintsShadesIndex ? $"{TintsShadesIndex}, {HEXColor}" : HEXColor;
 
     /// <summary>
     /// Deletes saved color from local storage and publishes event

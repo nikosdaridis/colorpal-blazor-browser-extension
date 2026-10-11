@@ -8,10 +8,14 @@
     [Parameter]
     public bool IsActive { get; set; }
 
+    [Parameter]
+    public bool IsToggle { get; set; }
+
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
 
         Class = $"inline-flex cursor-pointer items-center justify-center h-8 w-8 rounded-md text-sm transition-colors duration-200 {(IsActive ? "bg-[var(--primary-color)] active" : string.Empty)}";
+        IsPressed = IsToggle ? IsActive : null;
     }
 }
