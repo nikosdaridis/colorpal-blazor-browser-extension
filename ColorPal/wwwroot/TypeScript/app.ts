@@ -84,6 +84,14 @@ function setGridColumns(elementId: string, columns: string): void {
     gridElement.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
 }
 
+function restoreLostFocus(selector: string): void {
+    if (document.activeElement !== null && document.activeElement !== document.body) {
+        return;
+    }
+
+    document.querySelector<HTMLElement>(selector)?.focus();
+}
+
 // Activates eye dropper and returns hex color
 function activateEyeDropper(): Promise<string | null> {
     document.body.style.display = "none";

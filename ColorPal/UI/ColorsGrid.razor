@@ -50,6 +50,7 @@
     private ColorToolType _activeColorTool = ColorToolType.None;
     private ColorCodeFormat _activeColorCodeFormat = ColorCodeFormat.HEX;
     private DotNetObjectReference<ColorsGrid>? _dotNetObjectReference;
+    private string? _lostFocusTargetSelector;
 
     /// <summary>
     /// Subscribes to events, initializes the component in JS, sets active color and code format and renders saved colors
@@ -65,7 +66,7 @@
         EventAggregator.GetService(Event.ColorsPerLine).Subscribe(HandleColorsPerLineChangeAsync);
         EventAggregator.GetService(Event.SaveColor).Subscribe(RenderSavedColorsAsync);
         EventAggregator.GetService(Event.RenderTintsShades).Subscribe(HandleRenderTintsShades);
-        EventAggregator.GetService(Event.DeleteSavedColor).Subscribe(RenderSavedColorsAsync);
+        EventAggregator.GetService(Event.DeleteSavedColor).Subscribe(HandleDeleteSavedColorAsync);
         EventAggregator.GetService(Event.DeleteAllSavedColors).Subscribe(RenderSavedColorsAsync);
         EventAggregator.GetService(Event.SetSelectedColor).Subscribe(HandleSetSelectedColorAsync);
         EventAggregator.GetService(Event.SetActiveColorTool).Subscribe(HandleActiveColorToolAsync);
@@ -80,6 +81,20 @@
         await RenderSavedColorsAsync();
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (JSRuntime is null || _lostFocusTargetSelector is null)
+        {
+            return;
+        }
+
+        string lostFocusTargetSelector = _lostFocusTargetSelector;
+        _lostFocusTargetSelector = null;
+        await JSRuntime.InvokeVoidAsync(JsFuncs.RestoreLostFocus.Value(), lostFocusTargetSelector);
+    }
+
     /// <summary>
     /// Renders saved colors
     /// </summary>
@@ -90,6 +105,20 @@
             return;
 
         _savedHexColors = await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [];
+        StateHasChanged();
+    }
+
+    private async Task HandleDeleteSavedColorAsync(string hexColor)
+    {
+        if (LocalStorageService is null)
+        {
+            return;
+        }
+
+        _savedHexColors = await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [];
+        _lostFocusTargetSelector = _savedHexColors.Length > 0
+            ? "#colorsGrid > :last-child"
+            : $"#colorTool-{ColorToolType.Delete.Value()}";
         StateHasChanged();
     }
 
@@ -176,6 +205,9 @@
         _tintsShadesBaseHslColor = await JSRuntime.InvokeAsync<ColorHSL>(JsFuncs.HexToHsl.Value(), hexColor);
         _tintsShadesHexColors = await JSRuntime.InvokeAsync<string[]>(JsFuncs.HslToHexRange.Value(), _tintsShadesBaseHslColor.H, _tintsShadesBaseHslColor.S);
 
+        int matchingTintPosition = Math.Clamp(_tintsShadesBaseHslColor.L, 1, _tintsShadesHexColors.Length);
+        _lostFocusTargetSelector = $"#colorsGrid > :nth-child({matchingTintPosition})";
+
         StateHasChanged();
     }
 
@@ -188,7 +220,7 @@
         EventAggregator.GetService(Event.ColorsPerLine).Unsubscribe(HandleColorsPerLineChangeAsync);
         EventAggregator.GetService(Event.SaveColor).Unsubscribe(RenderSavedColorsAsync);
         EventAggregator.GetService(Event.RenderTintsShades).Unsubscribe(HandleRenderTintsShades);
-        EventAggregator.GetService(Event.DeleteSavedColor).Unsubscribe(RenderSavedColorsAsync);
+        EventAggregator.GetService(Event.DeleteSavedColor).Unsubscribe(HandleDeleteSavedColorAsync);
         EventAggregator.GetService(Event.DeleteAllSavedColors).Unsubscribe(RenderSavedColorsAsync);
         EventAggregator.GetService(Event.SetSelectedColor).Unsubscribe(HandleSetSelectedColorAsync);
         EventAggregator.GetService(Event.SetActiveColorTool).Unsubscribe(HandleActiveColorToolAsync);

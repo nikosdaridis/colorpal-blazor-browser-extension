@@ -84,7 +84,7 @@
     /// </summary>
     private string GetClass()
     {
-        string baseClass = "aspect-square relative flex justify-center items-center cursor-pointer transition-all duration-200 hover:scale-[1.1] hover:ring-[var(--primary-color)]";
+        string baseClass = "aspect-square relative flex justify-center items-center cursor-pointer transition-all duration-200 hover:scale-[1.1] hover:ring-[var(--primary-color)] focus-visible:outline-offset-3";
         string shapeClass = IsSelected ? "rounded-xl" : "rounded-md";
         string ringClass = IsSelected
             ? "ring-2 ring-[var(--selected-color)]"

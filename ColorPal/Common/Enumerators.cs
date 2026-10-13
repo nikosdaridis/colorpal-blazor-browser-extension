@@ -130,6 +130,9 @@ public enum JsFuncs
     [Value("setGridColumns")]
     SetGridColumns,
 
+    [Value("restoreLostFocus")]
+    RestoreLostFocus,
+
     [Value("activateEyeDropper")]
     ActivateEyeDropper,
 
