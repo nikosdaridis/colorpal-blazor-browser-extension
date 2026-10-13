@@ -63,6 +63,7 @@
     private bool _isSelectedColorSaved;
     private (bool Show, string Selected) _colorName = (false, string.Empty);
     private Debouncer? _colorPickerDebouncer;
+    private string? _lostFocusTargetSelector;
 
 
     /// <summary>
@@ -93,6 +94,20 @@
             await StateService.DecompressParseAndCacheColorNamesAsync();
             _colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFuncs.HexToRgb.Value(), _selectedHEXColor));
         }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (JSRuntime is null || _lostFocusTargetSelector is null)
+        {
+            return;
+        }
+
+        string lostFocusTargetSelector = _lostFocusTargetSelector;
+        _lostFocusTargetSelector = null;
+        await JSRuntime.InvokeVoidAsync(JsFuncs.RestoreLostFocus.Value(), lostFocusTargetSelector);
     }
 
     /// <summary>
@@ -194,6 +209,7 @@
 
         savedColors = [.. savedColors, hexColor];
         _isSelectedColorSaved = true;
+        _lostFocusTargetSelector = "#colorPicker";
         await LocalStorageService.SetKeyAsync(StorageKey.SavedColorsArray, savedColors);
         await EventAggregator.GetService(Event.SaveColor).PublishAsync(hexColor);
 

@@ -84,8 +84,12 @@ function setGridColumns(elementId: string, columns: string): void {
     gridElement.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
 }
 
+function isFocusLost(): boolean {
+    return document.activeElement === null || document.activeElement === document.body;
+}
+
 function restoreLostFocus(selector: string): void {
-    if (document.activeElement !== null && document.activeElement !== document.body) {
+    if (!isFocusLost()) {
         return;
     }
 
@@ -94,6 +98,7 @@ function restoreLostFocus(selector: string): void {
 
 // Activates eye dropper and returns hex color
 function activateEyeDropper(): Promise<string | null> {
+    const focusedElement = document.activeElement;
     document.body.style.display = "none";
 
     return new Promise((resolve) => {
@@ -107,6 +112,10 @@ function activateEyeDropper(): Promise<string | null> {
                 resolve(null);
             } finally {
                 document.body.style.display = "block";
+
+                if (isFocusLost() && focusedElement instanceof HTMLElement) {
+                    focusedElement.focus();
+                }
             }
         }, 100);
     });
