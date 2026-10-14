@@ -7,7 +7,7 @@
         <h2 class="text-xl font-bold">Settings</h2>
         <TransparentRoundButton IconPath="Icons\arrow.svg"
                                 AriaLabel="Back"
-                                HandleClick=@(() => NavigationManager?.NavigateTo("/")) />
+                                HandleClick=NavigateBackToHome />
     </div>
 
     <div class="space-y-4">
@@ -74,4 +74,7 @@
 
         _manifestVersion = await JSRuntime.InvokeAsync<string>(JsFuncs.GetManifestVersionAsync.Value());
     }
+
+    private void NavigateBackToHome() =>
+        NavigationManager?.NavigateTo("/", new NavigationOptions { HistoryEntryState = nameof(Settings) });
 }

@@ -19,6 +19,7 @@
 
         <RoundButton IconPath="Icons\settings.svg"
                      IconThemeFilter=false
+                     Id="settingsButton"
                      AriaLabel="Settings"
                      HandleClick=@(() => NavigationManager?.NavigateTo("/settings")) />
     </div>
@@ -83,6 +84,11 @@
         EventAggregator.GetService(Event.SetSelectedColor).Subscribe(SetSelectedColorAsync);
         EventAggregator.GetService(Event.DeleteSavedColor).Subscribe(RenderSelectedColorAsync);
         EventAggregator.GetService(Event.DeleteAllSavedColors).Subscribe(RenderSelectedColorAsync);
+
+        if (NavigationManager?.HistoryEntryState == nameof(Pages.Settings))
+        {
+            _lostFocusTargetSelector = "#settingsButton";
+        }
 
         _selectedHEXColor = await LocalStorageService.GetKeyAsync<string>(StorageKey.SelectedHexColor) ?? "#000000";
         _isSelectedColorSaved = (await IsColorSavedAsync(_selectedHEXColor)).IsSaved;
