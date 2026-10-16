@@ -262,36 +262,33 @@ function downloadCsv(dataString: string, fileName: string): void {
 
 // Handles colors move tool listeners
 function handleColorsMove(): void {
-    const colors = document.querySelectorAll<HTMLElement>("[id*='colorRectangle']");
+    const colorsGrid = document.getElementById("colorsGrid");
 
-    colors.forEach(addMoveColorsListeners);
-}
-
-// Adds colors move tool listeners
-function addMoveColorsListeners(draggable: HTMLElement) {
-    draggable.addEventListener("dragstart", onDragStart);
-    draggable.addEventListener("dragend", onDragEnd);
-    draggable.addEventListener("dragover", onDragOver);
-    draggable.addEventListener("dragenter", onDragEnter);
-    draggable.addEventListener("dragleave", onDragLeave);
+    colorsGrid?.addEventListener("dragstart", onDragStart);
+    colorsGrid?.addEventListener("dragend", onDragEnd);
+    colorsGrid?.addEventListener("dragover", onDragOver);
+    colorsGrid?.addEventListener("dragenter", onDragEnter);
+    colorsGrid?.addEventListener("dragleave", onDragLeave);
 }
 
 // Removes colors move tool listeners
 function removeMoveColorsListeners() {
-    const colors = document.querySelectorAll<HTMLElement>("[id*='colorRectangle']");
+    const colorsGrid = document.getElementById("colorsGrid");
 
-    colors.forEach(color => {
-        color.removeEventListener("dragstart", onDragStart);
-        color.removeEventListener("dragend", onDragEnd);
-        color.removeEventListener("dragover", onDragOver);
-        color.removeEventListener("dragenter", onDragEnter);
-        color.removeEventListener("dragleave", onDragLeave);
-    });
+    colorsGrid?.removeEventListener("dragstart", onDragStart);
+    colorsGrid?.removeEventListener("dragend", onDragEnd);
+    colorsGrid?.removeEventListener("dragover", onDragOver);
+    colorsGrid?.removeEventListener("dragenter", onDragEnter);
+    colorsGrid?.removeEventListener("dragleave", onDragLeave);
 };
 
+function findColorRectangle(event: Event): HTMLElement | null {
+    return event.target instanceof Element ? event.target.closest<HTMLElement>("[data-color]") : null;
+}
+
 function onDragStart(event: Event) {
-    draggingElement = event.currentTarget as HTMLElement;
-    draggingElement.classList.add("dragging");
+    draggingElement = findColorRectangle(event);
+    draggingElement?.classList.add("dragging");
 }
 
 function onDragEnd(event: Event) {
@@ -303,8 +300,14 @@ function onDragEnd(event: Event) {
 }
 
 function onDragOver(event: Event) {
+    const colorRectangle = findColorRectangle(event);
+
+    if (colorRectangle === null) {
+        return;
+    }
+
     event.preventDefault();
-    replacingElement = event.currentTarget as HTMLElement;
+    replacingElement = colorRectangle;
     replacingElement.classList.add("replacing");
 }
 
@@ -313,9 +316,14 @@ function onDragEnter() {
 }
 
 function onDragLeave(event: Event) {
-    const draggable = event.currentTarget as HTMLElement;
+    const colorRectangle = findColorRectangle(event);
+
+    if (colorRectangle === null) {
+        return;
+    }
+
     mouseOverColor = false;
-    draggable.classList.remove("replacing");
+    colorRectangle.classList.remove("replacing");
 }
 
 // Swaps saved colors, saves to local storage and renders colors grid
