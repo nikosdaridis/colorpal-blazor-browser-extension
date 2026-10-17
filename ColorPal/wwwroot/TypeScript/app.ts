@@ -269,6 +269,7 @@ function handleColorsMove(): void {
     colorsGrid?.addEventListener("dragover", onDragOver);
     colorsGrid?.addEventListener("dragenter", onDragEnter);
     colorsGrid?.addEventListener("dragleave", onDragLeave);
+    colorsGrid?.addEventListener("drop", onDrop);
 }
 
 // Removes colors move tool listeners
@@ -280,6 +281,7 @@ function removeMoveColorsListeners() {
     colorsGrid?.removeEventListener("dragover", onDragOver);
     colorsGrid?.removeEventListener("dragenter", onDragEnter);
     colorsGrid?.removeEventListener("dragleave", onDragLeave);
+    colorsGrid?.removeEventListener("drop", onDrop);
 };
 
 function findColorRectangle(event: Event): HTMLElement | null {
@@ -291,12 +293,11 @@ function onDragStart(event: Event) {
     draggingElement?.classList.add("dragging");
 }
 
-function onDragEnd(event: Event) {
-    if (draggingElement && replacingElement && draggingElement.dataset.color !== replacingElement.dataset.color)
-        swapColors(draggingElement, replacingElement);
-
+function onDragEnd() {
     draggingElement?.classList.remove("dragging");
     replacingElement?.classList.remove("replacing");
+    draggingElement = null;
+    replacingElement = null;
 }
 
 function onDragOver(event: Event) {
@@ -311,8 +312,12 @@ function onDragOver(event: Event) {
     replacingElement.classList.add("replacing");
 }
 
-function onDragEnter() {
+function onDragEnter(event: Event) {
     mouseOverColor = true;
+
+    if (findColorRectangle(event) !== null) {
+        event.preventDefault();
+    }
 }
 
 function onDragLeave(event: Event) {
@@ -324,6 +329,20 @@ function onDragLeave(event: Event) {
 
     mouseOverColor = false;
     colorRectangle.classList.remove("replacing");
+}
+
+function onDrop(event: Event) {
+    const colorRectangle = findColorRectangle(event);
+
+    if (colorRectangle === null || draggingElement === null) {
+        return;
+    }
+
+    event.preventDefault();
+
+    if (draggingElement.dataset.color !== colorRectangle.dataset.color) {
+        swapColors(draggingElement, colorRectangle);
+    }
 }
 
 // Swaps saved colors, saves to local storage and renders colors grid

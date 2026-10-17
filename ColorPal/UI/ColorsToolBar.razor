@@ -189,6 +189,11 @@
         if (EventAggregator is null)
             return;
 
+        if (_activeColorTool == ColorToolType.Move.Value() && JSRuntime is not null)
+        {
+            await JSRuntime.InvokeVoidAsync(JsFuncs.RemoveMoveColorsListeners.Value());
+        }
+
         _activeColorTool = string.Empty;
         await EventAggregator.GetService(Event.SetActiveColorTool).PublishAsync(_activeColorTool);
 
