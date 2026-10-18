@@ -118,6 +118,12 @@ public enum JsFuncs
     [Value("getManifestVersionAsync")]
     GetManifestVersionAsync,
 
+    [Value("getLocalStorageItem")]
+    GetLocalStorageItem,
+
+    [Value("setLocalStorageItem")]
+    SetLocalStorageItem,
+
     [Value("openExternalUrl")]
     OpenExternalUrl,
 

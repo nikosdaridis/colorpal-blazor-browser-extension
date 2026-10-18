@@ -1,4 +1,3 @@
-using Blazored.LocalStorage;
 using ColorPal.Common;
 using ColorPal.Common.Models;
 using Microsoft.JSInterop;
@@ -7,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ColorPal.Services;
 
-public sealed partial class LocalStorageService(ILocalStorageService LocalStorageService, IJSRuntime JSRuntime, ILogger<LocalStorageService> logger)
+public sealed partial class LocalStorageService(IBrowserStorage browserStorage, IJSRuntime JSRuntime, ILogger<LocalStorageService> logger)
 {
     [GeneratedRegex("^#[\\dabcdef]{6}$", RegexOptions.IgnoreCase)]
     private static partial Regex HexColorValidationRegex();
@@ -16,13 +15,13 @@ public sealed partial class LocalStorageService(ILocalStorageService LocalStorag
     /// Gets localstorage value for enum key
     /// </summary>
     public async Task<T?> GetKeyAsync<T>(StorageKey key) =>
-        await LocalStorageService.GetItemAsync<T>(key.Value());
+        await browserStorage.GetItemAsync<T>(key.Value());
 
     /// <summary>
     /// Sets localstorage value for enum key
     /// </summary>
     public async Task SetKeyAsync<T>(StorageKey key, T value) =>
-        await LocalStorageService.SetItemAsync(key.Value(), value);
+        await browserStorage.SetItemAsync(key.Value(), value);
 
     /// <summary>
     /// Validates every stored setting and writes back the corrected values.

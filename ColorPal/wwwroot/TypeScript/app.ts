@@ -44,6 +44,14 @@ async function getManifestVersionAsync(): Promise<string> {
     return manifest.version;
 }
 
+function getLocalStorageItem(key: string): string | null {
+    return localStorage.getItem(key);
+}
+
+function setLocalStorageItem(key: string, value: string): void {
+    localStorage.setItem(key, value);
+}
+
 // Opens external URL in new tab, chrome.tabs gives the tab no window.opener into the privileged popup
 async function openExternalUrl(url: string): Promise<void> {
     if (globalThis.chrome?.tabs !== undefined) {

@@ -1,4 +1,3 @@
-using Blazored.LocalStorage;
 using ColorPal.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -14,7 +13,7 @@ public sealed class Program
         builder.RootComponents.Add<HeadOutlet>("head::after");
 
         builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-        builder.Services.AddBlazoredLocalStorageAsSingleton();
+        builder.Services.AddSingleton<IBrowserStorage, BrowserStorage>();
         builder.Services.AddSingleton<EventAggregator<string>>();
         builder.Services.AddSingleton<LocalStorageService>();
         builder.Services.AddSingleton<StateService>();
