@@ -5,7 +5,7 @@ const path = require("path");
 (async () => {
     try {
         const files = await glob("./wwwroot/JavaScript/**/*.js");
-        const filesToSkip = ["uglify.js", "domToImage.js"];
+        const filesToSkip = ["uglify.js"];
 
         files.forEach(file => {
             const fileName = path.basename(file);

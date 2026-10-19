@@ -1,5 +1,3 @@
-declare const domtoimage: any;
-
 var stateServiceReference: any;
 var colorsGridComponent: any;
 var draggingElement: HTMLElement | null = null;
@@ -164,93 +162,101 @@ async function downloadPng(savedColors: string[], colorsPerLine: number, showCol
 
     const cardWidth = 200;
     const cardHeight = 250;
-    const columns = savedColors.length < 3 ? 3 : Math.min(colorsPerLine, savedColors.length);
+    const columns = Math.min(colorsPerLine, savedColors.length);
 
-    const colorsContainer = document.createElement("div");
-    colorsContainer.append(await drawColors());
-    const node = document.body.appendChild(colorsContainer);
+    try {
+        const canvas = await drawColors();
+        const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
 
-    domtoimage
-        .toBlob(node)
-        .then((blob: Blob) => {
-            const blobUrl = URL.createObjectURL(blob);
-            const link = window.document.createElement("a");
-            link.href = blobUrl;
-            link.download = "ColorPal-Palette.png";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        })
-        .catch()
-        .finally(() => node.remove());
-
-    async function drawColors(): Promise<HTMLElement> {
-        const colorsContainer = document.createElement("div");
-        colorsContainer.style.display = "grid";
-        colorsContainer.style.gridTemplateColumns = `repeat(${colorsPerLine}, 1fr)`;
-
-        const colorRectTemplate = document.createElement("div");
-        colorRectTemplate.style.display = "grid";
-        colorRectTemplate.style.gridTemplateRows = "1fr";
-        colorRectTemplate.style.justifyItems = "center";
-        colorRectTemplate.style.alignItems = "end";
-        colorRectTemplate.style.width = `${cardWidth}px`;
-        colorRectTemplate.style.height = `${cardHeight}px`;
-        colorRectTemplate.style.color = "white";
-        colorRectTemplate.style.textShadow = "0px 0px 4px black";
-
-        const nameTextTemplate = document.createElement("h1");
-        nameTextTemplate.style.whiteSpace = "nowrap";
-
-        const colorsTextTemplate = document.createElement("h2");
-        colorsTextTemplate.style.display = "grid";
-        colorsTextTemplate.style.marginTop = "15px";
-        colorsTextTemplate.style.fontSize = "16px";
-        colorsTextTemplate.style.lineHeight = "22px";
-        colorsTextTemplate.style.whiteSpace = "pre";
-
-        const indexTextTemplate = document.createElement("h2");
-        indexTextTemplate.style.marginTop = "5px";
-        indexTextTemplate.style.fontSize = "12px";
-
-        let index = 1;
-        for (const color of savedColors) {
-            const colorRect = colorRectTemplate.cloneNode(false) as HTMLElement;
-            colorRect.style.backgroundColor = color;
-
-            const rgbColor = hexToRgb(color);
-
-            if (showColorNames) {
-                const nameText = nameTextTemplate.cloneNode(false) as HTMLElement;
-                nameText.textContent = await findClosestColorName(rgbColor) as string;
-
-                const nameLength = nameText.textContent.length;
-                const fontSizeThresholds: [number, string][] = [[33, "10px"], [30, "11px"], [25, "12px"], [20, "13px"], [15, "15px"], [10, "16px"]];
-                nameText.style.fontSize = fontSizeThresholds.find(([threshold]) => nameLength > threshold)?.[1] ?? "18px";
-
-                colorRect.appendChild(nameText);
-            }
-
-            const colorsText = colorsTextTemplate.cloneNode(false) as HTMLElement;
-
-            colorsText.textContent += `${addHexCharacter ? color : color.slice(1)}\r\n`;
-            colorsText.textContent += `${hexToRgb(color, "string")}\r\n`;
-            colorsText.textContent += `${rgbToHsl(rgbColor, "string")}\r\n`;
-            colorsText.textContent += `${rgbToHsv(rgbColor, "string")}`;
-
-            const indexText = indexTextTemplate.cloneNode(false) as HTMLElement;
-            indexText.textContent = String(index++);
-
-            colorRect.appendChild(colorsText);
-            colorRect.appendChild(indexText);
-            colorsContainer.appendChild(colorRect);
+        if (blob === null) {
+            throw new Error("The canvas could not be encoded as a PNG.");
         }
 
-        return colorsContainer;
+        const blobUrl = URL.createObjectURL(blob);
+        const link = window.document.createElement("a");
+        link.href = blobUrl;
+        link.download = "ColorPal-Palette.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } catch (error) {
+        console.error("Exporting the PNG failed.", error);
+    }
+
+    async function drawColors(): Promise<HTMLCanvasElement> {
+        const fontFamily = "Poppins, sans-serif";
+        const lineHeightRatio = 1.5;
+        const nameFontSizeThresholds: [number, number][] = [[33, 10], [30, 11], [25, 12], [20, 13], [15, 15], [10, 16]];
+        const defaultNameFontSize = 18;
+        const codesFontSize = 16;
+        const codesLineHeight = 22;
+        const codesMarginTop = 15;
+        const indexFontSize = 12;
+        const indexLineHeight = indexFontSize * lineHeightRatio;
+        const indexMarginTop = 5;
+        const indexLineTop = cardHeight - indexLineHeight;
+
+        await document.fonts.load(`${codesFontSize}px ${fontFamily}`);
+
+        const canvas = document.createElement("canvas");
+        canvas.width = columns * cardWidth;
+        canvas.height = Math.ceil(savedColors.length / columns) * cardHeight;
+
+        const context = canvas.getContext("2d");
+
+        if (context === null) {
+            throw new Error("The canvas has no 2D context.");
+        }
+
+        const fillLine = (text: string, x: number, lineTop: number, lineHeight: number): void => {
+            const { fontBoundingBoxAscent, fontBoundingBoxDescent } = context.measureText(text);
+            const halfLeading = Math.floor((lineHeight - fontBoundingBoxAscent - fontBoundingBoxDescent) / 2);
+            context.fillText(text, x, lineTop + halfLeading + fontBoundingBoxAscent);
+        };
+
+        for (const [index, color] of savedColors.entries()) {
+            const cardLeft = (index % columns) * cardWidth;
+            const cardTop = Math.floor(index / columns) * cardHeight;
+            const cardCenter = cardLeft + cardWidth / 2;
+            const rgbColor = hexToRgb(color);
+            const colorCodes = [addHexCharacter ? color : color.slice(1), hexToRgb(color, "string"), rgbToHsl(rgbColor, "string"), rgbToHsv(rgbColor, "string")];
+            const codesLineTop = indexLineTop - indexMarginTop - colorCodes.length * codesLineHeight;
+
+            context.fillStyle = color;
+            context.fillRect(cardLeft, cardTop, cardWidth, cardHeight);
+
+            context.save();
+            context.fillStyle = "white";
+            context.shadowColor = "black";
+            context.shadowBlur = 4;
+
+            if (showColorNames) {
+                const name = await findClosestColorName(rgbColor);
+                const nameFontSize = nameFontSizeThresholds.find(([threshold]) => name.length > threshold)?.[1] ?? defaultNameFontSize;
+                const nameLineHeight = nameFontSize * lineHeightRatio;
+
+                context.font = `${nameFontSize}px ${fontFamily}`;
+                context.textAlign = "center";
+                fillLine(name, cardCenter, cardTop + codesLineTop - codesMarginTop - nameLineHeight, nameLineHeight);
+            }
+
+            context.font = `${codesFontSize}px ${fontFamily}`;
+            context.textAlign = "left";
+            const codesWidth = Math.max(...colorCodes.map((colorCode) => context.measureText(colorCode).width));
+            colorCodes.forEach((colorCode, line) => fillLine(colorCode, cardCenter - codesWidth / 2, cardTop + codesLineTop + line * codesLineHeight, codesLineHeight));
+
+            context.font = `${indexFontSize}px ${fontFamily}`;
+            context.textAlign = "center";
+            fillLine(String(index + 1), cardCenter, cardTop + indexLineTop, indexLineHeight);
+
+            context.restore();
+        }
+
+        return canvas;
 
         async function findClosestColorName(rgb: ColorRGB): Promise<string> {
             try {
-                return await stateServiceReference?.invokeMethodAsync("FindClosestRoundedColorName", rgb) as string;
+                return await stateServiceReference?.invokeMethodAsync("FindClosestRoundedColorName", rgb) ?? "";
             } catch {
                 return "";
             }
