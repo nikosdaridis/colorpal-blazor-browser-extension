@@ -48,8 +48,6 @@
 
 		<Exec Command="powershell -Command &quot;(gc '$(PublishDir)wwwroot\framework\blazor.webassembly.js') -replace '_framework', 'framework' | sc '$(PublishDir)wwwroot\framework\blazor.webassembly.js'&quot;" />
 
-		<Exec Command="powershell -Command &quot;(gc '$(PublishDir)wwwroot\framework\blazor.webassembly.js').replace('e.put(n,new Response(r,{headers:{\&quot;content-type\&quot;:a.headers.get(\&quot;content-type\&quot;)||\&quot;\&quot;,\&quot;content-length\&quot;:(u||a.headers.get(\&quot;content-length\&quot;)||\&quot;\&quot;).toString()}}))', 'function(){if(n.startsWith(\&quot;chrome-extension\&quot;)){}else{e.put(n,new Response(r,{headers:{\&quot;content-type\&quot;:a.headers.get(\&quot;content-type\&quot;)||\&quot;\&quot;,\&quot;content-length\&quot;:(u||a.headers.get(\&quot;content-length\&quot;)||\&quot;\&quot;).toString()}}))}}()') | sc '$(PublishDir)wwwroot\framework\blazor.webassembly.js'&quot;" />
-
 		<Exec Command="powershell -Command &quot;(gc '$(PublishDir)wwwroot\index.html') -replace '_framework', 'framework' | sc '$(PublishDir)wwwroot\index.html'&quot;" />
 	</Target>
 
@@ -75,7 +73,7 @@
 			<Output TaskParameter="Lines" PropertyName="Version" />
 		</ReadLinesFromFile>
 
-		<Exec Command="powershell Compress-Archive -Path '$(PublishDir)wwwroot\*' -DestinationPath '$(PublishDir)colorpal_$(Version).zip'" />
+		<Exec Command="powershell Compress-Archive -Path '$(PublishDir)wwwroot\*' -DestinationPath '$(PublishDir)colorpal_$(Version).zip' -Force" />
 
 		<Delete Files="$(VersionOutputFile)" />
 	</Target>
