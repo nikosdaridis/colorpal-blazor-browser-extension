@@ -8,7 +8,7 @@ namespace ColorPal.Services;
 
 public sealed partial class LocalStorageService(IBrowserStorage browserStorage, IJSRuntime JSRuntime, ILogger<LocalStorageService> logger)
 {
-    [GeneratedRegex("^#[\\dabcdef]{6}$", RegexOptions.IgnoreCase)]
+    [GeneratedRegex("^#[0-9abcdef]{6}\\z", RegexOptions.IgnoreCase)]
     private static partial Regex HexColorValidationRegex();
 
     /// <summary>
@@ -57,7 +57,7 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
 
         // ColorCodeFormat
         string? storedColorCodeFormat = await GetKeyAsync<string>(StorageKey.ColorCodeFormat);
-        if (!EnumExtensions.TryParse(storedColorCodeFormat, out ColorCodeFormat codeFormatEnum))
+        if (!EnumExtensions.TryParse(storedColorCodeFormat, out ColorCodeFormat codeFormatEnum) || codeFormatEnum is ColorCodeFormat.None)
         {
             codeFormatEnum = ColorCodeFormat.HEX;
         }
