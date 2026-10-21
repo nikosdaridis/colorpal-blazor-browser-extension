@@ -1,40 +1,43 @@
 ﻿<div class="flex items-center justify-between">
     <h3 class="font-semibold">@Label</h3>
 
-    <button class="theme-toggle relative right-[30px] inline-flex scale-[0.2] cursor-pointer items-center justify-end"
-            aria-label="Dark theme"
-            aria-pressed=@(_theme == Theme.Dark.Value() ? "true" : "false")
-            @onclick="ToggleThemeAsync">
+    @if (_theme is not null)
+    {
+        <button class="theme-toggle relative right-[30px] inline-flex scale-[0.2] cursor-pointer items-center justify-end"
+                aria-label="Dark theme"
+                aria-pressed=@(_theme == Theme.Dark.Value() ? "true" : "false")
+                @onclick="ToggleThemeAsync">
 
-        <div id="themeOption"
-             class="theme-toggle__track @_theme"
-             @ref="_button">
+            <div id="themeOption"
+                 class="theme-toggle__track @_theme"
+                 @ref="_button">
 
-            <div id="themeOptionWrapper">
-                <div id="circle" />
-                <div id="stars">
-                    <div class="star" />
-                    <div class="star" />
-                    <div class="star" />
-                </div>
-                <div>
-                    <div class="cloud">
-                        <div class="cloudElement" />
-                        <div class="cloudElement" />
+                <div id="themeOptionWrapper">
+                    <div id="circle" />
+                    <div id="stars">
+                        <div class="star" />
+                        <div class="star" />
+                        <div class="star" />
                     </div>
-                    <div class="cloud">
-                        <div class="cloudElement" />
-                        <div class="cloudElement" />
-                    </div>
-                    <div class="cloud">
-                        <div class="cloudElement" />
-                        <div class="cloudElement" />
-                        <div class="cloudElement" />
+                    <div>
+                        <div class="cloud">
+                            <div class="cloudElement" />
+                            <div class="cloudElement" />
+                        </div>
+                        <div class="cloud">
+                            <div class="cloudElement" />
+                            <div class="cloudElement" />
+                        </div>
+                        <div class="cloud">
+                            <div class="cloudElement" />
+                            <div class="cloudElement" />
+                            <div class="cloudElement" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </button>
+        </button>
+    }
 </div>
 
 @code {

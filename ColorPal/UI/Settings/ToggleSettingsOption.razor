@@ -1,11 +1,14 @@
 ﻿<div class="flex items-center justify-between">
     <h3 class="font-semibold">@Label</h3>
 
-    <button class="toggle-option cursor-pointer"
-            active=@(_isActive.ToString().ToLower())
-            aria-label=@Label
-            aria-pressed=@(_isActive.ToString().ToLower())
-            @onclick=ToggleButtonAsync></button>
+    @if (_isLoaded)
+    {
+        <button class="toggle-option cursor-pointer"
+                active=@(_isActive.ToString().ToLower())
+                aria-label=@Label
+                aria-pressed=@(_isActive.ToString().ToLower())
+                @onclick=ToggleButtonAsync></button>
+    }
 </div>
 
 @code {
@@ -22,6 +25,7 @@
     public StorageKey StorageKey { get; set; }
 
     private bool _isActive = false;
+    private bool _isLoaded = false;
 
     /// <summary>
     /// Gets local storage active state
@@ -36,6 +40,7 @@
         string? localStorageIsActive = await LocalStorageService.GetKeyAsync<string>(StorageKey);
 
         _isActive = localStorageIsActive == "true";
+        _isLoaded = true;
     }
 
     /// <summary>
