@@ -267,6 +267,8 @@ class ColorFilter {
 }
 
 class FilterSolver {
+    static readonly CSS_STEPS_PER_UNIT = 10;
+
     colorFilter: ColorFilter;
     colorHSL: ColorHSL;
     reusedColorFilter: ColorFilter;
@@ -280,8 +282,9 @@ class FilterSolver {
     solve(): { filter: string, loss: number } {
         const wideResult = this.solveWide();
         const narrowResult = this.solveNarrow(wideResult);
+        const roundedResult = this.solveRounded(narrowResult);
 
-        return { filter: this.filterCSS(narrowResult.values), loss: narrowResult.loss };
+        return { filter: this.filterCSS(roundedResult.values), loss: roundedResult.loss };
     }
 
     solveWide(): { values: number[]; loss: number } {
@@ -313,12 +316,37 @@ class FilterSolver {
         let attempt = 0;
 
         while (best.loss > 0.05 && attempt < 50) {
-            const result = this.spsa(A, a, c, best.values, 500);
+            const result = this.spsa(A, a, c, best.values.slice(), 500);
 
             if (result.loss < best.loss)
                 best = result;
 
             attempt++;
+        }
+
+        return best;
+    }
+
+    solveRounded(narrow: { values: number[]; loss: number }): { values: number[]; loss: number } {
+        const values = narrow.values.map((value, index) => this.roundToCss(value, index));
+        let best: { values: number[]; loss: number } = { values, loss: this.loss(values) };
+        let improved = true;
+
+        while (improved) {
+            improved = false;
+
+            for (let index = 0; index < best.values.length; index++) {
+                for (const direction of [1, -1]) {
+                    const candidate = best.values.slice();
+                    candidate[index] = this.roundToCss(this.fix(candidate[index] + direction / this.cssStepsPerValue(index), index), index);
+                    const loss = this.loss(candidate);
+
+                    if (loss < best.loss) {
+                        best = { values: candidate, loss };
+                        improved = true;
+                    }
+                }
+            }
         }
 
         return best;
@@ -404,8 +432,16 @@ class FilterSolver {
         );
     }
 
+    cssStepsPerValue(index: number): number {
+        return index === 3 ? FilterSolver.CSS_STEPS_PER_UNIT * 3.6 : FilterSolver.CSS_STEPS_PER_UNIT;
+    }
+
+    roundToCss(value: number, index: number): number {
+        return Math.round(value * this.cssStepsPerValue(index)) / this.cssStepsPerValue(index);
+    }
+
     filterCSS(filters: number[]): string {
-        const fmt = (idx: number, multiplier: number = 1): number => Math.round(filters[idx] * multiplier);
-        return `filter: invert(${fmt(0)}%) sepia(${fmt(1)}%) saturate(${fmt(2)}%) hue-rotate(${fmt(3, 3.6)}deg) brightness(${fmt(4)}%) contrast(${fmt(5)}%);`;
+        const fmt = (idx: number): number => Math.round(filters[idx] * this.cssStepsPerValue(idx)) / FilterSolver.CSS_STEPS_PER_UNIT;
+        return `filter: invert(${fmt(0)}%) sepia(${fmt(1)}%) saturate(${fmt(2)}%) hue-rotate(${fmt(3)}deg) brightness(${fmt(4)}%) contrast(${fmt(5)}%);`;
     }
 }
