@@ -132,7 +132,7 @@
             await StateService.DecompressParseAndCacheColorNamesAsync();
 
             StringBuilder csvBuilder = new();
-            csvBuilder.AppendLine("Name,#HEX,HEX,RGB,HSL,HSV,Filter,Prepend Black Filter,Filter Loss");
+            csvBuilder.AppendLine("Name,#HEX,HEX,RGB,HSL,HSV,Filter,Prepend Black Filter");
 
             foreach (string hexColor in savedColors)
             {
@@ -152,8 +152,7 @@
                     hslText,
                     hsvText,
                     cssFilter.Filter ?? string.Empty,
-                    cssFilter.Filter?.Replace("filter:", "filter: brightness(0) saturate(100%)") ?? string.Empty,
-                    cssFilter.Loss is not null ? $"{cssFilter.Loss:0.##}%" : string.Empty
+                    cssFilter.Filter?.Replace("filter:", "filter: brightness(0) saturate(100%)") ?? string.Empty
                 ]);
             }
 

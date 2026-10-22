@@ -1,6 +1,6 @@
 ﻿@implements IDisposable
 
-<button class="@GetTabHighlightClass() @GetTextClass() inline-flex cursor-pointer items-center justify-center rounded-md px-3 py-1 font-medium whitespace-nowrap"
+<button class="@GetTabHighlightClass() inline-flex cursor-pointer items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap"
         id=@($"colorCodeTab-{Name}")
         @ref=_button
         @onclick=HandleOnClickAsync>
@@ -58,12 +58,6 @@
     /// </summary>
     private string GetTabHighlightClass() =>
         IsActive ? "bg-[var(--primary-color)] text-[var(--theme-invert-color)] font-semibold" : "hover:text-[var(--theme-invert-color)] transition-colors duration-200";
-
-    /// <summary>
-    /// Gets CSS classes for text size
-    /// </summary>
-    private string GetTextClass() =>
-        IsActive && Name == ColorCodeFormat.Filter.Value() ? "text-[10px]" : "text-sm";
 
     /// <summary>
     /// Unsubscribes from events

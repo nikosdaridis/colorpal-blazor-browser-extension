@@ -148,9 +148,6 @@ public enum JsFuncs
     [Value("copyToClipboard")]
     CopyToClipboard,
 
-    [Value("setElementValueById")]
-    SetElementValueById,
-
     [Value("downloadPng")]
     DownloadPng,
 

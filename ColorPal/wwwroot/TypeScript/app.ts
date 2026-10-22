@@ -145,16 +145,6 @@ async function copyToClipboard(text: string): Promise<void> {
     }
 }
 
-// Sets value of element by id
-function setElementValueById(elementId: string, value: string): void {
-    const element = document.getElementById(elementId);
-    if (!element) {
-        return;
-    }
-
-    element.textContent = value;
-}
-
 // Downloads Png image of saved colors
 async function downloadPng(savedColors: string[], colorsPerLine: number, showColorNames: boolean, addHexCharacter: boolean): Promise<void> {
     if (!savedColors.length)

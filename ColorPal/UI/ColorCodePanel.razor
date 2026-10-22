@@ -114,11 +114,6 @@
         if (_activeColorCodeFormat == ColorCodeFormat.Filter && filter is not null)
         {
             _iconCSSFilter = filter;
-            await JSRuntime.InvokeVoidAsync(JsFuncs.SetElementValueById.Value(), "colorCodeTab-Filter", $"{_iconCSSFilter.Loss:0.#}% Loss");
-        }
-        else
-        {
-            await JSRuntime.InvokeVoidAsync(JsFuncs.SetElementValueById.Value(), "colorCodeTab-Filter", "Filter");
         }
 
         _colorCodeValue = colorCode;
