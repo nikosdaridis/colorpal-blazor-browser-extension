@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<CompressionEnabled>false</CompressionEnabled>
+		<InvariantGlobalization>true</InvariantGlobalization>
 
 		<NpmLastInstall>node_modules/.last-install</NpmLastInstall>
 	</PropertyGroup>
