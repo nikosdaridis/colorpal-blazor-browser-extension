@@ -402,6 +402,7 @@ node_modules
 
 #JavaScript and Tailwind production files
 app.js
+boot.js
 colorConverters.js
 serviceWorker.js
 appTailwind.css

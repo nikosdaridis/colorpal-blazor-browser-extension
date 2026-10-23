@@ -10,7 +10,7 @@
                      HandleClick=HandleEyeDropperClickAsync />
         @if (_colorName.Show && !string.IsNullOrWhiteSpace(_colorName.Selected) && JSRuntime is not null)
         {
-            <button class="cursor-pointer rounded-lg bg-white/50 px-2 py-1 text-center font-semibold text-[11px] shadow-xl backdrop-blur-xl transition-all duration-200 hover:bg-white/75 active:scale-90"
+            <button class="selected-color__name cursor-pointer rounded-lg bg-white/50 px-2 py-1 text-center font-semibold text-[11px] shadow-xl backdrop-blur-xl transition-all duration-200 hover:bg-white/75 active:scale-90"
                     @onclick:stopPropagation
                     @onclick=@(async () => await JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), _colorName.Selected))>
                 @_colorName.Selected

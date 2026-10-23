@@ -19,6 +19,7 @@
 
 :root {
     --primary-color: #ffffff;
+    --dark-primary-color: #09090b;
     --secondary-color: #f4f4f5;
     --text-color: #787881;
     --selected-color: #22bb33;
@@ -34,6 +35,20 @@
     --delete-tool-filter: invert(17%) sepia(94%) saturate(4925%) hue-rotate(337deg) brightness(88%) contrast(97%);
     --focus-ring-color: -webkit-focus-ring-color;
     --focus-ring-outer-color: #ffffff;
+    --popup-width: 300px;
+    --home-min-height: 273px;
+}
+
+html:has(> body.hidden) {
+    min-width: var(--popup-width);
+    min-height: var(--home-min-height);
+    background-color: var(--primary-color);
+}
+
+.boot-snapshot {
+    width: var(--popup-width);
+    background-color: var(--primary-color);
+    color: var(--text-color);
 }
 
 .theme-filter {

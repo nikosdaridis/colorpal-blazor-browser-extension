@@ -20,12 +20,8 @@ function disposeColorsGridComponent(): void {
 
 // Shows body after initialization
 function isInitialized(): void {
+    completeBootView();
     document.querySelector("body")?.classList.remove("hidden");
-}
-
-// Gets client color scheme
-function getClientColorScheme(): "light" | "dark" {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 // Gets dark or light theme filter 
