@@ -175,6 +175,17 @@ function hexToFilter(hex: string): { filter: string, loss: number } {
     return new FilterSolver(colorFilter).solve();
 }
 
+function mulberry32(seed: number): () => number {
+    let state = seed >>> 0;
+
+    return () => {
+        state = (state + 0x6d2b79f5) >>> 0;
+        let mixed = Math.imul(state ^ (state >>> 15), state | 1);
+        mixed ^= mixed + Math.imul(mixed ^ (mixed >>> 7), mixed | 61);
+        return (mixed ^ (mixed >>> 14)) >>> 0;
+    };
+}
+
 class ColorFilter {
     colorRGB: ColorRGB;
 
@@ -268,23 +279,45 @@ class ColorFilter {
 
 class FilterSolver {
     static readonly CSS_STEPS_PER_UNIT = 10;
+    static readonly MAX_SOLVE_ATTEMPTS = 3;
 
     colorFilter: ColorFilter;
     colorHSL: ColorHSL;
     reusedColorFilter: ColorFilter;
+    seed: number;
+    randomBits: () => number;
 
     constructor(colorFilter: ColorFilter) {
         this.colorFilter = colorFilter;
         this.colorHSL = rgbToHsl(colorFilter.colorRGB);
         this.reusedColorFilter = new ColorFilter({ r: 0, g: 0, b: 0 });
+        this.seed = colorFilter.colorRGB.r << 16 | colorFilter.colorRGB.g << 8 | colorFilter.colorRGB.b;
+        this.randomBits = mulberry32(this.seed);
     }
 
     solve(): { filter: string, loss: number } {
+        let best = this.solveOnce();
+        let bestError = this.renderedError(best.values);
+
+        for (let attempt = 1; attempt < FilterSolver.MAX_SOLVE_ATTEMPTS && bestError > 0; attempt++) {
+            this.randomBits = mulberry32(attempt << 24 | this.seed);
+            const result = this.solveOnce();
+            const error = this.renderedError(result.values);
+
+            if (error < bestError || (error === bestError && result.loss < best.loss)) {
+                best = result;
+                bestError = error;
+            }
+        }
+
+        return { filter: this.filterCSS(best.values), loss: best.loss };
+    }
+
+    solveOnce(): { values: number[]; loss: number } {
         const wideResult = this.solveWide();
         const narrowResult = this.solveNarrow(wideResult);
-        const roundedResult = this.solveRounded(narrowResult);
 
-        return { filter: this.filterCSS(roundedResult.values), loss: roundedResult.loss };
+        return this.solveRounded(narrowResult);
     }
 
     solveWide(): { values: number[]; loss: number } {
@@ -364,8 +397,9 @@ class FilterSolver {
 
         for (let k = 0; k < iters; k++) {
             const ck = c / Math.pow(k + 1, gamma);
+            const signBits = this.randomBits();
             for (let i = 0; i < 6; i++) {
-                deltas[i] = Math.random() > 0.5 ? 1 : -1;
+                deltas[i] = (signBits >>> i) & 1 ? 1 : -1;
                 highArgs[i] = values[i] + ck * deltas[i];
                 lowArgs[i] = values[i] - ck * deltas[i];
             }
@@ -430,6 +464,14 @@ class FilterSolver {
             Math.abs(colorHSL.s - this.colorHSL.s) +
             Math.abs(colorHSL.l - this.colorHSL.l)
         );
+    }
+
+    renderedError(values: number[]): number {
+        this.loss(values);
+        const rendered = this.reusedColorFilter.colorRGB;
+        const target = this.colorFilter.colorRGB;
+
+        return Math.max(Math.abs(Math.round(rendered.r) - target.r), Math.abs(Math.round(rendered.g) - target.g), Math.abs(Math.round(rendered.b) - target.b));
     }
 
     cssStepsPerValue(index: number): number {
