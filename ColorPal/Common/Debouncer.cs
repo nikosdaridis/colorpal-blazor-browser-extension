@@ -1,14 +1,14 @@
 namespace ColorPal.Common;
 
-public sealed class Debouncer(TimeSpan delay, Func<Exception, Task> handleExceptionAsync) : IDisposable
+public sealed class Debouncer(Func<Exception, Task> handleExceptionAsync) : IDisposable
 {
     private CancellationTokenSource? _pendingActionCancellation;
 
-    public void Debounce(Func<Task> action)
+    public void Debounce(TimeSpan delay, Func<Task> action)
     {
         CancelPendingAction();
         _pendingActionCancellation = new CancellationTokenSource();
-        _ = RunAfterDelayAsync(action, _pendingActionCancellation.Token);
+        _ = RunAfterDelayAsync(delay, action, _pendingActionCancellation.Token);
     }
 
     public void Dispose() =>
@@ -21,7 +21,7 @@ public sealed class Debouncer(TimeSpan delay, Func<Exception, Task> handleExcept
         _pendingActionCancellation = null;
     }
 
-    private async Task RunAfterDelayAsync(Func<Task> action, CancellationToken cancellationToken)
+    private async Task RunAfterDelayAsync(TimeSpan delay, Func<Task> action, CancellationToken cancellationToken)
     {
         await Task.Delay(delay, cancellationToken)
             .ConfigureAwait(ConfigureAwaitOptions.ContinueOnCapturedContext | ConfigureAwaitOptions.SuppressThrowing);

@@ -77,7 +77,7 @@
         if (JSRuntime is null || LocalStorageService is null || EventAggregator is null || StateService is null)
             return;
 
-        _colorPickerDebouncer = new Debouncer(_colorPickerDebounceDelay, DispatchExceptionAsync);
+        _colorPickerDebouncer = new Debouncer(DispatchExceptionAsync);
 
         EventAggregator.GetService(Event.EyedropperPick).Subscribe(SetSelectedColorAndPublishEventAsync);
         EventAggregator.GetService(Event.EyedropperPick).Subscribe(SaveEyedropperColorAsync);
@@ -242,7 +242,7 @@
         if (e.Value is not string color || string.IsNullOrWhiteSpace(color))
             return;
 
-        _colorPickerDebouncer?.Debounce(() => InvokeAsync(() => SetSelectedColorAndPublishEventAsync(color)));
+        _colorPickerDebouncer?.Debounce(_colorPickerDebounceDelay, () => InvokeAsync(() => SetSelectedColorAndPublishEventAsync(color)));
     }
 
     /// <summary>

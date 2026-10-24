@@ -1,4 +1,5 @@
-﻿@implements IDisposable
+﻿@using System.Diagnostics
+@implements IDisposable
 
 <div class="mt-2 space-y-2">
     <div class="flex items-center space-x-2">
@@ -36,6 +37,8 @@
 
 @code {
     private static readonly TimeSpan _updateColorCodeDebounceDelay = TimeSpan.FromMilliseconds(2);
+    private static readonly TimeSpan _updateFilterDebounceDelay = TimeSpan.FromMilliseconds(20);
+    private static readonly TimeSpan _updateFilterMaxWait = TimeSpan.FromMilliseconds(100);
 
     [Parameter]
     public IJSRuntime? JSRuntime { get; set; }
@@ -50,6 +53,8 @@
     private string _colorCodeValue = string.Empty;
     private CssFilter _iconCSSFilter = new();
     private Debouncer? _updateColorCodeDebouncer;
+    private long _lastColorCodeActivityTimestamp;
+    private long _lastColorCodeUpdateTimestamp;
 
     /// <summary>
     /// Subscribes to events, updates active color code format and value
@@ -61,7 +66,7 @@
         if (LocalStorageService is null || EventAggregator is null)
             return;
 
-        _updateColorCodeDebouncer = new Debouncer(_updateColorCodeDebounceDelay, DispatchExceptionAsync);
+        _updateColorCodeDebouncer = new Debouncer(DispatchExceptionAsync);
 
         EventAggregator.GetService(Event.ColorCodeActiveTab).Subscribe(UpdateActiveColorCodeFormatAsync);
         EventAggregator.GetService(Event.SetSelectedColor).Subscribe(UpdateColorCodeWithDebounceAsync);
@@ -94,7 +99,12 @@
             return Task.CompletedTask;
         }
 
-        _updateColorCodeDebouncer?.Debounce(() => UpdateColorCodeAsync(hexColor));
+        bool isRapidRequest = Stopwatch.GetElapsedTime(_lastColorCodeActivityTimestamp) < _updateFilterDebounceDelay;
+        _lastColorCodeActivityTimestamp = Stopwatch.GetTimestamp();
+
+        bool isFilterUpdateDue = Stopwatch.GetElapsedTime(_lastColorCodeUpdateTimestamp) + _updateFilterDebounceDelay > _updateFilterMaxWait;
+        TimeSpan debounceDelay = _activeColorCodeFormat == ColorCodeFormat.Filter && isRapidRequest && !isFilterUpdateDue ? _updateFilterDebounceDelay : _updateColorCodeDebounceDelay;
+        _updateColorCodeDebouncer?.Debounce(debounceDelay, () => UpdateColorCodeAsync(hexColor));
 
         return Task.CompletedTask;
     }
@@ -117,6 +127,8 @@
         }
 
         _colorCodeValue = colorCode;
+        _lastColorCodeUpdateTimestamp = Stopwatch.GetTimestamp();
+        _lastColorCodeActivityTimestamp = _lastColorCodeUpdateTimestamp;
 
         await InvokeAsync(StateHasChanged);
         _ = JSRuntime.InvokeVoidAsync(JsFuncs.SetColorPickerPosition.Value());
