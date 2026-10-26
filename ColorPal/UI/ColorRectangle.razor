@@ -59,10 +59,9 @@
             return;
         }
 
-        (string colorCodeValue, _) = await LocalStorageService.GetFormattedColorCodeAsync(JSRuntime, HEXColor, ActiveColorCodeFormat);
-
         if (await LocalStorageService.GetKeyAsync<string>(StorageKey.AutoCopyCode) == "true")
         {
+            (string colorCodeValue, _) = await LocalStorageService.GetFormattedColorCodeAsync(JSRuntime, HEXColor, ActiveColorCodeFormat);
             _ = JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), colorCodeValue);
         }
 

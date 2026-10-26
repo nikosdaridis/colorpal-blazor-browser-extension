@@ -21,6 +21,8 @@ interface ColorName {
     rgb: ColorRGB;
 }
 
+let lastSolvedFilter: { hex: string, result: { filter: string, loss: number } } | null = null;
+
 function toHex(num: number): string {
     return Math.round(num).toString(16).padStart(2, "0");
 }
@@ -170,9 +172,12 @@ function normalizeRgb(rgb: ColorRGB) {
 }
 
 function hexToFilter(hex: string): { filter: string, loss: number } {
-    const colorFilter = new ColorFilter(hexToRgb(hex));
+    if (lastSolvedFilter?.hex !== hex) {
+        const colorFilter = new ColorFilter(hexToRgb(hex));
+        lastSolvedFilter = { hex, result: new FilterSolver(colorFilter).solve() };
+    }
 
-    return new FilterSolver(colorFilter).solve();
+    return lastSolvedFilter.result;
 }
 
 function mulberry32(seed: number): () => number {
