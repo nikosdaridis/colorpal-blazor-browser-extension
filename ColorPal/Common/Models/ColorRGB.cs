@@ -1,8 +1,8 @@
 namespace ColorPal.Common.Models;
 
-public sealed class ColorRGB
+public sealed record ColorRGB
 {
-    public int R { get; set; }
-    public int G { get; set; }
-    public int B { get; set; }
+    public int R { get; init; }
+    public int G { get; init; }
+    public int B { get; init; }
 }

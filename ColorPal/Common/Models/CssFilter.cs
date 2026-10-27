@@ -1,6 +1,6 @@
 namespace ColorPal.Common.Models;
 
-public sealed class CssFilter
+public sealed record CssFilter
 {
-    public string? Filter { get; set; }
+    public string? Filter { get; init; }
 }

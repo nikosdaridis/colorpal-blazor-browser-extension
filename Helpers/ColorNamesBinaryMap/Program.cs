@@ -128,20 +128,20 @@ sealed class Program
     }
 }
 
-public sealed class ColorName
+public readonly record struct ColorName
 {
-    public string? Name { get; set; }
+    public string? Name { get; init; }
 
-    public ColorRGB? RGB { get; set; }
+    public ColorRGB? RGB { get; init; }
 }
 
-public sealed class ColorRGB
+public readonly record struct ColorRGB
 {
-    public byte R { get; set; }
+    public byte R { get; init; }
 
-    public byte G { get; set; }
+    public byte G { get; init; }
 
-    public byte B { get; set; }
+    public byte B { get; init; }
 }
 
 public sealed class ColorNamesBinaryMap()
@@ -244,9 +244,9 @@ public sealed class ColorNamesBinaryMap()
                 ColorRGB roundedColor = DecodeColorKey(roundedColorKey);
                 ColorName? closestColor = FindClosestColorEuclideanDistance(roundedColor, colorNames);
 
-                if (closestColor is not null)
+                if (closestColor is ColorName closestNamedColor)
                 {
-                    colorsMap.TryAdd(roundedColorKey, closestColor.Name!);
+                    colorsMap.TryAdd(roundedColorKey, closestNamedColor.Name!);
                     int iteration = Interlocked.Increment(ref currentIteration);
 
                     if (iteration % 1000 == 0)
@@ -270,12 +270,12 @@ public sealed class ColorNamesBinaryMap()
 
             foreach (ColorName colorName in colorNames)
             {
-                if (colorName.RGB is null)
+                if (colorName.RGB is not ColorRGB namedColorRGB)
                 {
                     continue;
                 }
 
-                double similarity = CalculateSimilarity(colorRGB, colorName.RGB);
+                double similarity = CalculateSimilarity(colorRGB, namedColorRGB);
                 if (similarity > highestSimilarity)
                 {
                     closestNamedColor = colorName;

@@ -1,8 +1,8 @@
 namespace ColorPal.Common.Models;
 
-public sealed class ColorHSL
+public sealed record ColorHSL
 {
-    public int H { get; set; }
-    public int S { get; set; }
-    public int L { get; set; }
+    public int H { get; init; }
+    public int S { get; init; }
+    public int L { get; init; }
 }

@@ -124,7 +124,7 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
 
             if (await GetKeyAsync<string>(StorageKey.PrependBlackFilter) == "true")
             {
-                filter.Filter = filter.Filter?.Replace("filter:", "filter: brightness(0) saturate(100%)");
+                filter = filter with { Filter = filter.Filter?.Replace("filter:", "filter: brightness(0) saturate(100%)") };
             }
         }
 
