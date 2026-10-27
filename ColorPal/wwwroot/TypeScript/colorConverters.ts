@@ -336,8 +336,9 @@ class FilterSolver {
             const initial = [50, 20, 3750, 50, 100, 100];
             const result = this.spsa(A, a, c, initial, 1000);
 
-            if (result.loss < best.loss)
+            if (result.loss < best.loss) {
                 best = result;
+            }
 
             attempt++;
         }
@@ -356,8 +357,9 @@ class FilterSolver {
         while (best.loss > 0.05 && attempt < 50) {
             const result = this.spsa(A, a, c, best.values.slice(), 500);
 
-            if (result.loss < best.loss)
+            if (result.loss < best.loss) {
                 best = result;
+            }
 
             attempt++;
         }
@@ -437,10 +439,11 @@ class FilterSolver {
 
 
         if (idx === 3) {
-            if (value > max)
+            if (value > max) {
                 value %= max;
-            else if (value < 0)
+            } else if (value < 0) {
                 value = max + value % max;
+            }
         } else {
             value = Math.max(0, Math.min(max, value));
         }

@@ -35,7 +35,9 @@
         await base.OnInitializedAsync();
 
         if (LocalStorageService is null)
+        {
             return;
+        }
 
         string? localStorageIsActive = await LocalStorageService.GetKeyAsync<string>(StorageKey);
 
@@ -51,11 +53,15 @@
         _isActive = !_isActive;
 
         if (LocalStorageService is null)
+        {
             return;
+        }
 
         await LocalStorageService.SetKeyAsync<string>(StorageKey, _isActive.ToString().ToLower());
 
         if (StorageKey == StorageKey.ShowColorNames && _isActive)
+        {
             _ = StateService?.DecompressParseAndCacheColorNamesAsync();
+        }
     }
 }

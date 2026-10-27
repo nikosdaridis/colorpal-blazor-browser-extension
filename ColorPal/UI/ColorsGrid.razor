@@ -60,7 +60,9 @@
         await base.OnInitializedAsync();
 
         if (JSRuntime is null || LocalStorageService is null || EventAggregator is null)
+        {
             return;
+        }
 
         EventAggregator.GetService(Event.ColorCodeActiveTab).Subscribe(UpdateActiveColorCodeFormatAsync);
         EventAggregator.GetService(Event.ColorsPerLine).Subscribe(HandleColorsPerLineChangeAsync);
@@ -102,7 +104,9 @@
     public async Task RenderSavedColorsAsync(string? input = null)
     {
         if (LocalStorageService is null)
+        {
             return;
+        }
 
         _savedHexColors = await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [];
         StateHasChanged();
@@ -128,10 +132,14 @@
     private async Task UpdateActiveColorCodeFormatAsync(string? activeColorCodeFormat = null)
     {
         if (LocalStorageService is null)
+        {
             return;
+        }
 
         if (string.IsNullOrWhiteSpace(activeColorCodeFormat))
+        {
             activeColorCodeFormat = await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat) ?? ColorCodeFormat.HEX.Value();
+        }
 
         _activeColorCodeFormat = Enum.Parse<ColorCodeFormat>(activeColorCodeFormat ?? ColorCodeFormat.HEX.Value());
         await InvokeAsync(StateHasChanged);
@@ -149,7 +157,9 @@
     private async Task SetGridColumns(string colorsPerLine)
     {
         if (JSRuntime is null)
+        {
             return;
+        }
 
         await JSRuntime.InvokeVoidAsync(JsFuncs.SetGridColumns.Value(), "colorsGrid", colorsPerLine);
     }
@@ -175,10 +185,14 @@
     private async Task HandleActiveColorToolAsync(string activeColorTool)
     {
         if (!EnumExtensions.TryParse(activeColorTool, out _activeColorTool))
+        {
             _activeColorTool = ColorToolType.None;
+        }
 
         if (LocalStorageService is null || EventAggregator is null)
+        {
             return;
+        }
 
         if (_activeColorTool != ColorToolType.TintsShades)
         {
@@ -214,7 +228,9 @@
     public async ValueTask DisposeAsync()
     {
         if (EventAggregator is null)
+        {
             return;
+        }
 
         EventAggregator.GetService(Event.ColorCodeActiveTab).Unsubscribe(UpdateActiveColorCodeFormatAsync);
         EventAggregator.GetService(Event.ColorsPerLine).Unsubscribe(HandleColorsPerLineChangeAsync);

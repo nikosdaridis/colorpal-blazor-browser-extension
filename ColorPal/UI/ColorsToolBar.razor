@@ -51,7 +51,9 @@
         await base.OnInitializedAsync();
 
         if (JSRuntime is null || LocalStorageService is null || EventAggregator is null)
+        {
             return;
+        }
 
         EventAggregator.GetService(Event.EyedropperPick).Subscribe(ResetActiveColorToolAsync);
         EventAggregator.GetService(Event.OpenColorPicker).Subscribe(ResetActiveColorToolAsync);
@@ -67,7 +69,9 @@
     private async Task HandleColorToolClickAsync(ColorToolType tool)
     {
         if (JSRuntime is null || LocalStorageService is null || EventAggregator is null || StateService is null)
+        {
             return;
+        }
 
         ColorToolType previousActiveColorTool = await SetActiveColorToolAsync();
 
@@ -87,7 +91,9 @@
         async Task HandleMoveAsync(ColorToolType previousActiveColorTool)
         {
             if (previousActiveColorTool == ColorToolType.Move)
+            {
                 return;
+            }
 
             await JSRuntime.InvokeVoidAsync(JsFuncs.HandleColorsMove.Value());
         }
@@ -95,7 +101,9 @@
         async Task HandleDeleteAllAsync()
         {
             if ((await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? []).Length == 0)
+            {
                 return;
+            }
 
             if (await JSRuntime.InvokeAsync<bool>("confirm", "Delete all saved colors?"))
             {
@@ -127,7 +135,9 @@
             string[] savedColors = await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [];
 
             if (savedColors.Length == 0)
+            {
                 return;
+            }
 
             await StateService.DecompressParseAndCacheColorNamesAsync();
 
@@ -162,10 +172,14 @@
         async Task<ColorToolType> SetActiveColorToolAsync()
         {
             if (!EnumExtensions.TryParse(_activeColorTool, out previousActiveColorTool))
+            {
                 previousActiveColorTool = ColorToolType.None;
+            }
 
             if (previousActiveColorTool == ColorToolType.Move)
+            {
                 await JSRuntime.InvokeVoidAsync(JsFuncs.RemoveMoveColorsListeners.Value());
+            }
 
             _activeColorTool = tool switch
             {
@@ -186,7 +200,9 @@
     private async Task ResetActiveColorToolAsync(string hexColor)
     {
         if (EventAggregator is null)
+        {
             return;
+        }
 
         if (_activeColorTool == ColorToolType.Move.Value() && JSRuntime is not null)
         {
@@ -214,7 +230,9 @@
     private async Task HandleColorsPerLineChangeAndPublishEventAsync(string? colorsPerLine)
     {
         if (LocalStorageService is null || EventAggregator is null)
+        {
             return;
+        }
 
         _colorsPerLine = colorsPerLine ?? "5";
 
@@ -250,7 +268,9 @@
     public void Dispose()
     {
         if (EventAggregator is null)
+        {
             return;
+        }
 
         EventAggregator.GetService(Event.EyedropperPick).Unsubscribe(ResetActiveColorToolAsync);
         EventAggregator.GetService(Event.OpenColorPicker).Unsubscribe(ResetActiveColorToolAsync);

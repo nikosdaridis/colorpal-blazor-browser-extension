@@ -119,12 +119,16 @@
     private async Task<bool> DeleteSavedColor()
     {
         if (LocalStorageService is null || EventAggregator is null)
+        {
             return false;
+        }
 
         string[] savedColors = await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [];
 
         if (!savedColors.Contains(HEXColor))
+        {
             return false;
+        }
 
         savedColors = [.. savedColors.Where(color => color != HEXColor)];
 

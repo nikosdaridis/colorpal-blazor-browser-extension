@@ -131,8 +131,9 @@ function openColorPicker(elementId: string): void {
 
 // Copies text to clipboard
 async function copyToClipboard(text: string): Promise<void> {
-    if (!document.hasFocus())
+    if (!document.hasFocus()) {
         window.focus();
+    }
 
     try {
         await navigator.clipboard.writeText(text);
@@ -143,8 +144,9 @@ async function copyToClipboard(text: string): Promise<void> {
 
 // Downloads Png image of saved colors
 async function downloadPng(savedColors: string[], colorsPerLine: number, showColorNames: boolean, addHexCharacter: boolean): Promise<void> {
-    if (!savedColors.length)
+    if (!savedColors.length) {
         return;
+    }
 
     const cardWidth = 200;
     const cardHeight = 250;
@@ -350,8 +352,9 @@ function swapColors(drag: HTMLElement, replace: HTMLElement) {
     const savedColors = JSON.parse(localStorage.getItem("colorpal-saved-colors-array") || "[]");
     const [dragIndex, replaceIndex] = [savedColors.indexOf(drag.dataset.color), savedColors.indexOf(replace.dataset.color)];
 
-    if (dragIndex === -1 || replaceIndex === -1)
+    if (dragIndex === -1 || replaceIndex === -1) {
         return;
+    }
 
     [savedColors[dragIndex], savedColors[replaceIndex]] = [replace.dataset.color, drag.dataset.color];
 

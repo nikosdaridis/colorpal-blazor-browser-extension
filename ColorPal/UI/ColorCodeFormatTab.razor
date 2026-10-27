@@ -50,7 +50,9 @@
     private async Task HandleOnClickAsync()
     {
         if (HandleClick.HasDelegate)
+        {
             await HandleClick.InvokeAsync();
+        }
     }
 
     /// <summary>

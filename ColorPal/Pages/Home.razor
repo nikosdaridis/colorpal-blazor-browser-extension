@@ -3,7 +3,9 @@
 @page "/"
 
 @if (!_isInitialized)
+{
     return;
+}
 
 <SelectedColor NavigationManager=NavigationManager JSRuntime=JSRuntime LocalStorageService=LocalStorageService EventAggregator=EventAggregator StateService=StateService />
 <div class="px-3 py-2">
@@ -27,13 +29,17 @@
         await base.OnInitializedAsync();
 
         if (JSRuntime is null || LocalStorageService is null)
+        {
             return;
+        }
 
         await LocalStorageService.ValidateAsync();
         _isInitialized = true;
 
         if (await LocalStorageService.GetKeyAsync<string>(StorageKey.ShowColorNames) == "true")
+        {
             _ = StateService?.DecompressParseAndCacheColorNamesAsync();
+        }
 
         _ = JSRuntime.InvokeVoidAsync(JsFuncs.IsInitialized.Value());
         StateHasChanged();

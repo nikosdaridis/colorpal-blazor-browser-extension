@@ -70,7 +70,9 @@
         await base.OnInitializedAsync();
 
         if (JSRuntime is null)
+        {
             return;
+        }
 
         _manifestVersion = await JSRuntime.InvokeAsync<string>(JsFuncs.GetManifestVersionAsync.Value());
     }

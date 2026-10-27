@@ -25,10 +25,14 @@
     protected override async Task OnInitializedAsync()
     {
         if (LocalStorageService is null)
+        {
             return;
+        }
 
         if (!await TryParseColorCodeFormatAsync())
+        {
             _currentColorCodeFormat = ColorCodeFormat.HEX;
+        }
     }
 
     /// <summary>
@@ -37,15 +41,21 @@
     private async Task HandleOnClickAsync(string colorCodeFormat)
     {
         if (LocalStorageService is null)
+        {
             return;
+        }
 
         await LocalStorageService.SetKeyAsync<string>(StorageKey.ColorCodeFormat, colorCodeFormat);
 
         if (!await TryParseColorCodeFormatAsync())
+        {
             _currentColorCodeFormat = ColorCodeFormat.HEX;
+        }
 
         if (EventAggregator is null)
+        {
             return;
+        }
 
         await EventAggregator.GetService(Event.ColorCodeActiveTab).PublishAsync(_currentColorCodeFormat.Value());
     }
@@ -56,7 +66,9 @@
     private async Task<bool> TryParseColorCodeFormatAsync()
     {
         if (LocalStorageService is null)
+        {
             return false;
+        }
 
         return EnumExtensions.TryParse<ColorCodeFormat>(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat), out _currentColorCodeFormat);
     }

@@ -58,7 +58,9 @@
         await base.OnInitializedAsync();
 
         if (LocalStorageService is null)
+        {
             return;
+        }
 
         _theme = await GetLocalStorageTheme();
     }
@@ -69,7 +71,9 @@
     private async Task ToggleThemeAsync()
     {
         if (LocalStorageService is null)
+        {
             return;
+        }
 
         _theme = await GetLocalStorageTheme() == Theme.Light.Value()
             ? Theme.Dark.Value()
@@ -84,7 +88,9 @@
     private async Task<string> GetLocalStorageTheme()
     {
         if (LocalStorageService is null)
+        {
             return Theme.Light.Value();
+        }
 
         return await LocalStorageService.GetKeyAsync<string>(StorageKey.Theme) ?? Theme.Light.Value();
     }
