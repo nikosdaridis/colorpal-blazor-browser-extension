@@ -58,6 +58,6 @@
     /// <summary>
     /// Invokes callback
     /// </summary>
-    public async Task HandleOnClickAsync(MouseEventArgs args) =>
-        await HandleClick.InvokeAsync(args);
+    public async Task HandleOnClickAsync(MouseEventArgs mouseEventArgs) =>
+        await HandleClick.InvokeAsync(mouseEventArgs);
 }

@@ -11,24 +11,24 @@ public sealed class ValueAttribute(string value) : Attribute
 
 public static class EnumExtensions
 {
-    private static readonly ConcurrentDictionary<Enum, string> _enumValueCache = new();
+    private static readonly ConcurrentDictionary<Enum, string> _enumValueMap = new();
 
     /// <summary>
     /// Gets the value of enum with ValueAttribute
     /// </summary>
     public static string Value(this Enum field) =>
-        _enumValueCache.GetOrAdd(field, key =>
+        _enumValueMap.GetOrAdd(field, key =>
             key.GetType().GetField(key.ToString())?
             .GetCustomAttribute<ValueAttribute>()?.Value ?? string.Empty);
 
-    private static readonly ConcurrentDictionary<Type, object> _reverseLookupCache = new();
+    private static readonly ConcurrentDictionary<Type, object> _reverseLookupMap = new();
 
     /// <summary>
     /// Tries to parse string to an enum value based on the ValueAttribute.
     /// </summary>
     public static bool TryParse<TEnum>(string? value, out TEnum result) where TEnum : struct, Enum
     {
-        Dictionary<string, TEnum> map = (Dictionary<string, TEnum>)_reverseLookupCache.GetOrAdd(
+        Dictionary<string, TEnum> map = (Dictionary<string, TEnum>)_reverseLookupMap.GetOrAdd(
             typeof(TEnum),
             _ => Enum.GetValues<TEnum>().Cast<TEnum>().ToDictionary(enumValue => enumValue.Value(), enumValue => enumValue));
 

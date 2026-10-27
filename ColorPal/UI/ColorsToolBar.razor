@@ -8,7 +8,7 @@
                    IconSize=Size.Small
                    IconTextFilter=true
                    AriaLabel=@GetColorToolLabel(tool)
-                   HandleClick=@(async e => await HandleColorToolClickAsync(tool))
+                   HandleClick=@(async () => await HandleColorToolClickAsync(tool))
                    IsActive=@(_activeColorTool == tool.Value())
                    IsToggle=@IsToggleColorTool(tool) />
     }
@@ -18,9 +18,9 @@
             aria-label="Colors per line"
             @bind:get=_colorsPerLine
             @bind:set=HandleColorsPerLineChangeAndPublishEventAsync>
-        @for (int i = 5; i <= 10; i++)
+        @for (int colorsPerLine = 5; colorsPerLine <= 10; colorsPerLine++)
         {
-            <option value=@i>@i</option>
+            <option value=@colorsPerLine>@colorsPerLine</option>
         }
     </select>
 </div>
@@ -40,8 +40,8 @@
     [Parameter]
     public StateService? StateService { get; set; }
 
-    private string? _activeColorTool { get; set; }
-    private string _colorsPerLine { get; set; } = "5";
+    private string? _activeColorTool;
+    private string _colorsPerLine = "5";
 
     /// <summary>
     /// Subscribes to events and sets colors per line

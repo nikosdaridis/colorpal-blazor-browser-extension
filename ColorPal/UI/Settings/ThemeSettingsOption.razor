@@ -62,7 +62,7 @@
             return;
         }
 
-        _theme = await GetLocalStorageTheme();
+        _theme = await GetLocalStorageThemeAsync();
     }
 
     /// <summary>
@@ -75,7 +75,7 @@
             return;
         }
 
-        _theme = await GetLocalStorageTheme() == Theme.Light.Value()
+        _theme = await GetLocalStorageThemeAsync() == Theme.Light.Value()
             ? Theme.Dark.Value()
             : Theme.Light.Value();
 
@@ -85,7 +85,7 @@
     /// <summary>
     /// Gets theme from local storage
     /// </summary>
-    private async Task<string> GetLocalStorageTheme()
+    private async Task<string> GetLocalStorageThemeAsync()
     {
         if (LocalStorageService is null)
         {

@@ -207,39 +207,39 @@ public sealed class ColorNamesBinaryMap()
     public static Dictionary<uint, string> GenerateRoundedColorMap(List<ColorName> colorNames, int step)
     {
         ConcurrentDictionary<uint, string> colorsMap = new();
-        ConcurrentDictionary<uint, byte> uniqueColors = GenerateUniqueColors(step);
-        PopulateColorsMap(uniqueColors, colorNames, colorsMap);
+        ConcurrentDictionary<uint, byte> uniqueColorsMap = GenerateUniqueColors(step);
+        PopulateColorsMap(uniqueColorsMap, colorNames, colorsMap);
 
         return new Dictionary<uint, string>(colorsMap);
 
         // Generates dictionary of unique rounded colors
         ConcurrentDictionary<uint, byte> GenerateUniqueColors(int step)
         {
-            ConcurrentDictionary<uint, byte> uniqueColors = new();
-            Parallel.For(0, 256, r =>
+            ConcurrentDictionary<uint, byte> uniqueColorsMap = new();
+            Parallel.For(0, 256, red =>
             {
-                for (int g = 0; g < 256; g++)
+                for (int green = 0; green < 256; green++)
                 {
-                    for (int b = 0; b < 256; b++)
+                    for (int blue = 0; blue < 256; blue++)
                     {
-                        ColorRGB roundedColor = RoundColor(new ColorRGB { R = (byte)r, G = (byte)g, B = (byte)b }, step);
+                        ColorRGB roundedColor = RoundColor(new ColorRGB { R = (byte)red, G = (byte)green, B = (byte)blue }, step);
                         uint colorKey = EncodeColorKey(roundedColor);
-                        uniqueColors.TryAdd(colorKey, 0);
+                        uniqueColorsMap.TryAdd(colorKey, 0);
                     }
                 }
             });
 
-            return uniqueColors;
+            return uniqueColorsMap;
         }
 
         // Populates the colors map with the closest named color for each unique color
-        void PopulateColorsMap(ConcurrentDictionary<uint, byte> uniqueColors, List<ColorName> colorNames, ConcurrentDictionary<uint, string> colorsMap)
+        void PopulateColorsMap(ConcurrentDictionary<uint, byte> uniqueColorsMap, List<ColorName> colorNames, ConcurrentDictionary<uint, string> colorsMap)
         {
             int currentIteration = 0;
-            int totalIterations = uniqueColors.Count;
+            int totalIterations = uniqueColorsMap.Count;
             object consoleLock = new();
 
-            Parallel.ForEach(uniqueColors.Keys, roundedColorKey =>
+            Parallel.ForEach(uniqueColorsMap.Keys, roundedColorKey =>
             {
                 ColorRGB roundedColor = DecodeColorKey(roundedColorKey);
                 ColorName? closestColor = FindClosestColorEuclideanDistance(roundedColor, colorNames);
@@ -293,10 +293,10 @@ public sealed class ColorNamesBinaryMap()
             // Calculates similarity between two colors using Euclidean distance
             static double CalculateSimilarity(ColorRGB color1, ColorRGB color2)
             {
-                double rDiff = color1.R - color2.R;
-                double gDiff = color1.G - color2.G;
-                double bDiff = color1.B - color2.B;
-                double squaredDistance = rDiff * rDiff + gDiff * gDiff + bDiff * bDiff;
+                double redDifference = color1.R - color2.R;
+                double greenDifference = color1.G - color2.G;
+                double blueDifference = color1.B - color2.B;
+                double squaredDistance = redDifference * redDifference + greenDifference * greenDifference + blueDifference * blueDifference;
 
                 return ((441.67 - Math.Sqrt(squaredDistance)) / 441.67) * 100;
             }

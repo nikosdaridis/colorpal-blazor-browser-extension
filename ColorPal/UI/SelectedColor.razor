@@ -169,7 +169,7 @@
         StateHasChanged();
     }
 
-    //// <summary>
+    /// <summary>
     /// Sets selected color and publishes event
     /// </summary>
     private async Task SetSelectedColorAndPublishEventAsync(string hexColor)
@@ -259,9 +259,9 @@
     /// <summary>
     /// Handles color picker input, debounces rapid input, sets selected color and publishes event
     /// </summary>
-    private void HandleColorPickerInput(ChangeEventArgs e)
+    private void HandleColorPickerInput(ChangeEventArgs changeEventArgs)
     {
-        if (e.Value is not string color || string.IsNullOrWhiteSpace(color))
+        if (changeEventArgs.Value is not string color || string.IsNullOrWhiteSpace(color))
         {
             return;
         }

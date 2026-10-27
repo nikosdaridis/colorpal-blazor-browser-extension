@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ColorPal.Services;
 
-public sealed partial class LocalStorageService(IBrowserStorage browserStorage, IJSRuntime JSRuntime, ILogger<LocalStorageService> logger)
+public sealed partial class LocalStorageService(IBrowserStorage browserStorage, IJSRuntime jsRuntime, ILogger<LocalStorageService> logger)
 {
     [GeneratedRegex("^#[0-9abcdef]{6}\\z", RegexOptions.IgnoreCase)]
     private static partial Regex HexColorValidationRegex();
@@ -29,14 +29,14 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
     public async Task ValidateAsync()
     {
         // Version
-        string version = await JSRuntime.InvokeAsync<string>(JsFuncs.GetManifestVersionAsync.Value()) ?? string.Empty;
+        string version = await jsRuntime.InvokeAsync<string>(JsFuncs.GetManifestVersionAsync.Value()) ?? string.Empty;
         await SetKeyAsync(StorageKey.Version, version);
 
         // Theme
         string? storedTheme = await GetKeyAsync<string>(StorageKey.Theme);
         string theme = storedTheme is "light" or "dark"
             ? storedTheme
-            : (await JSRuntime.InvokeAsync<string>(JsFuncs.GetClientColorScheme.Value()));
+            : (await jsRuntime.InvokeAsync<string>(JsFuncs.GetClientColorScheme.Value()));
         await SetThemeAsync(theme);
 
         // SelectedHexColor
@@ -157,12 +157,12 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
         await SetCssVariableAsync(CSSVariable.ThemeInvert, Color.LightThemeInvert, Color.DarkThemeInvert);
 
         // Sets theme filter based on the current theme
-        await JSRuntime.InvokeVoidAsync("document.documentElement.style.setProperty", CSSVariable.ThemeFilter.Value(),
-            await JSRuntime.InvokeAsync<string>(JsFuncs.GetThemeFilter.Value(), theme.Value()));
+        await jsRuntime.InvokeVoidAsync("document.documentElement.style.setProperty", CSSVariable.ThemeFilter.Value(),
+            await jsRuntime.InvokeAsync<string>(JsFuncs.GetThemeFilter.Value(), theme.Value()));
 
         // Sets css variable for theme
         async Task SetCssVariableAsync(CSSVariable property, Color light, Color dark) =>
-            await JSRuntime.InvokeVoidAsync("document.documentElement.style.setProperty", property.Value(), theme == Theme.Light ? light.Value() : dark.Value());
+            await jsRuntime.InvokeVoidAsync("document.documentElement.style.setProperty", property.Value(), theme == Theme.Light ? light.Value() : dark.Value());
     }
 
     /// <summary>
