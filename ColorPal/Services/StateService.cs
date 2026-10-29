@@ -21,7 +21,7 @@ public sealed class StateService
         _jsRuntime = jsRuntime;
         _logger = logger;
 
-        _ = _jsRuntime.InvokeVoidAsync(JsFuncs.InitializeStateService.Value(), DotNetObjectReference.Create(this));
+        _ = _jsRuntime.InvokeVoidAsync(JsFunctions.InitializeStateService.Value(), DotNetObjectReference.Create(this));
     }
 
     public Task DecompressParseAndCacheColorNamesAsync() =>

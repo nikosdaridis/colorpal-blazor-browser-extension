@@ -74,7 +74,7 @@
         EventAggregator.GetService(Event.SetActiveColorTool).Subscribe(HandleActiveColorToolAsync);
 
         _dotNetObjectReference = DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync(JsFuncs.InitializeColorsGridComponent.Value(), _dotNetObjectReference);
+        await JSRuntime.InvokeVoidAsync(JsFunctions.InitializeColorsGridComponent.Value(), _dotNetObjectReference, StorageKey.SavedColorsArray.Value());
 
         _selectedHexColor = await LocalStorageService.GetKeyAsync<string>(StorageKey.SelectedHexColor) ?? string.Empty;
         await UpdateActiveColorCodeFormatAsync();
@@ -94,7 +94,7 @@
 
         string lostFocusTargetSelector = _lostFocusTargetSelector;
         _lostFocusTargetSelector = null;
-        await JSRuntime.InvokeVoidAsync(JsFuncs.RestoreLostFocus.Value(), lostFocusTargetSelector);
+        await JSRuntime.InvokeVoidAsync(JsFunctions.RestoreLostFocus.Value(), lostFocusTargetSelector);
     }
 
     /// <summary>
@@ -161,7 +161,7 @@
             return;
         }
 
-        await JSRuntime.InvokeVoidAsync(JsFuncs.SetGridColumns.Value(), "colorsGrid", colorsPerLine);
+        await JSRuntime.InvokeVoidAsync(JsFunctions.SetGridColumns.Value(), "colorsGrid", colorsPerLine);
     }
 
     /// <summary>
@@ -216,8 +216,8 @@
 
         await EventAggregator.GetService(Event.ColorsPerLine).PublishAsync("10");
 
-        _tintsShadesBaseHslColor = await JSRuntime.InvokeAsync<ColorHSL>(JsFuncs.HexToHsl.Value(), hexColor);
-        _tintsShadesHexColors = await JSRuntime.InvokeAsync<string[]>(JsFuncs.HslToHexRange.Value(), _tintsShadesBaseHslColor.H, _tintsShadesBaseHslColor.S);
+        _tintsShadesBaseHslColor = await JSRuntime.InvokeAsync<ColorHSL>(JsFunctions.HexToHsl.Value(), hexColor);
+        _tintsShadesHexColors = await JSRuntime.InvokeAsync<string[]>(JsFunctions.HslToHexRange.Value(), _tintsShadesBaseHslColor.H, _tintsShadesBaseHslColor.S);
 
         int matchingTintPosition = Math.Clamp(_tintsShadesBaseHslColor.L, 1, _tintsShadesHexColors.Length);
         _lostFocusTargetSelector = $"#colorsGrid > :nth-child({matchingTintPosition})";
@@ -246,7 +246,7 @@
             return;
         }
 
-        await JSRuntime.InvokeVoidAsync(JsFuncs.DisposeColorsGridComponent.Value());
+        await JSRuntime.InvokeVoidAsync(JsFunctions.DisposeColorsGridComponent.Value());
         _dotNetObjectReference.Dispose();
     }
 }

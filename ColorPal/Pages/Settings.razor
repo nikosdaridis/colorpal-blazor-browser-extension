@@ -46,11 +46,11 @@
             <RectangularLabelButton Label="Website"
                                     IconPath="Icons\website.svg"
                                     IconSize=Size.Small
-                                    HandleClick=@(async () => await JSRuntime.InvokeVoidAsync(JsFuncs.OpenExternalUrl.Value(), WEBSITE_URL)) />
+                                    HandleClick=@(async () => await JSRuntime.InvokeVoidAsync(JsFunctions.OpenExternalUrl.Value(), WEBSITE_URL)) />
             <RectangularLabelButton Label="GitHub"
                                     IconPath="Icons\github.svg"
                                     IconSize=Size.Small
-                                    HandleClick=@(async () => await JSRuntime.InvokeVoidAsync(JsFuncs.OpenExternalUrl.Value(), GITHUB_URL)) />
+                                    HandleClick=@(async () => await JSRuntime.InvokeVoidAsync(JsFunctions.OpenExternalUrl.Value(), GITHUB_URL)) />
             <h4 id="version">@_manifestVersion</h4>
         }
     </div>
@@ -74,7 +74,7 @@
             return;
         }
 
-        _manifestVersion = await JSRuntime.InvokeAsync<string>(JsFuncs.GetManifestVersionAsync.Value());
+        _manifestVersion = await JSRuntime.InvokeAsync<string>(JsFunctions.GetManifestVersionAsync.Value());
     }
 
     private void NavigateBackToHome() =>

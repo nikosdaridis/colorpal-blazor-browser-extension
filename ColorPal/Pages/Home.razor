@@ -41,7 +41,7 @@
             _ = StateService?.DecompressParseAndCacheColorNamesAsync();
         }
 
-        _ = JSRuntime.InvokeVoidAsync(JsFuncs.IsInitialized.Value());
+        _ = JSRuntime.InvokeVoidAsync(JsFunctions.IsInitialized.Value());
         StateHasChanged();
     }
 }

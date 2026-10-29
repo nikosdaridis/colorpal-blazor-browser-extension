@@ -15,7 +15,7 @@ public sealed class BrowserStorage(IJSRuntime jsRuntime) : IBrowserStorage
 {
     public async Task<T?> GetItemAsync<T>(string key)
     {
-        string? storedValue = await jsRuntime.InvokeAsync<string?>(JsFuncs.GetLocalStorageItem.Value(), key);
+        string? storedValue = await jsRuntime.InvokeAsync<string?>(JsFunctions.GetLocalStorageItem.Value(), key);
 
         if (string.IsNullOrWhiteSpace(storedValue))
         {
@@ -33,5 +33,5 @@ public sealed class BrowserStorage(IJSRuntime jsRuntime) : IBrowserStorage
     }
 
     public async Task SetItemAsync<T>(string key, T value) =>
-        await jsRuntime.InvokeVoidAsync(JsFuncs.SetLocalStorageItem.Value(), key, JsonSerializer.Serialize(value));
+        await jsRuntime.InvokeVoidAsync(JsFunctions.SetLocalStorageItem.Value(), key, JsonSerializer.Serialize(value));
 }

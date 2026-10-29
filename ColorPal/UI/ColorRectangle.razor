@@ -61,8 +61,8 @@
 
         if (await LocalStorageService.GetKeyAsync<string>(StorageKey.AutoCopyCode) == "true")
         {
-            (string colorCodeValue, _) = await LocalStorageService.GetFormattedColorCodeAsync(JSRuntime, HEXColor, ActiveColorCodeFormat);
-            _ = JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), colorCodeValue);
+            (string colorCodeValue, _) = await LocalStorageService.GetFormattedColorCodeAsync(HEXColor, ActiveColorCodeFormat);
+            _ = JSRuntime.InvokeVoidAsync(JsFunctions.CopyToClipboard.Value(), colorCodeValue);
         }
 
         await EventAggregator.GetService(Event.SetSelectedColor).PublishAsync(HEXColor);

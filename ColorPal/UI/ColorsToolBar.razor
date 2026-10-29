@@ -60,7 +60,7 @@
         EventAggregator.GetService(Event.ColorsPerLine).Subscribe(HandleColorsPerLineChangeAsync);
 
         _colorsPerLine = await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorsPerLine) ?? "5";
-        await JSRuntime.InvokeVoidAsync(JsFuncs.SetSelectValue.Value(), "colorsPerLine", _colorsPerLine);
+        await JSRuntime.InvokeVoidAsync(JsFunctions.SetSelectValue.Value(), "colorsPerLine", _colorsPerLine);
     }
 
     /// <summary>
@@ -95,7 +95,7 @@
                 return;
             }
 
-            await JSRuntime.InvokeVoidAsync(JsFuncs.HandleColorsMove.Value());
+            await JSRuntime.InvokeVoidAsync(JsFunctions.HandleColorsMove.Value());
         }
 
         async Task HandleDeleteAllAsync()
@@ -105,7 +105,7 @@
                 return;
             }
 
-            if (await JSRuntime.InvokeAsync<bool>("confirm", "Delete all saved colors?"))
+            if (await JSRuntime.InvokeAsync<bool>(JsFunctions.ConfirmAction.Value(), "Delete all saved colors?"))
             {
                 await LocalStorageService.SetKeyAsync<string[]>(StorageKey.SavedColorsArray, []);
                 await EventAggregator.GetService(Event.DeleteAllSavedColors).PublishAsync(ColorToolType.DeleteAll.Value());
@@ -122,7 +122,7 @@
             }
 
             await JSRuntime.InvokeVoidAsync(
-                JsFuncs.DownloadPng.Value(),
+                JsFunctions.DownloadPng.Value(),
                 await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [],
                 Int32.Parse(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorsPerLine) ?? "5"),
                 showColorNames,
@@ -146,12 +146,12 @@
 
             foreach (string hexColor in savedColors)
             {
-                ColorRGB rgbColor = await JSRuntime.InvokeAsync<ColorRGB>(JsFuncs.HexToRgb.Value(), hexColor);
+                ColorRGB rgbColor = await JSRuntime.InvokeAsync<ColorRGB>(JsFunctions.HexToRgb.Value(), hexColor);
                 string closestColorName = StateService.FindClosestRoundedColorName(rgbColor);
-                CssFilter cssFilter = await JSRuntime.InvokeAsync<CssFilter>(JsFuncs.HexToFilter.Value(), hexColor);
-                string rgbText = await JSRuntime.InvokeAsync<string>(JsFuncs.HexToRgb.Value(), hexColor, "string") ?? string.Empty;
-                string hslText = await JSRuntime.InvokeAsync<string>(JsFuncs.RgbToHsl.Value(), rgbColor, "string") ?? string.Empty;
-                string hsvText = await JSRuntime.InvokeAsync<string>(JsFuncs.RgbToHsv.Value(), rgbColor, "string") ?? string.Empty;
+                CssFilter cssFilter = await JSRuntime.InvokeAsync<CssFilter>(JsFunctions.HexToFilter.Value(), hexColor);
+                string rgbText = await JSRuntime.InvokeAsync<string>(JsFunctions.HexToRgb.Value(), hexColor, "string") ?? string.Empty;
+                string hslText = await JSRuntime.InvokeAsync<string>(JsFunctions.RgbToHsl.Value(), rgbColor, "string") ?? string.Empty;
+                string hsvText = await JSRuntime.InvokeAsync<string>(JsFunctions.RgbToHsv.Value(), rgbColor, "string") ?? string.Empty;
 
                 CsvFormatter.AppendRow(csvBuilder,
                 [
@@ -166,7 +166,7 @@
                 ]);
             }
 
-            await JSRuntime.InvokeVoidAsync(JsFuncs.DownloadCsv.Value(), csvBuilder.ToString(), "ColorPal-Data");
+            await JSRuntime.InvokeVoidAsync(JsFunctions.DownloadCsv.Value(), csvBuilder.ToString(), "ColorPal-Data");
         }
 
         async Task<ColorToolType> SetActiveColorToolAsync()
@@ -178,7 +178,7 @@
 
             if (previousActiveColorTool == ColorToolType.Move)
             {
-                await JSRuntime.InvokeVoidAsync(JsFuncs.RemoveMoveColorsListeners.Value());
+                await JSRuntime.InvokeVoidAsync(JsFunctions.RemoveMoveColorsListeners.Value());
             }
 
             _activeColorTool = tool switch
@@ -206,7 +206,7 @@
 
         if (_activeColorTool == ColorToolType.Move.Value() && JSRuntime is not null)
         {
-            await JSRuntime.InvokeVoidAsync(JsFuncs.RemoveMoveColorsListeners.Value());
+            await JSRuntime.InvokeVoidAsync(JsFunctions.RemoveMoveColorsListeners.Value());
         }
 
         _activeColorTool = string.Empty;

@@ -95,7 +95,7 @@ public enum StorageKey
     PrependBlackFilter,
 }
 
-public enum JsFuncs
+public enum JsFunctions
 {
     [Value("isInitialized")]
     IsInitialized,
@@ -114,6 +114,9 @@ public enum JsFuncs
 
     [Value("getThemeFilter")]
     GetThemeFilter,
+
+    [Value("setCssVariable")]
+    SetCssVariable,
 
     [Value("getManifestVersionAsync")]
     GetManifestVersionAsync,
@@ -148,6 +151,9 @@ public enum JsFuncs
     [Value("copyToClipboard")]
     CopyToClipboard,
 
+    [Value("confirmAction")]
+    ConfirmAction,
+
     [Value("downloadPng")]
     DownloadPng,
 
@@ -170,17 +176,11 @@ public enum JsFuncs
     [Value("hexToHsv")]
     HexToHsv,
 
-    [Value("rgbToHex")]
-    RgbToHex,
-
     [Value("rgbToHsl")]
     RgbToHsl,
 
     [Value("rgbToHsv")]
     RgbToHsv,
-
-    [Value("hslToHex")]
-    HslToHex,
 
     [Value("hslToHexRange")]
     HslToHexRange,

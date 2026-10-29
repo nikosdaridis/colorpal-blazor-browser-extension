@@ -12,7 +12,7 @@
         {
             <button class="selected-color__name cursor-pointer rounded-lg bg-white/50 px-2 py-1 text-center font-semibold text-[11px] shadow-xl backdrop-blur-xl transition-all duration-200 hover:bg-white/75 active:scale-90"
                     @onclick:stopPropagation
-                    @onclick=@(async () => await JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), _colorName.Selected))>
+                    @onclick=@(async () => await JSRuntime.InvokeVoidAsync(JsFunctions.CopyToClipboard.Value(), _colorName.Selected))>
                 @_colorName.Selected
             </button>
         }
@@ -100,7 +100,7 @@
         {
             StateHasChanged();
             await StateService.DecompressParseAndCacheColorNamesAsync();
-            _colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFuncs.HexToRgb.Value(), _selectedHEXColor));
+            _colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFunctions.HexToRgb.Value(), _selectedHEXColor));
         }
     }
 
@@ -115,7 +115,7 @@
 
         string lostFocusTargetSelector = _lostFocusTargetSelector;
         _lostFocusTargetSelector = null;
-        await JSRuntime.InvokeVoidAsync(JsFuncs.RestoreLostFocus.Value(), lostFocusTargetSelector);
+        await JSRuntime.InvokeVoidAsync(JsFunctions.RestoreLostFocus.Value(), lostFocusTargetSelector);
     }
 
     /// <summary>
@@ -137,7 +137,7 @@
             return;
         }
 
-        string eyeDropperColor = await JSRuntime.InvokeAsync<string?>(JsFuncs.ActivateEyeDropper.Value()) ?? string.Empty;
+        string eyeDropperColor = await JSRuntime.InvokeAsync<string?>(JsFunctions.ActivateEyeDropper.Value()) ?? string.Empty;
         await EventAggregator.GetService(Event.EyedropperPick).PublishAsync(eyeDropperColor);
     }
 
@@ -162,7 +162,7 @@
 
         if (_colorName.Show)
         {
-            _colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFuncs.HexToRgb.Value(), _selectedHEXColor));
+            _colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFunctions.HexToRgb.Value(), _selectedHEXColor));
         }
 
         await LocalStorageService.SetKeyAsync(StorageKey.SelectedHexColor, hexColor);
@@ -252,7 +252,7 @@
             return;
         }
 
-        await JSRuntime.InvokeVoidAsync(JsFuncs.OpenColorPicker.Value(), "colorPicker");
+        await JSRuntime.InvokeVoidAsync(JsFunctions.OpenColorPicker.Value(), "colorPicker");
         await EventAggregator.GetService(Event.OpenColorPicker).PublishAsync(_selectedHEXColor);
     }
 
@@ -285,9 +285,9 @@
         }
 
         ColorCodeFormat activeColorCodeFormat = Enum.Parse<ColorCodeFormat>(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat) ?? ColorCodeFormat.HEX.Value());
-        (string colorCode, _) = await LocalStorageService.GetFormattedColorCodeAsync(JSRuntime, hexColor, activeColorCodeFormat);
+        (string colorCode, _) = await LocalStorageService.GetFormattedColorCodeAsync(hexColor, activeColorCodeFormat);
 
-        await JSRuntime.InvokeVoidAsync(JsFuncs.CopyToClipboard.Value(), colorCode);
+        await JSRuntime.InvokeVoidAsync(JsFunctions.CopyToClipboard.Value(), colorCode);
     }
 
     public void Dispose()
