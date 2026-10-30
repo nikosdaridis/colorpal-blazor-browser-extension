@@ -284,7 +284,11 @@
             return;
         }
 
-        ColorCodeFormat activeColorCodeFormat = Enum.Parse<ColorCodeFormat>(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat) ?? ColorCodeFormat.HEX.Value());
+        if (!EnumExtensions.TryParse(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat), out ColorCodeFormat activeColorCodeFormat))
+        {
+            activeColorCodeFormat = ColorCodeFormat.HEX;
+        }
+
         (string colorCode, _) = await LocalStorageService.GetFormattedColorCodeAsync(hexColor, activeColorCodeFormat);
 
         await JSRuntime.InvokeVoidAsync(JsFunctions.CopyToClipboard.Value(), colorCode);

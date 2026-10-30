@@ -30,7 +30,7 @@ public static class EnumExtensions
     {
         Dictionary<string, TEnum> map = (Dictionary<string, TEnum>)_reverseLookupMap.GetOrAdd(
             typeof(TEnum),
-            _ => Enum.GetValues<TEnum>().Cast<TEnum>().ToDictionary(enumValue => enumValue.Value(), enumValue => enumValue));
+            _ => Enum.GetValues<TEnum>().ToDictionary(enumValue => enumValue.Value(), enumValue => enumValue));
 
         if (value is not null && map.TryGetValue(value, out result))
         {

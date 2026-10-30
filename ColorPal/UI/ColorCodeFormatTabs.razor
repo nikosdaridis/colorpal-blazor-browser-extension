@@ -9,7 +9,7 @@
 </div>
 
 @code {
-    private static readonly ColorCodeFormat[] _colorCodeFormats = [.. Enum.GetValues(typeof(ColorCodeFormat)).Cast<ColorCodeFormat>().Skip(1)];
+    private static readonly ColorCodeFormat[] _colorCodeFormats = [.. Enum.GetValues<ColorCodeFormat>().Skip(1)];
 
     [Parameter]
     public LocalStorageService? LocalStorageService { get; set; }

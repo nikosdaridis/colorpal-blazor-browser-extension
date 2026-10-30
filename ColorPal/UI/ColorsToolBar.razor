@@ -26,7 +26,7 @@
 </div>
 
 @code {
-    private static readonly ColorToolType[] _colorToolTypes = [.. Enum.GetValues(typeof(ColorToolType)).Cast<ColorToolType>().Skip(1)];
+    private static readonly ColorToolType[] _colorToolTypes = [.. Enum.GetValues<ColorToolType>().Skip(1)];
 
     [Parameter]
     public IJSRuntime? JSRuntime { get; set; }
@@ -121,10 +121,15 @@
                 await StateService.DecompressParseAndCacheColorNamesAsync();
             }
 
+            if (!int.TryParse(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorsPerLine), out int colorsPerLine))
+            {
+                colorsPerLine = 5;
+            }
+
             await JSRuntime.InvokeVoidAsync(
                 JsFunctions.DownloadPng.Value(),
                 await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [],
-                Int32.Parse(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorsPerLine) ?? "5"),
+                colorsPerLine,
                 showColorNames,
                 await LocalStorageService.GetKeyAsync<string>(StorageKey.AddHexCharacter) == "true"
             );

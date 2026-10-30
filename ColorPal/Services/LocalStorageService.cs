@@ -167,6 +167,13 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
     /// <summary>
     /// Sets localstorage theme and updates css variables
     /// </summary>
-    public async Task SetThemeAsync(string theme, bool saveLocalStorage = true) =>
-        await SetThemeAsync(Enum.Parse<Theme>(theme, true), saveLocalStorage);
+    public async Task SetThemeAsync(string theme, bool saveLocalStorage = true)
+    {
+        if (!EnumExtensions.TryParse(theme, out Theme themeEnum))
+        {
+            themeEnum = Theme.Light;
+        }
+
+        await SetThemeAsync(themeEnum, saveLocalStorage);
+    }
 }

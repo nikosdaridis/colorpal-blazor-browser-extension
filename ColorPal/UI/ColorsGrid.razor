@@ -138,10 +138,14 @@
 
         if (string.IsNullOrWhiteSpace(activeColorCodeFormat))
         {
-            activeColorCodeFormat = await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat) ?? ColorCodeFormat.HEX.Value();
+            activeColorCodeFormat = await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat);
         }
 
-        _activeColorCodeFormat = Enum.Parse<ColorCodeFormat>(activeColorCodeFormat ?? ColorCodeFormat.HEX.Value());
+        if (!EnumExtensions.TryParse(activeColorCodeFormat, out _activeColorCodeFormat))
+        {
+            _activeColorCodeFormat = ColorCodeFormat.HEX;
+        }
+
         await InvokeAsync(StateHasChanged);
     }
 
