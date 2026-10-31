@@ -3,8 +3,7 @@
     {
         <ColorCodeFormatTab Name=@colorFormat.Value()
                             IsActive=@(_currentColorCodeFormat == colorFormat)
-                            HandleClick=@(() => HandleOnClickAsync(colorFormat.Value()))
-                            EventAggregator=EventAggregator />
+                            HandleClick=@(() => HandleOnClickAsync(colorFormat.Value())) />
     }
 </div>
 

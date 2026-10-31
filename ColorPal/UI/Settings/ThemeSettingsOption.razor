@@ -9,8 +9,7 @@
                 @onclick="ToggleThemeAsync">
 
             <div id="themeOption"
-                 class="theme-toggle__track @_theme"
-                 @ref="_button">
+                 class="theme-toggle__track @_theme">
 
                 <div id="themeOptionWrapper">
                     <div id="circle" />
@@ -48,7 +47,6 @@
     public string? Label { get; set; }
 
     private string? _theme;
-    private ElementReference _button;
 
     /// <summary>
     /// Initializes theme from local storage

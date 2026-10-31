@@ -1,8 +1,5 @@
-﻿@implements IDisposable
-
-<button class="@GetTabHighlightClass() inline-flex cursor-pointer items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap"
+﻿<button class="@GetTabHighlightClass() inline-flex cursor-pointer items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap"
         id=@($"colorCodeTab-{Name}")
-        @ref=_button
         @onclick=HandleOnClickAsync>
     @Name
 </button>
@@ -16,33 +13,6 @@
 
     [Parameter]
     public EventCallback HandleClick { get; set; }
-
-    [Parameter]
-    public EventAggregator<string>? EventAggregator { get; set; }
-
-    private ElementReference _button;
-
-    /// <summary>
-    /// Subscribes to events
-    /// </summary>
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-
-        EventAggregator?.GetService(Event.ColorCodeActiveTab).Subscribe(HandleTabChangeAsync);
-    }
-
-    /// <summary>
-    /// Handles tab change event
-    /// </summary>
-    private Task HandleTabChangeAsync(string activeTabName)
-    {
-        IsActive = Name == activeTabName;
-
-        StateHasChanged();
-
-        return Task.CompletedTask;
-    }
 
     /// <summary>
     /// Invokes the button click callback
@@ -60,12 +30,4 @@
     /// </summary>
     private string GetTabHighlightClass() =>
         IsActive ? "bg-[var(--primary-color)] text-[var(--theme-invert-color)] font-semibold" : "hover:text-[var(--theme-invert-color)] transition-colors duration-200";
-
-    /// <summary>
-    /// Unsubscribes from events
-    /// </summary>
-    public void Dispose()
-    {
-        EventAggregator?.GetService(Event.ColorCodeActiveTab).Unsubscribe(HandleTabChangeAsync);
-    }
 }

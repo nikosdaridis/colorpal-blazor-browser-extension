@@ -4,7 +4,6 @@
         id=@Id
         aria-label=@AriaLabel
         aria-pressed=@(IsPressed?.ToString().ToLower())
-        @ref=button
         @onclick=HandleOnClickAsync
 @onclick:stopPropagation>
 
@@ -40,8 +39,6 @@
     public EventCallback<MouseEventArgs> HandleClick { get; set; }
 
     protected bool? IsPressed { get; set; }
-
-    public ElementReference button;
 
     /// <summary>
     /// Gets icon size class
