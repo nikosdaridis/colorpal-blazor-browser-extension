@@ -15,9 +15,6 @@
 
 @code {
     [Parameter]
-    public string? Class { get; set; }
-
-    [Parameter]
     public string? Id { get; set; }
 
     [Parameter]
@@ -37,6 +34,8 @@
 
     [Parameter]
     public EventCallback<MouseEventArgs> HandleClick { get; set; }
+
+    protected string? Class { get; set; }
 
     protected bool? IsPressed { get; set; }
 

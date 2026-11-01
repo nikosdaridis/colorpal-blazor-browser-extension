@@ -59,47 +59,47 @@ html:has(> body.hidden) {
     filter: var(--text-filter);
 }
 
-[id^="colorTool-"].active img,
-[id^="colorTool-"]:hover img {
+.color-tool--active img,
+.color-tool:hover img {
     filter: var(--theme-filter);
 }
 
-[id^="colorRectangle"].dragging,
-[id^="colorRectangle"].replacing {
-    transform: scale(1.10);
+.color-rectangle--dragging,
+.color-rectangle--replacing {
+    scale: 1.1;
     border-radius: 5%;
     --tw-ring-color: var(--theme-invert-color) !important;
 }
 
-[id^="colorRectangle"] img {
+.color-rectangle img {
     opacity: 0;
     pointer-events: none;
     transition: opacity .2s ease;
 }
 
-[id^="colorRectangle"]:hover img {
+.color-rectangle:hover img {
     opacity: 1;
     pointer-events: auto;
 }
 
-[id^="colorRectangle"] h4 {
+.color-rectangle h4 {
     transition: .3s ease;
 }
 
-[id^="colorRectangle-active"] h4,
-[id^="colorRectangle"]:hover h4 {
+.color-rectangle--selected h4,
+.color-rectangle:hover h4 {
     font-size: 0px;
 }
 
-[id^="colorRectangle"] img[src*="move.svg"] {
+.color-rectangle img[src*="move.svg"] {
     filter: var(--move-tool-filter) drop-shadow(0 0 2px black);
 }
 
-[id^="colorRectangle"] img[src*="tintsShades.svg"] {
+.color-rectangle img[src*="tintsShades.svg"] {
     filter: var(--tintsShades-tool-filter) drop-shadow(0 0 2px black);
 }
 
-[id^="colorRectangle"] img[src*="delete.svg"] {
+.color-rectangle img[src*="delete.svg"] {
     filter: var(--delete-tool-filter) drop-shadow(0 0 2px black);
 }
 

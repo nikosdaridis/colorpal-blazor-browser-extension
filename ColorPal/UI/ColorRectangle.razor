@@ -1,7 +1,6 @@
 ﻿<button class=@GetClass()
         style="background-color: @HEXColor;"
         data-color=@HEXColor
-        id=@($"colorRectangle{(IsSelected ? "-active" : string.Empty)}")
         aria-label=@GetAriaLabel()
         draggable=@(ActiveColorTool == ColorToolType.Move ? "true" : "false")
         @onclick=HandleOnClickAsync>
@@ -83,6 +82,7 @@
     /// </summary>
     private string GetClass()
     {
+        string blockClass = IsSelected ? "color-rectangle color-rectangle--selected" : "color-rectangle";
         string baseClass = "aspect-square relative flex justify-center items-center cursor-pointer transition-all duration-200 hover:scale-[1.1] hover:ring-[var(--primary-color)] focus-visible:outline-offset-3";
         string shapeClass = IsSelected ? "rounded-xl" : "rounded-md";
         string ringClass = IsSelected
@@ -95,7 +95,7 @@
                 _ => "ring-1 ring-[var(--theme-invert-color)]"
             };
 
-        return $"{baseClass} {shapeClass} {ringClass}";
+        return $"{blockClass} {baseClass} {shapeClass} {ringClass}";
     }
 
     /// <summary>

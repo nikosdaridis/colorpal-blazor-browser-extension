@@ -1,3 +1,6 @@
+const COLOR_RECTANGLE_DRAGGING_CLASS = "color-rectangle--dragging";
+const COLOR_RECTANGLE_REPLACING_CLASS = "color-rectangle--replacing";
+
 var stateServiceReference: any;
 var colorsGridComponent: any;
 var draggingElement: HTMLElement | null = null;
@@ -302,12 +305,12 @@ function findColorRectangle(event: Event): HTMLElement | null {
 
 function onDragStart(event: Event) {
     draggingElement = findColorRectangle(event);
-    draggingElement?.classList.add("dragging");
+    draggingElement?.classList.add(COLOR_RECTANGLE_DRAGGING_CLASS);
 }
 
 function onDragEnd() {
-    draggingElement?.classList.remove("dragging");
-    replacingElement?.classList.remove("replacing");
+    draggingElement?.classList.remove(COLOR_RECTANGLE_DRAGGING_CLASS);
+    replacingElement?.classList.remove(COLOR_RECTANGLE_REPLACING_CLASS);
     draggingElement = null;
     replacingElement = null;
 }
@@ -321,7 +324,7 @@ function onDragOver(event: Event) {
 
     event.preventDefault();
     replacingElement = colorRectangle;
-    replacingElement.classList.add("replacing");
+    replacingElement.classList.add(COLOR_RECTANGLE_REPLACING_CLASS);
 }
 
 function onDragEnter(event: Event) {
@@ -340,7 +343,7 @@ function onDragLeave(event: Event) {
     }
 
     mouseOverColor = false;
-    colorRectangle.classList.remove("replacing");
+    colorRectangle.classList.remove(COLOR_RECTANGLE_REPLACING_CLASS);
 }
 
 function onDrop(event: Event) {
