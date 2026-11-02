@@ -3,34 +3,33 @@
 
     @if (_theme is not null)
     {
-        <button class="theme-toggle relative right-[30px] inline-flex scale-[0.2] cursor-pointer items-center justify-end"
+        <button class="theme-toggle relative end-[30px] inline-flex scale-[0.2] cursor-pointer items-center justify-end"
                 aria-label="Dark theme"
                 aria-pressed=@(_theme == Theme.Dark.Value() ? "true" : "false")
                 @onclick="ToggleThemeAsync">
 
-            <div id="themeOption"
-                 class="theme-toggle__track @_theme">
+            <div class="theme-toggle__track theme-toggle__track--@_theme">
 
-                <div id="themeOptionWrapper">
-                    <div id="circle" />
-                    <div id="stars">
-                        <div class="star" />
-                        <div class="star" />
-                        <div class="star" />
+                <div class="theme-toggle__sky">
+                    <div class="theme-toggle__circle" />
+                    <div>
+                        <div class="theme-toggle__star" />
+                        <div class="theme-toggle__star" />
+                        <div class="theme-toggle__star" />
                     </div>
                     <div>
-                        <div class="cloud">
-                            <div class="cloudElement" />
-                            <div class="cloudElement" />
+                        <div class="theme-toggle__cloud">
+                            <div class="theme-toggle__cloud-element" />
+                            <div class="theme-toggle__cloud-element" />
                         </div>
-                        <div class="cloud">
-                            <div class="cloudElement" />
-                            <div class="cloudElement" />
+                        <div class="theme-toggle__cloud">
+                            <div class="theme-toggle__cloud-element" />
+                            <div class="theme-toggle__cloud-element" />
                         </div>
-                        <div class="cloud">
-                            <div class="cloudElement" />
-                            <div class="cloudElement" />
-                            <div class="cloudElement" />
+                        <div class="theme-toggle__cloud">
+                            <div class="theme-toggle__cloud-element" />
+                            <div class="theme-toggle__cloud-element" />
+                            <div class="theme-toggle__cloud-element" />
                         </div>
                     </div>
                 </div>

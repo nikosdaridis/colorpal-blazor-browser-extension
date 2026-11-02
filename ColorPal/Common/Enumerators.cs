@@ -218,28 +218,28 @@ public enum CSSVariable
 
 public enum Color
 {
-    [Value("#ffffff")]
+    [Value("var(--light-primary-color)")]
     LightPrimary,
 
-    [Value("#09090b")]
+    [Value("var(--dark-primary-color)")]
     DarkPrimary,
 
-    [Value("#f4f4f5")]
+    [Value("var(--light-secondary-color)")]
     LightSecondary,
 
-    [Value("#27272a")]
+    [Value("var(--dark-secondary-color)")]
     DarkSecondary,
 
-    [Value("#787881")]
+    [Value("var(--light-text-color)")]
     LightText,
 
-    [Value("#9f9fa8")]
+    [Value("var(--dark-text-color)")]
     DarkText,
 
-    [Value("#0a0a0a")]
+    [Value("var(--light-theme-invert-color)")]
     LightThemeInvert,
 
-    [Value("#fafafa")]
+    [Value("var(--dark-theme-invert-color)")]
     DarkThemeInvert,
 }
 
