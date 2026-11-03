@@ -133,7 +133,7 @@ function hslToHex(h: number, s: number, l: number): string {
     s /= 100;
     l /= 100;
 
-    let r, g, b;
+    let r: number, g: number, b: number;
 
     if (s === 0) {
         r = g = b = l;
@@ -398,9 +398,9 @@ class FilterSolver {
 
         let best: number[] = [];
         let bestLoss = Infinity;
-        const deltas = new Array(6).fill(0);
-        const highArgs = new Array(6).fill(0);
-        const lowArgs = new Array(6).fill(0);
+        const deltas = new Array<number>(6).fill(0);
+        const highArgs = new Array<number>(6).fill(0);
+        const lowArgs = new Array<number>(6).fill(0);
 
         for (let k = 0; k < iters; k++) {
             const ck = c / Math.pow(k + 1, gamma);

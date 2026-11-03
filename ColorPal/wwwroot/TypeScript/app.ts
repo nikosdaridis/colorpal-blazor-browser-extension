@@ -1,20 +1,40 @@
+interface DotNetObjectReference {
+    invokeMethodAsync<TResult>(methodName: string, ...methodArguments: unknown[]): Promise<TResult>;
+}
+
+interface ColorSelectionResult {
+    sRGBHex: string;
+}
+
+interface EyeDropper {
+    open(): Promise<ColorSelectionResult>;
+}
+
+interface Window {
+    EyeDropper: new () => EyeDropper;
+}
+
+interface ColorRectangleElement extends HTMLElement {
+    readonly dataset: DOMStringMap & { color: string };
+}
+
 const COLOR_RECTANGLE_DRAGGING_CLASS = "color-rectangle--dragging";
 const COLOR_RECTANGLE_REPLACING_CLASS = "color-rectangle--replacing";
 
-var stateServiceReference: any;
-var colorsGridComponent: any;
-var draggingElement: HTMLElement | null = null;
-var replacingElement: HTMLElement | null = null;
-var mouseOverColor: boolean = false;
+let stateServiceReference: DotNetObjectReference | null = null;
+let colorsGridComponent: DotNetObjectReference | null = null;
+let draggingElement: ColorRectangleElement | null = null;
+let replacingElement: HTMLElement | null = null;
+let mouseOverColor: boolean = false;
 let savedColorsStorageKey: string | null = null;
 
 // Initializes state service reference
-function initializeStateService(dotNetObjectReference: any) {
+function initializeStateService(dotNetObjectReference: DotNetObjectReference): void {
     stateServiceReference = dotNetObjectReference;
 }
 
 // Initializes colors grid component reference
-function initializeColorsGridComponent(dotNetObjectReference: any, savedColorsKey: string) {
+function initializeColorsGridComponent(dotNetObjectReference: DotNetObjectReference, savedColorsKey: string): void {
     colorsGridComponent = dotNetObjectReference;
     savedColorsStorageKey = savedColorsKey;
 }
@@ -43,7 +63,7 @@ function setCssVariable(property: string, value: string): void {
 // Gets version from manifest.json
 async function getManifestVersionAsync(): Promise<string> {
     const response = await fetch("manifest.json");
-    const manifest = await response.json();
+    const manifest: chrome.runtime.Manifest = await response.json();
     return manifest.version;
 }
 
@@ -66,7 +86,7 @@ async function openExternalUrl(url: string): Promise<void> {
 }
 
 // Sets color picker position based on color tools bar position
-function setColorPickerPosition() {
+function setColorPickerPosition(): void {
     const colorToolsBar = document.getElementById("colorToolsBar");
     const colorPicker = document.getElementById("colorPicker");
 
@@ -115,7 +135,7 @@ function activateEyeDropper(): Promise<string | null> {
     return new Promise((resolve) => {
         setTimeout(async function () {
             try {
-                const eyeDropper = new (window as any).EyeDropper();
+                const eyeDropper = new window.EyeDropper();
                 const { sRGBHex } = await eyeDropper.open();
 
                 resolve(sRGBHex);
@@ -257,7 +277,7 @@ async function downloadPng(savedColors: string[], colorsPerLine: number, showCol
 
         async function findClosestColorName(rgb: ColorRGB): Promise<string> {
             try {
-                return await stateServiceReference?.invokeMethodAsync("FindClosestRoundedColorName", rgb) ?? "";
+                return await stateServiceReference?.invokeMethodAsync<string>("FindClosestRoundedColorName", rgb) ?? "";
             } catch {
                 return "";
             }
@@ -288,7 +308,7 @@ function handleColorsMove(): void {
 }
 
 // Removes colors move tool listeners
-function removeMoveColorsListeners() {
+function removeMoveColorsListeners(): void {
     const colorsGrid = document.getElementById("colorsGrid");
 
     colorsGrid?.removeEventListener("dragstart", onDragStart);
@@ -299,8 +319,8 @@ function removeMoveColorsListeners() {
     colorsGrid?.removeEventListener("drop", onDrop);
 };
 
-function findColorRectangle(event: Event): HTMLElement | null {
-    return event.target instanceof Element ? event.target.closest<HTMLElement>("[data-color]") : null;
+function findColorRectangle(event: Event): ColorRectangleElement | null {
+    return event.target instanceof Element ? event.target.closest<ColorRectangleElement>("[data-color]") : null;
 }
 
 function onDragStart(event: Event) {
@@ -361,12 +381,12 @@ function onDrop(event: Event) {
 }
 
 // Swaps saved colors, saves to local storage and renders colors grid
-function swapColors(drag: HTMLElement, replace: HTMLElement) {
+function swapColors(drag: ColorRectangleElement, replace: ColorRectangleElement) {
     if (savedColorsStorageKey === null) {
         return;
     }
 
-    const savedColors = JSON.parse(localStorage.getItem(savedColorsStorageKey) || "[]");
+    const savedColors: string[] = JSON.parse(localStorage.getItem(savedColorsStorageKey) ?? "[]");
     const [dragIndex, replaceIndex] = [savedColors.indexOf(drag.dataset.color), savedColors.indexOf(replace.dataset.color)];
 
     if (dragIndex === -1 || replaceIndex === -1) {
@@ -376,5 +396,5 @@ function swapColors(drag: HTMLElement, replace: HTMLElement) {
     [savedColors[dragIndex], savedColors[replaceIndex]] = [replace.dataset.color, drag.dataset.color];
 
     localStorage.setItem(savedColorsStorageKey, JSON.stringify(savedColors));
-    colorsGridComponent?.invokeMethodAsync("RenderSavedColorsAsync", null);
+    colorsGridComponent?.invokeMethodAsync<void>("RenderSavedColorsAsync", null);
 }
