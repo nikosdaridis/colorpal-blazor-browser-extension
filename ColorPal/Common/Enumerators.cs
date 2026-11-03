@@ -246,6 +246,5 @@ public enum Color
 public enum Size
 {
     Small,
-    Medium,
-    Large
+    Medium
 }

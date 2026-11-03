@@ -132,7 +132,7 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
             ColorCodeFormat.HEX => await GetKeyAsync<string>(StorageKey.AddHexCharacter) == "true" ? hexColor : hexColor[1..],
             ColorCodeFormat.RGB => await jsRuntime.InvokeAsync<string>(JsFunctions.HexToRgb.Value(), hexColor, "string"),
             ColorCodeFormat.HSL => await jsRuntime.InvokeAsync<string>(JsFunctions.HexToHsl.Value(), hexColor, "string"),
-            ColorCodeFormat.HSV => await jsRuntime.InvokeAsync<string>(JsFunctions.HexToHsv.Value(), hexColor, "string"),
+            ColorCodeFormat.HSV => await jsRuntime.InvokeAsync<string>(JsFunctions.HexToHsv.Value(), hexColor),
             ColorCodeFormat.Filter => filter?.Filter ?? hexColor,
             _ => hexColor
         };
@@ -143,12 +143,9 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
     /// <summary>
     /// Sets localstorage theme and updates css variables.
     /// </summary>
-    public async Task SetThemeAsync(Theme theme, bool saveLocalStorage = true)
+    public async Task SetThemeAsync(Theme theme)
     {
-        if (saveLocalStorage)
-        {
-            await SetKeyAsync(StorageKey.Theme, theme.Value());
-        }
+        await SetKeyAsync(StorageKey.Theme, theme.Value());
 
         await SetCssVariableAsync(CSSVariable.Primary, Color.LightPrimary, Color.DarkPrimary);
         await SetCssVariableAsync(CSSVariable.Secondary, Color.LightSecondary, Color.DarkSecondary);
@@ -167,13 +164,13 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
     /// <summary>
     /// Sets localstorage theme and updates css variables
     /// </summary>
-    public async Task SetThemeAsync(string theme, bool saveLocalStorage = true)
+    public async Task SetThemeAsync(string theme)
     {
         if (!EnumExtensions.TryParse(theme, out Theme themeEnum))
         {
             themeEnum = Theme.Light;
         }
 
-        await SetThemeAsync(themeEnum, saveLocalStorage);
+        await SetThemeAsync(themeEnum);
     }
 }

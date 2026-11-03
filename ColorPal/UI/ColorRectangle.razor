@@ -51,7 +51,7 @@
     /// <summary>
     /// Handles on click event, copies color code to clipboard based on active format and handles active color tool event.
     /// </summary>
-    public async Task HandleOnClickAsync(MouseEventArgs mouseEventArgs)
+    public async Task HandleOnClickAsync()
     {
         if (JSRuntime is null || LocalStorageService is null || EventAggregator is null)
         {
@@ -116,25 +116,23 @@
     /// <summary>
     /// Deletes saved color from local storage and publishes event
     /// </summary>
-    private async Task<bool> DeleteSavedColorAsync()
+    private async Task DeleteSavedColorAsync()
     {
         if (LocalStorageService is null || EventAggregator is null)
         {
-            return false;
+            return;
         }
 
         string[] savedColors = await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [];
 
         if (!savedColors.Contains(HEXColor))
         {
-            return false;
+            return;
         }
 
         savedColors = [.. savedColors.Where(color => color != HEXColor)];
 
         await LocalStorageService.SetKeyAsync(StorageKey.SavedColorsArray, savedColors);
         await EventAggregator.GetService(Event.DeleteSavedColor).PublishAsync(HEXColor);
-
-        return true;
     }
 }

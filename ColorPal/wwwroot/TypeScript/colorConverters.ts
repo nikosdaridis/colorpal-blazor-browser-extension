@@ -16,12 +16,7 @@ interface ColorHSV {
     v: number;
 }
 
-interface ColorName {
-    name: string;
-    rgb: ColorRGB;
-}
-
-let lastSolvedFilter: { hex: string, result: { filter: string, loss: number } } | null = null;
+let lastSolvedFilter: { hex: string, result: { filter: string } } | null = null;
 
 function toHex(num: number): string {
     return Math.round(num).toString(16).padStart(2, "0");
@@ -29,7 +24,7 @@ function toHex(num: number): string {
 
 function hexToRgb(hex: string): ColorRGB;
 function hexToRgb(hex: string, returnType: "string"): string;
-function hexToRgb(hex: string, returnType?: "string" | "ColorRGB"): string | ColorRGB {
+function hexToRgb(hex: string, returnType?: "string"): string | ColorRGB {
     const [, r = 0, g = 0, b = 0] = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i
         .exec(hex)
         ?.map((val) => parseInt(val, 16)) ?? [];
@@ -39,27 +34,21 @@ function hexToRgb(hex: string, returnType?: "string" | "ColorRGB"): string | Col
 
 function hexToHsl(hex: string): ColorHSL;
 function hexToHsl(hex: string, returnType: "string"): string;
-function hexToHsl(hex: string, returnType?: "string" | "ColorHSL"): string | ColorHSL {
+function hexToHsl(hex: string, returnType?: "string"): string | ColorHSL {
     const hsl = rgbToHsl(hexToRgb(hex));
 
     return returnType === "string" ? `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)` : hsl;
 }
 
-function hexToHsv(hex: string): ColorHSV;
-function hexToHsv(hex: string, returnType: "string"): string;
-function hexToHsv(hex: string, returnType?: "string" | "ColorHSV"): string | ColorHSV {
+function hexToHsv(hex: string): string {
     const hsv = rgbToHsv(hexToRgb(hex));
 
-    return returnType === "string" ? `hsv(${hsv.h}, ${hsv.s}%, ${hsv.v}%)` : hsv;
-}
-
-function rgbToHex(rgb: ColorRGB): string {
-    return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`.toLowerCase();
+    return `hsv(${hsv.h}, ${hsv.s}%, ${hsv.v}%)`;
 }
 
 function rgbToHsl(rgb: ColorRGB): ColorHSL;
 function rgbToHsl(rgb: ColorRGB, returnType: "string"): string;
-function rgbToHsl(rgb: ColorRGB, returnType?: "ColorHSL" | "string"): string | ColorHSL {
+function rgbToHsl(rgb: ColorRGB, returnType?: "string"): string | ColorHSL {
     const normalizedRgb = normalizeRgb(rgb);
     const max = Math.max(normalizedRgb.r, normalizedRgb.g, normalizedRgb.b);
     const min = Math.min(normalizedRgb.r, normalizedRgb.g, normalizedRgb.b);
@@ -96,7 +85,7 @@ function rgbToHsl(rgb: ColorRGB, returnType?: "ColorHSL" | "string"): string | C
 
 function rgbToHsv(rgb: ColorRGB): ColorHSV;
 function rgbToHsv(rgb: ColorRGB, returnType: "string"): string;
-function rgbToHsv(rgb: ColorRGB, returnType?: "ColorHSV" | "string"): string | ColorHSV {
+function rgbToHsv(rgb: ColorRGB, returnType?: "string"): string | ColorHSV {
     const normalizedRgb = normalizeRgb(rgb);
     let v = Math.max(normalizedRgb.r, normalizedRgb.g, normalizedRgb.b);
     const diff = v - Math.min(normalizedRgb.r, normalizedRgb.g, normalizedRgb.b);
@@ -171,7 +160,7 @@ function normalizeRgb(rgb: ColorRGB) {
     return { r: rgb.r / 255, g: rgb.g / 255, b: rgb.b / 255 };
 }
 
-function hexToFilter(hex: string): { filter: string, loss: number } {
+function hexToFilter(hex: string): { filter: string } {
     if (lastSolvedFilter?.hex !== hex) {
         const colorFilter = new ColorFilter(hexToRgb(hex));
         lastSolvedFilter = { hex, result: new FilterSolver(colorFilter).solve() };
@@ -202,7 +191,7 @@ class ColorFilter {
         this.colorRGB = rgb;
     }
 
-    hueRotate(angle: number = 0): void {
+    hueRotate(angle: number): void {
         const radians = angle / 180 * Math.PI;
         const sin = Math.sin(radians);
         const cos = Math.cos(radians);
@@ -220,7 +209,7 @@ class ColorFilter {
         ]);
     }
 
-    sepia(value: number = 1): void {
+    sepia(value: number): void {
         this.multiply([
             0.393 + 0.607 * (1 - value),
             0.769 - 0.769 * (1 - value),
@@ -234,7 +223,7 @@ class ColorFilter {
         ]);
     }
 
-    saturate(value: number = 1): void {
+    saturate(value: number): void {
         this.multiply([
             0.213 + 0.787 * value,
             0.715 - 0.715 * value,
@@ -257,21 +246,21 @@ class ColorFilter {
         this.colorRGB.b = newB;
     }
 
-    brightness(value: number = 1): void {
+    brightness(value: number): void {
         this.linear(value);
     }
 
-    contrast(value: number = 1): void {
+    contrast(value: number): void {
         this.linear(value, -(0.5 * value) + 0.5);
     }
 
-    linear(slope: number = 1, intercept: number = 0): void {
+    linear(slope: number, intercept: number = 0): void {
         this.colorRGB.r = this.clamp(this.colorRGB.r * slope + intercept * 255);
         this.colorRGB.g = this.clamp(this.colorRGB.g * slope + intercept * 255);
         this.colorRGB.b = this.clamp(this.colorRGB.b * slope + intercept * 255);
     }
 
-    invert(value: number = 1): void {
+    invert(value: number): void {
         this.colorRGB.r = this.clamp((value + this.colorRGB.r / 255 * (1 - 2 * value)) * 255);
         this.colorRGB.g = this.clamp((value + this.colorRGB.g / 255 * (1 - 2 * value)) * 255);
         this.colorRGB.b = this.clamp((value + this.colorRGB.b / 255 * (1 - 2 * value)) * 255);
@@ -300,7 +289,7 @@ class FilterSolver {
         this.randomBits = mulberry32(this.seed);
     }
 
-    solve(): { filter: string, loss: number } {
+    solve(): { filter: string } {
         let best = this.solveOnce();
         let bestError = this.renderedError(best.values);
 
@@ -315,7 +304,7 @@ class FilterSolver {
             }
         }
 
-        return { filter: this.filterCSS(best.values), loss: best.loss };
+        return { filter: this.filterCSS(best.values) };
     }
 
     solveOnce(): { values: number[]; loss: number } {

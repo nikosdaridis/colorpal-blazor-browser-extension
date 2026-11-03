@@ -9,7 +9,6 @@ namespace ColorPal.Services;
 public sealed class StateService
 {
     private readonly HttpClient _httpClient;
-    private readonly IJSRuntime _jsRuntime;
     private readonly ILogger<StateService> _logger;
     private const int COLOR_NAMES_STEP = 4;
     private Dictionary<uint, string> _colorNamesMap = [];
@@ -18,10 +17,9 @@ public sealed class StateService
     public StateService(HttpClient httpClient, IJSRuntime jsRuntime, ILogger<StateService> logger)
     {
         _httpClient = httpClient;
-        _jsRuntime = jsRuntime;
         _logger = logger;
 
-        _ = _jsRuntime.InvokeVoidAsync(JsFunctions.InitializeStateService.Value(), DotNetObjectReference.Create(this));
+        _ = jsRuntime.InvokeVoidAsync(JsFunctions.InitializeStateService.Value(), DotNetObjectReference.Create(this));
     }
 
     public Task DecompressParseAndCacheColorNamesAsync() =>

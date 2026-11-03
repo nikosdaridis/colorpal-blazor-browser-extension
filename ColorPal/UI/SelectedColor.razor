@@ -121,7 +121,7 @@
     /// <summary>
     /// Renders the component
     /// </summary>
-    private async Task RenderSelectedColorAsync(string? input = null)
+    private async Task RenderSelectedColorAsync(string? input)
     {
         _isSelectedColorSaved = false;
         await InvokeAsync(StateHasChanged);
@@ -157,8 +157,7 @@
         }
 
         _selectedHEXColor = hexColor;
-        (bool isSaved, string[] savedColors) = await IsColorSavedAsync(_selectedHEXColor);
-        _isSelectedColorSaved = isSaved;
+        _isSelectedColorSaved = (await IsColorSavedAsync(_selectedHEXColor)).IsSaved;
 
         if (_colorName.Show)
         {

@@ -25,7 +25,6 @@ let stateServiceReference: DotNetObjectReference | null = null;
 let colorsGridComponent: DotNetObjectReference | null = null;
 let draggingElement: ColorRectangleElement | null = null;
 let replacingElement: HTMLElement | null = null;
-let mouseOverColor: boolean = false;
 let savedColorsStorageKey: string | null = null;
 
 // Initializes state service reference
@@ -348,8 +347,6 @@ function onDragOver(event: Event) {
 }
 
 function onDragEnter(event: Event) {
-    mouseOverColor = true;
-
     if (findColorRectangle(event) !== null) {
         event.preventDefault();
     }
@@ -362,7 +359,6 @@ function onDragLeave(event: Event) {
         return;
     }
 
-    mouseOverColor = false;
     colorRectangle.classList.remove(COLOR_RECTANGLE_REPLACING_CLASS);
 }
 

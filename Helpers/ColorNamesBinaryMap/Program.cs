@@ -132,7 +132,7 @@ public readonly record struct ColorName
 {
     public string? Name { get; init; }
 
-    public ColorRGB? RGB { get; init; }
+    public ColorRGB RGB { get; init; }
 }
 
 public readonly record struct ColorRGB
@@ -270,12 +270,7 @@ public sealed class ColorNamesBinaryMap()
 
             foreach (ColorName colorName in colorNames)
             {
-                if (colorName.RGB is not ColorRGB namedColorRGB)
-                {
-                    continue;
-                }
-
-                double similarity = CalculateSimilarity(colorRGB, namedColorRGB);
+                double similarity = CalculateSimilarity(colorRGB, colorName.RGB);
                 if (similarity > highestSimilarity)
                 {
                     closestNamedColor = colorName;
