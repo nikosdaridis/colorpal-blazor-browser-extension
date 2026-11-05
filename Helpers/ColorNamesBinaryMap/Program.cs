@@ -210,7 +210,7 @@ public sealed class ColorNamesBinaryMap()
         ConcurrentDictionary<uint, byte> uniqueColorsMap = GenerateUniqueColors(step);
         PopulateColorsMap(uniqueColorsMap, colorNames, colorsMap);
 
-        return new Dictionary<uint, string>(colorsMap);
+        return CopyInKeyOrder(colorsMap);
 
         // Generates dictionary of unique rounded colors
         ConcurrentDictionary<uint, byte> GenerateUniqueColors(int step)
@@ -260,6 +260,20 @@ public sealed class ColorNamesBinaryMap()
             });
 
             Console.WriteLine($"\rProgress: {totalIterations:N0}/{totalIterations:N0} (100.00%)");
+        }
+
+        static Dictionary<uint, string> CopyInKeyOrder(ConcurrentDictionary<uint, string> colorsMap)
+        {
+            uint[] sortedColorKeys = [.. colorsMap.Keys];
+            Array.Sort(sortedColorKeys);
+
+            Dictionary<uint, string> orderedColorsMap = new(sortedColorKeys.Length);
+            foreach (uint colorKey in sortedColorKeys)
+            {
+                orderedColorsMap.Add(colorKey, colorsMap[colorKey]);
+            }
+
+            return orderedColorsMap;
         }
 
         // Finds the closest named color to the given RGB using Euclidean distance
