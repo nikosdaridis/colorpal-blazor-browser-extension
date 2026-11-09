@@ -1,5 +1,6 @@
 ﻿<button class="@GetTabHighlightClass() inline-flex cursor-pointer items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap"
         id=@($"colorCodeTab-{Name}")
+        aria-pressed=@(IsActive ? "true" : "false")
         @onclick=HandleOnClickAsync>
     @Name
 </button>

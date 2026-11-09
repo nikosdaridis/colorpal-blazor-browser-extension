@@ -2,6 +2,7 @@
         style="background-color: @HEXColor;"
         data-color=@HEXColor
         aria-label=@GetAriaLabel()
+        aria-current=@(IsSelected ? "true" : null)
         draggable=@(ActiveColorTool == ColorToolType.Move ? "true" : "false")
         @onclick=HandleOnClickAsync>
 
