@@ -3,7 +3,7 @@
     "message": "ColorPal: Color Picker & Eyedropper"
   },
   "description": {
-    "message": "Color picker, Eyedropper. Pick colour and gradient, HEX, RGB. Better than color pick, eye dropper, colour pick, colorzilla, geco."
+    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
   },
   "defaultTitle": {
     "message": "Click to open ColorPal"
