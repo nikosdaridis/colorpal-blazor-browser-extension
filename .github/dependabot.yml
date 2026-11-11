@@ -12,7 +12,7 @@ updates:
     groups:
       blazor:
         patterns:
-          - "Microsoft.AspNetCore.Components.WebAssembly*"
+          - "Microsoft.AspNetCore.Components.*"
 
   - package-ecosystem: "nuget"
     directory: "/Helpers/ColorNamesBinaryMap"

@@ -1,19 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
 	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
+		<TargetFramework>net11.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<CompressionEnabled>false</CompressionEnabled>
 		<InvariantGlobalization>true</InvariantGlobalization>
+		<MetricsSupport>false</MetricsSupport>
+		<EventSourceSupport>false</EventSourceSupport>
+		<HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
+		<StaticWebAssetSpaFallbackEnabled>true</StaticWebAssetSpaFallbackEnabled>
 
 		<NpmLastInstall>node_modules/.last-install</NpmLastInstall>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="MessagePack" Version="3.1.12" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.14" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.14" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="11.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Gateway" Version="11.0.0" PrivateAssets="all" />
 	</ItemGroup>
 
 	<Target Name="CheckForNodeJs" BeforeTargets="CheckForNpm">
@@ -48,7 +52,7 @@
 	<Target Name="Rename_framework" BeforeTargets="CleanupPublish">
 		<Exec Command="powershell -Command &quot;Remove-Item '$(PublishDir)wwwroot\framework\' -Recurse -ErrorAction Ignore; Rename-Item -Path '$(PublishDir)wwwroot\_framework' -NewName framework;&quot;" />
 
-		<Exec Command="powershell -Command &quot;(gc '$(PublishDir)wwwroot\framework\blazor.webassembly.js') -replace '_framework', 'framework' | sc '$(PublishDir)wwwroot\framework\blazor.webassembly.js'&quot;" />
+		<Exec Command="powershell -Command &quot;(gc '$(PublishDir)wwwroot\framework\blazor.webassembly.js') -replace '_framework', 'framework' -replace '//# sourceMappingURL=blazor\.webassembly\.js\.map', '' | sc '$(PublishDir)wwwroot\framework\blazor.webassembly.js'&quot;" />
 
 		<Exec Command="powershell -Command &quot;(gc '$(PublishDir)wwwroot\index.html') -replace '_framework', 'framework' | sc '$(PublishDir)wwwroot\index.html'&quot;" />
 	</Target>
@@ -58,6 +62,7 @@
 			<FilesToRemove Include="$(PublishDir)wwwroot\ColorPal.styles.css" />
 			<FilesToRemove Include="$(PublishDir)wwwroot\CSS\app.css*" />
 			<FilesToRemove Include="$(PublishDir)wwwroot\JavaScript\uglify.js" />
+			<FilesToRemove Include="$(PublishDir)wwwroot\framework\blazor.webassembly.js.map" />
 		</ItemGroup>
 		<Delete Files="@(FilesToRemove)" />
 		<RemoveDir Directories="$(PublishDir)wwwroot\TypeScript" Condition="Exists('$(PublishDir)wwwroot\TypeScript')" />

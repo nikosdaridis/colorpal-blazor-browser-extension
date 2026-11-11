@@ -28,7 +28,7 @@
 
 ## 🛠 Development
 
-Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) and [Node.js 24](https://nodejs.org/en/download). Run every command from the repository root.
+Requires the [.NET 11 SDK](https://dotnet.microsoft.com/download/dotnet/11.0) and [Node.js 24](https://nodejs.org/en/download). Run every command from the repository root.
 
 1. Start the app as a web page. The first run also installs the npm packages:
 
@@ -46,7 +46,7 @@ Requires the [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0) an
    dotnet publish ColorPal/ColorPal.csproj -c Release
    ```
 
-   This creates `colorpal_<version>.zip` and a `colorpal_<version>` folder in `ColorPal/bin/Release/net10.0/publish`. For a smaller zip, first run `dotnet workload install wasm-tools`.
+   This creates `colorpal_<version>.zip` and a `colorpal_<version>` folder in `ColorPal/bin/Release/net11.0/publish`. For a smaller zip, first run `dotnet workload install wasm-tools`.
 
 2. To try it, open `chrome://extensions`, turn on Developer mode, choose Load unpacked and select the folder. Its full path must stay under 180 characters, or the popup won't start.
 
