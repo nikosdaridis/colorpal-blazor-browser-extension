@@ -13,6 +13,10 @@ updates:
       blazor:
         patterns:
           - "Microsoft.AspNetCore.Components.*"
+    ignore:
+      - dependency-name: "Microsoft.AspNetCore.Components.*"
+        update-types:
+          - "version-update:semver-major"
 
   - package-ecosystem: "nuget"
     directory: "/Helpers/ColorNamesBinaryMap"
