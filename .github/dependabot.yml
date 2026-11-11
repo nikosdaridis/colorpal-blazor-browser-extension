@@ -9,6 +9,10 @@ updates:
       - "dependencies"
       - ".NET"
       - "automerge"
+    groups:
+      blazor:
+        patterns:
+          - "Microsoft.AspNetCore.Components.WebAssembly*"
 
   - package-ecosystem: "nuget"
     directory: "/Helpers/ColorNamesBinaryMap"
