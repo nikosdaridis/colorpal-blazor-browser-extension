@@ -39,7 +39,7 @@
     public ColorCodeFormat ActiveColorCodeFormat { get; set; }
 
     [Parameter]
-    public IJSRuntime? JSRuntime { get; set; }
+    public JsInterop? JsInterop { get; set; }
 
     [Parameter]
     public LocalStorageService? LocalStorageService { get; set; }
@@ -54,7 +54,7 @@
     /// </summary>
     public async Task HandleOnClickAsync()
     {
-        if (JSRuntime is null || LocalStorageService is null || EventAggregator is null)
+        if (JsInterop is null || LocalStorageService is null || EventAggregator is null)
         {
             return;
         }
@@ -62,7 +62,7 @@
         if (await LocalStorageService.GetKeyAsync<string>(StorageKey.AutoCopyCode) == "true")
         {
             (string colorCodeValue, _) = await LocalStorageService.GetFormattedColorCodeAsync(HEXColor, ActiveColorCodeFormat);
-            _ = JSRuntime.InvokeVoidAsync(JsFunctions.CopyToClipboard.Value(), colorCodeValue);
+            _ = JsInterop.InvokeVoidAsync(JsFunctions.CopyToClipboard, colorCodeValue);
         }
 
         await EventAggregator.GetService(Event.SetSelectedColor).PublishAsync(HEXColor);

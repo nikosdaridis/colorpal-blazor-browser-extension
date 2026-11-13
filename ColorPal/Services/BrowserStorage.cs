@@ -1,5 +1,4 @@
 using ColorPal.Common;
-using Microsoft.JSInterop;
 using System.Text.Json;
 
 namespace ColorPal.Services;
@@ -11,11 +10,11 @@ public interface IBrowserStorage
     Task SetItemAsync<T>(string key, T value);
 }
 
-public sealed class BrowserStorage(IJSRuntime jsRuntime) : IBrowserStorage
+public sealed class BrowserStorage(JsInterop jsInterop) : IBrowserStorage
 {
     public async Task<T?> GetItemAsync<T>(string key)
     {
-        string? storedValue = await jsRuntime.InvokeAsync<string?>(JsFunctions.GetLocalStorageItem.Value(), key);
+        string? storedValue = await jsInterop.InvokeAsync<string?>(JsFunctions.GetLocalStorageItem, key);
 
         if (string.IsNullOrWhiteSpace(storedValue))
         {
@@ -33,5 +32,5 @@ public sealed class BrowserStorage(IJSRuntime jsRuntime) : IBrowserStorage
     }
 
     public async Task SetItemAsync<T>(string key, T value) =>
-        await jsRuntime.InvokeVoidAsync(JsFunctions.SetLocalStorageItem.Value(), key, JsonSerializer.Serialize(value));
+        await jsInterop.InvokeVoidAsync(JsFunctions.SetLocalStorageItem, key, JsonSerializer.Serialize(value));
 }

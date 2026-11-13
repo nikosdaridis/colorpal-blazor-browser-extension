@@ -13,6 +13,7 @@ public sealed class Program
         builder.RootComponents.Add<HeadOutlet>("head::after");
 
         builder.Services.AddSingleton(_ => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+        builder.Services.AddSingleton<JsInterop>();
         builder.Services.AddSingleton<IBrowserStorage, BrowserStorage>();
         builder.Services.AddSingleton<EventAggregator<string>>();
         builder.Services.AddSingleton<LocalStorageService>();

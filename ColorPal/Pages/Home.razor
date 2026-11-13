@@ -7,15 +7,15 @@
     return;
 }
 
-<SelectedColor NavigationManager=NavigationManager JSRuntime=JSRuntime LocalStorageService=LocalStorageService EventAggregator=EventAggregator StateService=StateService />
+<SelectedColor NavigationManager=NavigationManager JsInterop=JsInterop LocalStorageService=LocalStorageService EventAggregator=EventAggregator StateService=StateService />
 <div class="px-3 py-2">
     <ColorCodeFormatTabs LocalStorageService=LocalStorageService EventAggregator=EventAggregator />
-    <ColorCodePanel JSRuntime=JSRuntime LocalStorageService=LocalStorageService EventAggregator=EventAggregator />
+    <ColorCodePanel JsInterop=JsInterop LocalStorageService=LocalStorageService EventAggregator=EventAggregator />
 </div>
 
 <div class="grid gap-3 bg-[var(--secondary-color)] px-3 pt-1 pb-2">
-    <ColorsToolBar JSRuntime=JSRuntime LocalStorageService=LocalStorageService EventAggregator=EventAggregator StateService=StateService />
-    <ColorsGrid JSRuntime=JSRuntime LocalStorageService=LocalStorageService EventAggregator=EventAggregator />
+    <ColorsToolBar JsInterop=JsInterop LocalStorageService=LocalStorageService EventAggregator=EventAggregator StateService=StateService />
+    <ColorsGrid JsInterop=JsInterop LocalStorageService=LocalStorageService EventAggregator=EventAggregator />
 </div>
 
 @code {
@@ -28,7 +28,7 @@
     {
         await base.OnInitializedAsync();
 
-        if (JSRuntime is null || LocalStorageService is null)
+        if (JsInterop is null || LocalStorageService is null)
         {
             return;
         }
@@ -41,6 +41,6 @@
             _ = StateService?.DecompressParseAndCacheColorNamesAsync();
         }
 
-        _ = JSRuntime.InvokeVoidAsync(JsFunctions.IsInitialized.Value());
+        _ = JsInterop.InvokeVoidAsync(JsFunctions.IsInitialized);
     }
 }

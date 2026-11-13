@@ -8,12 +8,12 @@
                      IconThemeFilter=false
                      AriaLabel="Eyedropper"
                      HandleClick=HandleEyeDropperClickAsync />
-        @if (_colorName.Show && !string.IsNullOrWhiteSpace(_colorName.Selected) && JSRuntime is not null)
+        @if (_colorName.Show && !string.IsNullOrWhiteSpace(_colorName.Selected) && JsInterop is not null)
         {
             <button class="selected-color__name cursor-pointer rounded-lg bg-white/50 px-2 py-1 text-center font-semibold text-[11px] shadow-xl backdrop-blur-xl transition-all duration-200 hover:bg-white/75 active:scale-90"
                     aria-label=@($"{_colorName.Selected}, copy color name")
                     @onclick:stopPropagation
-                    @onclick=@(async () => await JSRuntime.InvokeVoidAsync(JsFunctions.CopyToClipboard.Value(), _colorName.Selected))>
+                    @onclick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.CopyToClipboard, _colorName.Selected))>
                 @_colorName.Selected
             </button>
         }
@@ -50,7 +50,7 @@
     public NavigationManager? NavigationManager { get; set; }
 
     [Parameter]
-    public IJSRuntime? JSRuntime { get; set; }
+    public JsInterop? JsInterop { get; set; }
 
     [Parameter]
     public LocalStorageService? LocalStorageService { get; set; }
@@ -75,7 +75,7 @@
     {
         await base.OnInitializedAsync();
 
-        if (JSRuntime is null || LocalStorageService is null || EventAggregator is null || StateService is null)
+        if (JsInterop is null || LocalStorageService is null || EventAggregator is null || StateService is null)
         {
             return;
         }
@@ -101,7 +101,7 @@
         {
             StateHasChanged();
             await StateService.DecompressParseAndCacheColorNamesAsync();
-            _colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFunctions.HexToRgb.Value(), _selectedHEXColor));
+            _colorName.Selected = StateService.FindClosestRoundedColorName(await JsInterop.InvokeAsync<ColorRGB>(JsFunctions.HexToRgb, _selectedHEXColor));
         }
     }
 
@@ -109,14 +109,14 @@
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (JSRuntime is null || _lostFocusTargetSelector is null)
+        if (JsInterop is null || _lostFocusTargetSelector is null)
         {
             return;
         }
 
         string lostFocusTargetSelector = _lostFocusTargetSelector;
         _lostFocusTargetSelector = null;
-        await JSRuntime.InvokeVoidAsync(JsFunctions.RestoreLostFocus.Value(), lostFocusTargetSelector);
+        await JsInterop.InvokeVoidAsync(JsFunctions.RestoreLostFocus, lostFocusTargetSelector);
     }
 
     /// <summary>
@@ -133,12 +133,12 @@
     /// </summary>
     private async Task HandleEyeDropperClickAsync()
     {
-        if (JSRuntime is null || EventAggregator is null)
+        if (JsInterop is null || EventAggregator is null)
         {
             return;
         }
 
-        string eyeDropperColor = await JSRuntime.InvokeAsync<string?>(JsFunctions.ActivateEyeDropper.Value()) ?? string.Empty;
+        string eyeDropperColor = await JsInterop.InvokeAsync<string?>(JsFunctions.ActivateEyeDropper) ?? string.Empty;
         await EventAggregator.GetService(Event.EyedropperPick).PublishAsync(eyeDropperColor);
     }
 
@@ -147,7 +147,7 @@
     /// </summary>
     private async Task SetSelectedColorAsync(string hexColor)
     {
-        if (JSRuntime is null || LocalStorageService is null || StateService is null)
+        if (JsInterop is null || LocalStorageService is null || StateService is null)
         {
             return;
         }
@@ -162,7 +162,7 @@
 
         if (_colorName.Show)
         {
-            _colorName.Selected = StateService.FindClosestRoundedColorName(await JSRuntime.InvokeAsync<ColorRGB>(JsFunctions.HexToRgb.Value(), _selectedHEXColor));
+            _colorName.Selected = StateService.FindClosestRoundedColorName(await JsInterop.InvokeAsync<ColorRGB>(JsFunctions.HexToRgb, _selectedHEXColor));
         }
 
         await LocalStorageService.SetKeyAsync(StorageKey.SelectedHexColor, hexColor);
@@ -247,12 +247,12 @@
     /// </summary>
     private async Task OpenColorPickerAsync()
     {
-        if (JSRuntime is null || EventAggregator is null)
+        if (JsInterop is null || EventAggregator is null)
         {
             return;
         }
 
-        await JSRuntime.InvokeVoidAsync(JsFunctions.OpenColorPicker.Value(), "colorPicker");
+        await JsInterop.InvokeVoidAsync(JsFunctions.OpenColorPicker, "colorPicker");
         await EventAggregator.GetService(Event.OpenColorPicker).PublishAsync(_selectedHEXColor);
     }
 
@@ -274,7 +274,7 @@
     /// </summary>
     private async Task CopyColorCodeToClipboardAsync(string hexColor)
     {
-        if (JSRuntime is null || LocalStorageService is null)
+        if (JsInterop is null || LocalStorageService is null)
         {
             return;
         }
@@ -291,7 +291,7 @@
 
         (string colorCode, _) = await LocalStorageService.GetFormattedColorCodeAsync(hexColor, activeColorCodeFormat);
 
-        await JSRuntime.InvokeVoidAsync(JsFunctions.CopyToClipboard.Value(), colorCode);
+        await JsInterop.InvokeVoidAsync(JsFunctions.CopyToClipboard, colorCode);
     }
 
     public void Dispose()

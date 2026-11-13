@@ -41,16 +41,16 @@
     </div>
 
     <div class="flex items-center justify-between gap-4 pt-4">
-        @if (JSRuntime is not null)
+        @if (JsInterop is not null)
         {
             <RectangularLabelButton Label="Website"
                                     IconPath="Icons\website.svg"
                                     IconSize=Size.Small
-                                    HandleClick=@(async () => await JSRuntime.InvokeVoidAsync(JsFunctions.OpenExternalUrl.Value(), WEBSITE_URL)) />
+                                    HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, WEBSITE_URL)) />
             <RectangularLabelButton Label="GitHub"
                                     IconPath="Icons\github.svg"
                                     IconSize=Size.Small
-                                    HandleClick=@(async () => await JSRuntime.InvokeVoidAsync(JsFunctions.OpenExternalUrl.Value(), GITHUB_URL)) />
+                                    HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, GITHUB_URL)) />
             <h4 id="version">@_manifestVersion</h4>
         }
     </div>
@@ -69,12 +69,12 @@
     {
         await base.OnInitializedAsync();
 
-        if (JSRuntime is null)
+        if (JsInterop is null)
         {
             return;
         }
 
-        _manifestVersion = await JSRuntime.InvokeAsync<string>(JsFunctions.GetManifestVersionAsync.Value());
+        _manifestVersion = await JsInterop.InvokeAsync<string>(JsFunctions.GetManifestVersionAsync);
     }
 
     private void NavigateBackToHome() =>

@@ -14,12 +14,12 @@ public sealed class StateService
     private Dictionary<uint, string> _colorNamesMap = [];
     private Task? _colorNamesLoadTask;
 
-    public StateService(HttpClient httpClient, IJSRuntime jsRuntime, ILogger<StateService> logger)
+    public StateService(HttpClient httpClient, JsInterop jsInterop, ILogger<StateService> logger)
     {
         _httpClient = httpClient;
         _logger = logger;
 
-        _ = jsRuntime.InvokeVoidAsync(JsFunctions.InitializeStateService.Value(), DotNetObjectReference.Create(this));
+        _ = jsInterop.InvokeVoidAsync(JsFunctions.InitializeStateService, DotNetObjectReference.Create(this));
     }
 
     public Task DecompressParseAndCacheColorNamesAsync() =>

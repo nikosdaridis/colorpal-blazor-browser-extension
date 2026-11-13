@@ -1,12 +1,11 @@
 using ColorPal.Common;
 using ColorPal.Common.Models;
-using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace ColorPal.Services;
 
-public sealed partial class LocalStorageService(IBrowserStorage browserStorage, IJSRuntime jsRuntime, ILogger<LocalStorageService> logger)
+public sealed partial class LocalStorageService(IBrowserStorage browserStorage, JsInterop jsInterop, ILogger<LocalStorageService> logger)
 {
     [GeneratedRegex("^#[0-9abcdef]{6}\\z", RegexOptions.IgnoreCase)]
     private static partial Regex HexColorValidationRegex();
@@ -29,14 +28,14 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
     public async Task ValidateAsync()
     {
         // Version
-        string version = await jsRuntime.InvokeAsync<string>(JsFunctions.GetManifestVersionAsync.Value()) ?? string.Empty;
+        string version = await jsInterop.InvokeAsync<string>(JsFunctions.GetManifestVersionAsync) ?? string.Empty;
         await SetKeyAsync(StorageKey.Version, version);
 
         // Theme
         string? storedTheme = await GetKeyAsync<string>(StorageKey.Theme);
         string theme = storedTheme is "light" or "dark"
             ? storedTheme
-            : (await jsRuntime.InvokeAsync<string>(JsFunctions.GetClientColorScheme.Value()));
+            : (await jsInterop.InvokeAsync<string>(JsFunctions.GetClientColorScheme));
         await SetThemeAsync(theme);
 
         // SelectedHexColor
@@ -119,7 +118,7 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
 
         if (format == ColorCodeFormat.Filter)
         {
-            filter = await jsRuntime.InvokeAsync<CssFilter>(JsFunctions.HexToFilter.Value(), hexColor);
+            filter = await jsInterop.InvokeAsync<CssFilter>(JsFunctions.HexToFilter, hexColor);
 
             if (await GetKeyAsync<string>(StorageKey.PrependBlackFilter) == "true")
             {
@@ -130,9 +129,9 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
         string colorCode = format switch
         {
             ColorCodeFormat.HEX => await GetKeyAsync<string>(StorageKey.AddHexCharacter) == "true" ? hexColor : hexColor[1..],
-            ColorCodeFormat.RGB => await jsRuntime.InvokeAsync<string>(JsFunctions.HexToRgb.Value(), hexColor, "string"),
-            ColorCodeFormat.HSL => await jsRuntime.InvokeAsync<string>(JsFunctions.HexToHsl.Value(), hexColor, "string"),
-            ColorCodeFormat.HSV => await jsRuntime.InvokeAsync<string>(JsFunctions.HexToHsv.Value(), hexColor),
+            ColorCodeFormat.RGB => await jsInterop.InvokeAsync<string>(JsFunctions.HexToRgb, hexColor, "string"),
+            ColorCodeFormat.HSL => await jsInterop.InvokeAsync<string>(JsFunctions.HexToHsl, hexColor, "string"),
+            ColorCodeFormat.HSV => await jsInterop.InvokeAsync<string>(JsFunctions.HexToHsv, hexColor),
             ColorCodeFormat.Filter => filter?.Filter ?? hexColor,
             _ => hexColor
         };
@@ -153,12 +152,12 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
         await SetCssVariableAsync(CSSVariable.ThemeInvert, Color.LightThemeInvert, Color.DarkThemeInvert);
 
         // Sets theme filter based on the current theme
-        await jsRuntime.InvokeVoidAsync(JsFunctions.SetCssVariable.Value(), CSSVariable.ThemeFilter.Value(),
-            await jsRuntime.InvokeAsync<string>(JsFunctions.GetThemeFilter.Value(), theme.Value()));
+        await jsInterop.InvokeVoidAsync(JsFunctions.SetCssVariable, CSSVariable.ThemeFilter.Value(),
+            await jsInterop.InvokeAsync<string>(JsFunctions.GetThemeFilter, theme.Value()));
 
         // Sets css variable for theme
         async Task SetCssVariableAsync(CSSVariable property, Color light, Color dark) =>
-            await jsRuntime.InvokeVoidAsync(JsFunctions.SetCssVariable.Value(), property.Value(), theme == Theme.Light ? light.Value() : dark.Value());
+            await jsInterop.InvokeVoidAsync(JsFunctions.SetCssVariable, property.Value(), theme == Theme.Light ? light.Value() : dark.Value());
     }
 
     /// <summary>

@@ -3,11 +3,11 @@
 
 <div class="mt-2 space-y-2">
     <div class="flex items-center space-x-2">
-        @if (JSRuntime is not null)
+        @if (JsInterop is not null)
         {
             <button class="inline-flex h-8 w-10 cursor-pointer items-center justify-center rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] font-medium transition-transform duration-100 hover:bg-[var(--secondary-color)] active:scale-90"
                     aria-label="Copy color code"
-                    @onclick=@(() => JSRuntime.InvokeVoidAsync(JsFunctions.CopyToClipboard.Value(), _colorCodeValue))>
+                    @onclick=@(() => JsInterop.InvokeVoidAsync(JsFunctions.CopyToClipboard, _colorCodeValue))>
 
                 @if (_activeColorCodeFormat == ColorCodeFormat.Filter)
                 {
@@ -41,7 +41,7 @@
     private static readonly TimeSpan _updateFilterMaxWait = TimeSpan.FromMilliseconds(100);
 
     [Parameter]
-    public IJSRuntime? JSRuntime { get; set; }
+    public JsInterop? JsInterop { get; set; }
 
     [Parameter]
     public LocalStorageService? LocalStorageService { get; set; }
@@ -125,7 +125,7 @@
     /// </summary>
     private async Task UpdateColorCodeAsync(string hexColor)
     {
-        if (JSRuntime is null || LocalStorageService is null || string.IsNullOrWhiteSpace(hexColor))
+        if (JsInterop is null || LocalStorageService is null || string.IsNullOrWhiteSpace(hexColor))
         {
             return;
         }
@@ -142,7 +142,7 @@
         _lastColorCodeActivityTimestamp = _lastColorCodeUpdateTimestamp;
 
         await InvokeAsync(StateHasChanged);
-        _ = JSRuntime.InvokeVoidAsync(JsFunctions.SetColorPickerPosition.Value());
+        _ = JsInterop.InvokeVoidAsync(JsFunctions.SetColorPickerPosition);
     }
 
     /// <summary>

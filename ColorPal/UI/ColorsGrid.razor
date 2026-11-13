@@ -13,7 +13,7 @@
                             TintsShadesIndex=@(colorIndex + 1)
                             ActiveColorTool=@_activeColorTool
                             ActiveColorCodeFormat=@_activeColorCodeFormat
-                            JSRuntime=JSRuntime
+                            JsInterop=JsInterop
                             LocalStorageService=LocalStorageService
                             EventAggregator=EventAggregator />
         }
@@ -26,7 +26,7 @@
                             IsSelected=@(_selectedHexColor == hexColor)
                             ActiveColorTool=@_activeColorTool
                             ActiveColorCodeFormat=@_activeColorCodeFormat
-                            JSRuntime=JSRuntime
+                            JsInterop=JsInterop
                             LocalStorageService=LocalStorageService
                             EventAggregator=EventAggregator />
         }
@@ -35,7 +35,7 @@
 
 @code {
     [Parameter]
-    public IJSRuntime? JSRuntime { get; set; }
+    public JsInterop? JsInterop { get; set; }
 
     [Parameter]
     public LocalStorageService? LocalStorageService { get; set; }
@@ -59,7 +59,7 @@
     {
         await base.OnInitializedAsync();
 
-        if (JSRuntime is null || LocalStorageService is null || EventAggregator is null)
+        if (JsInterop is null || LocalStorageService is null || EventAggregator is null)
         {
             return;
         }
@@ -74,7 +74,7 @@
         EventAggregator.GetService(Event.SetActiveColorTool).Subscribe(HandleActiveColorToolAsync);
 
         _dotNetObjectReference = DotNetObjectReference.Create(this);
-        await JSRuntime.InvokeVoidAsync(JsFunctions.InitializeColorsGridComponent.Value(), _dotNetObjectReference, StorageKey.SavedColorsArray.Value());
+        await JsInterop.InvokeVoidAsync(JsFunctions.InitializeColorsGridComponent, _dotNetObjectReference, StorageKey.SavedColorsArray.Value());
 
         _selectedHexColor = await LocalStorageService.GetKeyAsync<string>(StorageKey.SelectedHexColor) ?? string.Empty;
         await UpdateActiveColorCodeFormatAsync();
@@ -87,14 +87,14 @@
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (JSRuntime is null || _lostFocusTargetSelector is null)
+        if (JsInterop is null || _lostFocusTargetSelector is null)
         {
             return;
         }
 
         string lostFocusTargetSelector = _lostFocusTargetSelector;
         _lostFocusTargetSelector = null;
-        await JSRuntime.InvokeVoidAsync(JsFunctions.RestoreLostFocus.Value(), lostFocusTargetSelector);
+        await JsInterop.InvokeVoidAsync(JsFunctions.RestoreLostFocus, lostFocusTargetSelector);
     }
 
     /// <summary>
@@ -160,12 +160,12 @@
     /// </summary>
     private async Task SetGridColumnsAsync(string colorsPerLine)
     {
-        if (JSRuntime is null)
+        if (JsInterop is null)
         {
             return;
         }
 
-        await JSRuntime.InvokeVoidAsync(JsFunctions.SetGridColumns.Value(), "colorsGrid", colorsPerLine);
+        await JsInterop.InvokeVoidAsync(JsFunctions.SetGridColumns, "colorsGrid", colorsPerLine);
     }
 
     /// <summary>
@@ -213,15 +213,15 @@
     /// </summary>
     private async Task HandleRenderTintsShadesAsync(string hexColor)
     {
-        if (JSRuntime is null || EventAggregator is null)
+        if (JsInterop is null || EventAggregator is null)
         {
             return;
         }
 
         await EventAggregator.GetService(Event.ColorsPerLine).PublishAsync("10");
 
-        _tintsShadesBaseHslColor = await JSRuntime.InvokeAsync<ColorHSL>(JsFunctions.HexToHsl.Value(), hexColor);
-        _tintsShadesHexColors = await JSRuntime.InvokeAsync<string[]>(JsFunctions.HslToHexRange.Value(), _tintsShadesBaseHslColor.H, _tintsShadesBaseHslColor.S);
+        _tintsShadesBaseHslColor = await JsInterop.InvokeAsync<ColorHSL>(JsFunctions.HexToHsl, hexColor);
+        _tintsShadesHexColors = await JsInterop.InvokeAsync<string[]>(JsFunctions.HslToHexRange, _tintsShadesBaseHslColor.H, _tintsShadesBaseHslColor.S);
 
         int matchingTintPosition = Math.Clamp(_tintsShadesBaseHslColor.L, 1, _tintsShadesHexColors.Length);
         _lostFocusTargetSelector = $"#colorsGrid > :nth-child({matchingTintPosition})";
@@ -245,12 +245,12 @@
         EventAggregator.GetService(Event.SetSelectedColor).Unsubscribe(HandleSetSelectedColorAsync);
         EventAggregator.GetService(Event.SetActiveColorTool).Unsubscribe(HandleActiveColorToolAsync);
 
-        if (JSRuntime is null || _dotNetObjectReference is null)
+        if (JsInterop is null || _dotNetObjectReference is null)
         {
             return;
         }
 
-        await JSRuntime.InvokeVoidAsync(JsFunctions.DisposeColorsGridComponent.Value());
+        await JsInterop.InvokeVoidAsync(JsFunctions.DisposeColorsGridComponent);
         _dotNetObjectReference.Dispose();
     }
 }
