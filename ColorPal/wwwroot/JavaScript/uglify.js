@@ -1,10 +1,14 @@
-const { glob } = require("glob");
+const { readdir } = require("fs/promises");
 const { exec } = require("child_process");
 const path = require("path");
 
+const JAVASCRIPT_FOLDER = "./wwwroot/JavaScript";
+
 (async () => {
     try {
-        const files = await glob("./wwwroot/JavaScript/**/*.js");
+        const files = (await readdir(JAVASCRIPT_FOLDER, { recursive: true }))
+            .filter(relativePath => relativePath.endsWith(".js"))
+            .map(relativePath => path.join(JAVASCRIPT_FOLDER, relativePath));
         const filesToSkip = ["uglify.js"];
 
         files.forEach(file => {
