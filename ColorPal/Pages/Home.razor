@@ -38,7 +38,7 @@
 
         if (await LocalStorageService.GetKeyAsync<string>(StorageKey.ShowColorNames) == "true")
         {
-            _ = StateService?.DecompressParseAndCacheColorNamesAsync();
+            _ = StateService?.LoadColorNamesAsync();
         }
 
         _ = JsInterop.InvokeVoidAsync(JsFunctions.IsInitialized);

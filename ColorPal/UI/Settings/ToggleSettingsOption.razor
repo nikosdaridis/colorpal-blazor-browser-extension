@@ -61,7 +61,7 @@
 
         if (StorageKey == StorageKey.ShowColorNames && _isActive)
         {
-            _ = StateService?.DecompressParseAndCacheColorNamesAsync();
+            _ = StateService?.LoadColorNamesAsync();
         }
     }
 }

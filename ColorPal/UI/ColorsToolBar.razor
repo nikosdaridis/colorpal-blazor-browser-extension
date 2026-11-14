@@ -118,7 +118,7 @@
 
             if (showColorNames)
             {
-                await StateService.DecompressParseAndCacheColorNamesAsync();
+                await StateService.LoadColorNamesAsync();
             }
 
             if (!int.TryParse(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorsPerLine), out int colorsPerLine))
@@ -144,7 +144,7 @@
                 return;
             }
 
-            await StateService.DecompressParseAndCacheColorNamesAsync();
+            await StateService.LoadColorNamesAsync();
 
             StringBuilder csvBuilder = new();
             csvBuilder.AppendLine("Name,#HEX,HEX,RGB,HSL,HSV,Filter,Prepend Black Filter");

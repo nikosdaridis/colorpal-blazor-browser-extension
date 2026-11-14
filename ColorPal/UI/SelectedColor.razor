@@ -100,7 +100,7 @@
         if (_colorName.Show)
         {
             StateHasChanged();
-            await StateService.DecompressParseAndCacheColorNamesAsync();
+            await StateService.LoadColorNamesAsync();
             _colorName.Selected = StateService.FindClosestRoundedColorName(await JsInterop.InvokeAsync<ColorRGB>(JsFunctions.HexToRgb, _selectedHEXColor));
         }
     }

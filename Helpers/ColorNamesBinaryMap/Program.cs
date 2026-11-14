@@ -1,5 +1,4 @@
-using MessagePack;
-using MessagePack.Resolvers;
+using System.Buffers.Binary;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
@@ -11,9 +10,9 @@ namespace ColorNamesBinaryMap;
 sealed class Program
 {
     /*
-     * This application creates a compressed binary map linking RGB values to their nearest color names
+     * This application creates a binary map linking RGB values to their nearest color names
      * RGB values are rounded to a configurable precision step to improve performance
-     * The map, built from online JSON data, stores each 32-bit encoded RGB key with its closest color name for O(1) lookup
+     * The map, built from online JSON data, stores the closest color name of each rounded RGB value as an index into a table of names for O(1) lookup
      */
 
     private const string STEP_ARGUMENT = "--step";
@@ -53,8 +52,8 @@ sealed class Program
 
             string jsonData = await colorNamesBinaryMap.FetchJsonFromUriAsync(inputUri);
             List<ColorName> colorNames = ColorNamesBinaryMap.ParseColorData(jsonData);
-            Dictionary<uint, string> colorsMap = ColorNamesBinaryMap.GenerateRoundedColorMap(colorNames, step);
-            int serializedBytes = await ColorNamesBinaryMap.CompressAndSaveDataAsync(colorsMap, outputFilePath);
+            IReadOnlyDictionary<uint, string> colorsMap = ColorNamesBinaryMap.GenerateRoundedColorMap(colorNames, step);
+            int serializedBytes = await ColorNamesBinaryMap.SaveIndexGridAsync(colorsMap, step, outputFilePath);
 
             stopwatch.Stop();
             Console.WriteLine($"\n👍 Done in {stopwatch.Elapsed.TotalSeconds:F2} seconds!");
@@ -146,6 +145,11 @@ public readonly record struct ColorRGB
 
 public sealed class ColorNamesBinaryMap()
 {
+    private const int HEADER_BYTES = 8;
+    private const int LEVEL_COUNT_OFFSET = 2;
+    private const int NAME_COUNT_OFFSET = 4;
+    private const int MAX_NAME_COUNT = ushort.MaxValue + 1;
+    private const char NAME_SEPARATOR = '\n';
     private readonly HttpClient _httpClient = new();
 
     private sealed class InputModel
@@ -204,13 +208,13 @@ public sealed class ColorNamesBinaryMap()
     /// <summary>
     /// Generates map of unique rounded colors and their closest named color
     /// </summary>
-    public static Dictionary<uint, string> GenerateRoundedColorMap(List<ColorName> colorNames, int step)
+    public static IReadOnlyDictionary<uint, string> GenerateRoundedColorMap(List<ColorName> colorNames, int step)
     {
         ConcurrentDictionary<uint, string> colorsMap = new();
         ConcurrentDictionary<uint, byte> uniqueColorsMap = GenerateUniqueColors(step);
         PopulateColorsMap(uniqueColorsMap, colorNames, colorsMap);
 
-        return CopyInKeyOrder(colorsMap);
+        return colorsMap;
 
         // Generates dictionary of unique rounded colors
         ConcurrentDictionary<uint, byte> GenerateUniqueColors(int step)
@@ -260,20 +264,6 @@ public sealed class ColorNamesBinaryMap()
             });
 
             Console.WriteLine($"\rProgress: {totalIterations:N0}/{totalIterations:N0} (100.00%)");
-        }
-
-        static Dictionary<uint, string> CopyInKeyOrder(ConcurrentDictionary<uint, string> colorsMap)
-        {
-            uint[] sortedColorKeys = [.. colorsMap.Keys];
-            Array.Sort(sortedColorKeys);
-
-            Dictionary<uint, string> orderedColorsMap = new(sortedColorKeys.Length);
-            foreach (uint colorKey in sortedColorKeys)
-            {
-                orderedColorsMap.Add(colorKey, colorsMap[colorKey]);
-            }
-
-            return orderedColorsMap;
         }
 
         // Finds the closest named color to the given RGB using Euclidean distance
@@ -335,14 +325,14 @@ public sealed class ColorNamesBinaryMap()
     }
 
     /// <summary>
-    /// Compresses and saves the data to a file
+    /// Saves the data to a file
     /// </summary>
-    public static async Task<int> CompressAndSaveDataAsync(Dictionary<uint, string> colorsMap, string filePath)
+    public static async Task<int> SaveIndexGridAsync(IReadOnlyDictionary<uint, string> colorsMap, int step, string filePath)
     {
-        byte[] messagePackBytes = MessagePackSerializer.Serialize(colorsMap, ContractlessStandardResolver.Options.WithCompression(MessagePackCompression.Lz4Block));
-        await SaveToFileAsync(filePath, messagePackBytes);
+        byte[] indexGridBytes = EncodeIndexGrid(colorsMap, step);
+        await SaveToFileAsync(filePath, indexGridBytes);
 
-        return messagePackBytes.Length;
+        return indexGridBytes.Length;
 
         // Saves byte array to file
         static async Task SaveToFileAsync(string filePath, byte[] data)
@@ -350,5 +340,63 @@ public sealed class ColorNamesBinaryMap()
             Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
             await File.WriteAllBytesAsync(filePath, data);
         }
+    }
+
+    private static byte[] EncodeIndexGrid(IReadOnlyDictionary<uint, string> colorsMap, int step)
+    {
+        int[] channelLevels = [.. colorsMap.Keys.Select(colorKey => (int)(colorKey >> 16)).Distinct().Order()];
+        int levelCount = channelLevels.Length;
+        int cellCount = levelCount * levelCount * levelCount;
+
+        if (colorsMap.Count != cellCount)
+        {
+            throw new InvalidOperationException($"The map has {colorsMap.Count:N0} colors, a full grid of {levelCount} levels has {cellCount:N0}.");
+        }
+
+        Dictionary<string, ushort> nameIndexMap = [];
+        List<string> names = [];
+        ushort[] cellNameIndexes = new ushort[cellCount];
+        int cell = 0;
+
+        foreach (int red in channelLevels)
+        {
+            foreach (int green in channelLevels)
+            {
+                foreach (int blue in channelLevels)
+                {
+                    string name = colorsMap[(uint)(red << 16 | green << 8 | blue)];
+
+                    if (!nameIndexMap.TryGetValue(name, out ushort nameIndex))
+                    {
+                        if (names.Count == MAX_NAME_COUNT || name.Contains(NAME_SEPARATOR))
+                        {
+                            throw new InvalidOperationException($"The color name '{name}' can't be stored: the file holds up to {MAX_NAME_COUNT:N0} names, none with a line break.");
+                        }
+
+                        nameIndex = (ushort)names.Count;
+                        nameIndexMap.Add(name, nameIndex);
+                        names.Add(name);
+                    }
+
+                    cellNameIndexes[cell++] = nameIndex;
+                }
+            }
+        }
+
+        byte[] namesBytes = Encoding.UTF8.GetBytes(string.Join(NAME_SEPARATOR, names));
+        byte[] indexGridBytes = new byte[HEADER_BYTES + namesBytes.Length + cellCount * sizeof(ushort)];
+        Span<byte> indexGridSpan = indexGridBytes;
+        BinaryPrimitives.WriteUInt16LittleEndian(indexGridSpan, (ushort)step);
+        BinaryPrimitives.WriteUInt16LittleEndian(indexGridSpan[LEVEL_COUNT_OFFSET..], (ushort)levelCount);
+        BinaryPrimitives.WriteInt32LittleEndian(indexGridSpan[NAME_COUNT_OFFSET..], names.Count);
+        namesBytes.CopyTo(indexGridSpan[HEADER_BYTES..]);
+
+        Span<byte> cellsSpan = indexGridSpan[(HEADER_BYTES + namesBytes.Length)..];
+        for (int cellIndex = 0; cellIndex < cellCount; cellIndex++)
+        {
+            BinaryPrimitives.WriteUInt16LittleEndian(cellsSpan[(cellIndex * sizeof(ushort))..], cellNameIndexes[cellIndex]);
+        }
+
+        return indexGridBytes;
     }
 }
