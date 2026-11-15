@@ -1,5 +1,4 @@
 using System.Buffers.Binary;
-using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
@@ -52,8 +51,8 @@ sealed class Program
 
             string jsonData = await colorNamesBinaryMap.FetchJsonFromUriAsync(inputUri);
             List<ColorName> colorNames = ColorNamesBinaryMap.ParseColorData(jsonData);
-            IReadOnlyDictionary<uint, string> colorsMap = ColorNamesBinaryMap.GenerateRoundedColorMap(colorNames, step);
-            int serializedBytes = await ColorNamesBinaryMap.SaveIndexGridAsync(colorsMap, step, outputFilePath);
+            string[] closestNames = ColorNamesBinaryMap.GenerateRoundedColorMap(colorNames, step);
+            int serializedBytes = await ColorNamesBinaryMap.SaveIndexGridAsync(closestNames, step, outputFilePath);
 
             stopwatch.Stop();
             Console.WriteLine($"\n👍 Done in {stopwatch.Elapsed.TotalSeconds:F2} seconds!");
@@ -149,6 +148,8 @@ public sealed class ColorNamesBinaryMap()
     private const int LEVEL_COUNT_OFFSET = 2;
     private const int NAME_COUNT_OFFSET = 4;
     private const int MAX_NAME_COUNT = ushort.MaxValue + 1;
+    private const int MAX_CHANNEL_VALUE = byte.MaxValue;
+    private const int CELLS_PER_PROGRESS_UPDATE = 1000;
     private const char NAME_SEPARATOR = '\n';
     private readonly HttpClient _httpClient = new();
 
@@ -208,63 +209,43 @@ public sealed class ColorNamesBinaryMap()
     /// <summary>
     /// Generates map of unique rounded colors and their closest named color
     /// </summary>
-    public static IReadOnlyDictionary<uint, string> GenerateRoundedColorMap(List<ColorName> colorNames, int step)
+    public static string[] GenerateRoundedColorMap(List<ColorName> colorNames, int step)
     {
-        ConcurrentDictionary<uint, string> colorsMap = new();
-        ConcurrentDictionary<uint, byte> uniqueColorsMap = GenerateUniqueColors(step);
-        PopulateColorsMap(uniqueColorsMap, colorNames, colorsMap);
+        int[] channelLevels = GetChannelLevels(step);
+        int levelCount = channelLevels.Length;
+        string[] closestNames = new string[levelCount * levelCount * levelCount];
+        int completedCells = 0;
+        object consoleLock = new();
 
-        return colorsMap;
-
-        // Generates dictionary of unique rounded colors
-        ConcurrentDictionary<uint, byte> GenerateUniqueColors(int step)
+        Parallel.For(0, closestNames.Length, cell =>
         {
-            ConcurrentDictionary<uint, byte> uniqueColorsMap = new();
-            Parallel.For(0, 256, red =>
+            ColorRGB roundedColor = new()
             {
-                for (int green = 0; green < 256; green++)
-                {
-                    for (int blue = 0; blue < 256; blue++)
-                    {
-                        ColorRGB roundedColor = RoundColor(new ColorRGB { R = (byte)red, G = (byte)green, B = (byte)blue }, step);
-                        uint colorKey = EncodeColorKey(roundedColor);
-                        uniqueColorsMap.TryAdd(colorKey, 0);
-                    }
-                }
-            });
+                R = (byte)channelLevels[cell / (levelCount * levelCount)],
+                G = (byte)channelLevels[cell / levelCount % levelCount],
+                B = (byte)channelLevels[cell % levelCount]
+            };
 
-            return uniqueColorsMap;
-        }
-
-        // Populates the colors map with the closest named color for each unique color
-        void PopulateColorsMap(ConcurrentDictionary<uint, byte> uniqueColorsMap, List<ColorName> colorNames, ConcurrentDictionary<uint, string> colorsMap)
-        {
-            int currentIteration = 0;
-            int totalIterations = uniqueColorsMap.Count;
-            object consoleLock = new();
-
-            Parallel.ForEach(uniqueColorsMap.Keys, roundedColorKey =>
+            if (FindClosestColorEuclideanDistance(roundedColor, colorNames) is not ColorName { Name: string closestName })
             {
-                ColorRGB roundedColor = DecodeColorKey(roundedColorKey);
-                ColorName? closestColor = FindClosestColorEuclideanDistance(roundedColor, colorNames);
+                throw new InvalidOperationException($"No named color was found for {roundedColor}.");
+            }
 
-                if (closestColor is ColorName closestNamedColor)
+            closestNames[cell] = closestName;
+            int completed = Interlocked.Increment(ref completedCells);
+
+            if (completed % CELLS_PER_PROGRESS_UPDATE == 0)
+            {
+                lock (consoleLock)
                 {
-                    colorsMap.TryAdd(roundedColorKey, closestNamedColor.Name!);
-                    int iteration = Interlocked.Increment(ref currentIteration);
-
-                    if (iteration % 1000 == 0)
-                    {
-                        lock (consoleLock)
-                        {
-                            Console.Write($"\rProgress: {iteration:N0}/{totalIterations:N0} ({Math.Min((iteration / (double)totalIterations) * 100, 100):F2}%)");
-                        }
-                    }
+                    Console.Write($"\rProgress: {completed:N0}/{closestNames.Length:N0} ({Math.Min((completed / (double)closestNames.Length) * 100, 100):F2}%)");
                 }
-            });
+            }
+        });
 
-            Console.WriteLine($"\rProgress: {totalIterations:N0}/{totalIterations:N0} (100.00%)");
-        }
+        Console.WriteLine($"\rProgress: {closestNames.Length:N0}/{closestNames.Length:N0} (100.00%)");
+
+        return closestNames;
 
         // Finds the closest named color to the given RGB using Euclidean distance
         ColorName? FindClosestColorEuclideanDistance(ColorRGB colorRGB, List<ColorName> colorNames)
@@ -300,36 +281,14 @@ public sealed class ColorNamesBinaryMap()
                 return ((441.67 - Math.Sqrt(squaredDistance)) / 441.67) * 100;
             }
         }
-
-        // Rounds RGB values to the nearest multiple of step min 0, max 255
-        ColorRGB RoundColor(ColorRGB color, int step) =>
-            new()
-            {
-                R = color.R >= 255 ? (byte)255 : (byte)((color.R / step) * step),
-                G = color.G >= 255 ? (byte)255 : (byte)((color.G / step) * step),
-                B = color.B >= 255 ? (byte)255 : (byte)((color.B / step) * step)
-            };
-
-        // Encodes RGB to color key
-        uint EncodeColorKey(ColorRGB color) =>
-           (uint)(color.R << 16 | color.G << 8 | color.B);
-
-        // Decodes color key to RGB
-        ColorRGB DecodeColorKey(uint colorKey) =>
-            new()
-            {
-                R = (byte)(colorKey >> 16 & 0xFF),
-                G = (byte)(colorKey >> 8 & 0xFF),
-                B = (byte)(colorKey & 0xFF)
-            };
     }
 
     /// <summary>
     /// Saves the data to a file
     /// </summary>
-    public static async Task<int> SaveIndexGridAsync(IReadOnlyDictionary<uint, string> colorsMap, int step, string filePath)
+    public static async Task<int> SaveIndexGridAsync(string[] closestNames, int step, string filePath)
     {
-        byte[] indexGridBytes = EncodeIndexGrid(colorsMap, step);
+        byte[] indexGridBytes = EncodeIndexGrid(closestNames, step);
         await SaveToFileAsync(filePath, indexGridBytes);
 
         return indexGridBytes.Length;
@@ -342,45 +301,51 @@ public sealed class ColorNamesBinaryMap()
         }
     }
 
-    private static byte[] EncodeIndexGrid(IReadOnlyDictionary<uint, string> colorsMap, int step)
+    private static int[] GetChannelLevels(int step)
     {
-        int[] channelLevels = [.. colorsMap.Keys.Select(colorKey => (int)(colorKey >> 16)).Distinct().Order()];
-        int levelCount = channelLevels.Length;
+        List<int> channelLevels = [];
+
+        for (int level = 0; level < MAX_CHANNEL_VALUE; level += step)
+        {
+            channelLevels.Add(level);
+        }
+
+        channelLevels.Add(MAX_CHANNEL_VALUE);
+
+        return [.. channelLevels];
+    }
+
+    private static byte[] EncodeIndexGrid(string[] closestNames, int step)
+    {
+        int levelCount = GetChannelLevels(step).Length;
         int cellCount = levelCount * levelCount * levelCount;
 
-        if (colorsMap.Count != cellCount)
+        if (closestNames.Length != cellCount)
         {
-            throw new InvalidOperationException($"The map has {colorsMap.Count:N0} colors, a full grid of {levelCount} levels has {cellCount:N0}.");
+            throw new InvalidOperationException($"The grid has {closestNames.Length:N0} colors, {levelCount} levels need {cellCount:N0}.");
         }
 
         Dictionary<string, ushort> nameIndexMap = [];
         List<string> names = [];
         ushort[] cellNameIndexes = new ushort[cellCount];
-        int cell = 0;
 
-        foreach (int red in channelLevels)
+        for (int cell = 0; cell < cellCount; cell++)
         {
-            foreach (int green in channelLevels)
+            string name = closestNames[cell];
+
+            if (!nameIndexMap.TryGetValue(name, out ushort nameIndex))
             {
-                foreach (int blue in channelLevels)
+                if (names.Count == MAX_NAME_COUNT || name.Contains(NAME_SEPARATOR))
                 {
-                    string name = colorsMap[(uint)(red << 16 | green << 8 | blue)];
-
-                    if (!nameIndexMap.TryGetValue(name, out ushort nameIndex))
-                    {
-                        if (names.Count == MAX_NAME_COUNT || name.Contains(NAME_SEPARATOR))
-                        {
-                            throw new InvalidOperationException($"The color name '{name}' can't be stored: the file holds up to {MAX_NAME_COUNT:N0} names, none with a line break.");
-                        }
-
-                        nameIndex = (ushort)names.Count;
-                        nameIndexMap.Add(name, nameIndex);
-                        names.Add(name);
-                    }
-
-                    cellNameIndexes[cell++] = nameIndex;
+                    throw new InvalidOperationException($"The color name '{name}' can't be stored: the file holds up to {MAX_NAME_COUNT:N0} names, none with a line break.");
                 }
+
+                nameIndex = (ushort)names.Count;
+                nameIndexMap.Add(name, nameIndex);
+                names.Add(name);
             }
+
+            cellNameIndexes[cell] = nameIndex;
         }
 
         byte[] namesBytes = Encoding.UTF8.GetBytes(string.Join(NAME_SEPARATOR, names));
