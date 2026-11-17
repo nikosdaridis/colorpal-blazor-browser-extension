@@ -8,7 +8,7 @@
                      IconThemeFilter=false
                      AriaLabel="Eyedropper"
                      HandleClick=HandleEyeDropperClickAsync />
-        @if (_colorName.Show && !string.IsNullOrWhiteSpace(_colorName.Selected) && JsInterop is not null)
+        @if (_colorName.Show && !string.IsNullOrWhiteSpace(_colorName.Selected))
         {
             <button class="selected-color__name cursor-pointer rounded-lg bg-white/50 px-2 py-1 text-center font-semibold text-[11px] shadow-xl backdrop-blur-xl transition-all duration-200 hover:bg-white/75 active:scale-90"
                     aria-label=@($"{_colorName.Selected}, copy color name")
@@ -22,7 +22,7 @@
                      IconThemeFilter=false
                      Id="settingsButton"
                      AriaLabel="Settings"
-                     HandleClick=@(() => NavigationManager?.NavigateTo("/settings")) />
+                     HandleClick=@(() => NavigationManager.NavigateTo("/settings")) />
     </div>
 
     @if (!_isSelectedColorSaved)
@@ -46,20 +46,20 @@
 @code {
     private static readonly TimeSpan _colorPickerDebounceDelay = TimeSpan.FromMilliseconds(2);
 
-    [Parameter]
-    public NavigationManager? NavigationManager { get; set; }
+    [Parameter, EditorRequired]
+    public required NavigationManager NavigationManager { get; set; }
 
-    [Parameter]
-    public JsInterop? JsInterop { get; set; }
+    [Parameter, EditorRequired]
+    public required JsInterop JsInterop { get; set; }
 
-    [Parameter]
-    public LocalStorageService? LocalStorageService { get; set; }
+    [Parameter, EditorRequired]
+    public required LocalStorageService LocalStorageService { get; set; }
 
-    [Parameter]
-    public EventAggregator<string>? EventAggregator { get; set; }
+    [Parameter, EditorRequired]
+    public required EventAggregator<string> EventAggregator { get; set; }
 
-    [Parameter]
-    public StateService? StateService { get; set; }
+    [Parameter, EditorRequired]
+    public required StateService StateService { get; set; }
 
     private string _selectedHEXColor = "#000000";
     private bool _isSelectedColorSaved;
@@ -75,11 +75,6 @@
     {
         await base.OnInitializedAsync();
 
-        if (JsInterop is null || LocalStorageService is null || EventAggregator is null || StateService is null)
-        {
-            return;
-        }
-
         _colorPickerDebouncer = new Debouncer(DispatchExceptionAsync);
 
         EventAggregator.GetService(Event.EyedropperPick).Subscribe(SetSelectedColorAndPublishEventAsync);
@@ -88,7 +83,7 @@
         EventAggregator.GetService(Event.DeleteSavedColor).Subscribe(RenderSelectedColorAsync);
         EventAggregator.GetService(Event.DeleteAllSavedColors).Subscribe(RenderSelectedColorAsync);
 
-        if (NavigationManager?.HistoryEntryState == nameof(Pages.Settings))
+        if (NavigationManager.HistoryEntryState == nameof(Pages.Settings))
         {
             _lostFocusTargetSelector = "#settingsButton";
         }
@@ -109,7 +104,7 @@
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (JsInterop is null || _lostFocusTargetSelector is null)
+        if (_lostFocusTargetSelector is null)
         {
             return;
         }
@@ -133,11 +128,6 @@
     /// </summary>
     private async Task HandleEyeDropperClickAsync()
     {
-        if (JsInterop is null || EventAggregator is null)
-        {
-            return;
-        }
-
         string eyeDropperColor = await JsInterop.InvokeAsync<string?>(JsFunctions.ActivateEyeDropper) ?? string.Empty;
         await EventAggregator.GetService(Event.EyedropperPick).PublishAsync(eyeDropperColor);
     }
@@ -147,11 +137,6 @@
     /// </summary>
     private async Task SetSelectedColorAsync(string hexColor)
     {
-        if (JsInterop is null || LocalStorageService is null || StateService is null)
-        {
-            return;
-        }
-
         if (_selectedHEXColor == hexColor)
         {
             return;
@@ -174,7 +159,7 @@
     /// </summary>
     private async Task SetSelectedColorAndPublishEventAsync(string hexColor)
     {
-        if (string.IsNullOrWhiteSpace(hexColor) || EventAggregator is null)
+        if (string.IsNullOrWhiteSpace(hexColor))
         {
             return;
         }
@@ -189,11 +174,6 @@
     /// </summary>
     private async Task<(bool IsSaved, string[] SavedColors)> IsColorSavedAsync(string color)
     {
-        if (LocalStorageService is null)
-        {
-            return (false, []);
-        }
-
         string[] savedColors = await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [];
 
         return (savedColors.Contains(color), savedColors);
@@ -208,11 +188,6 @@
     /// </summary>
     private async Task SaveColorAsync(string hexColor, bool checkAutoSaveEyedropperSetting = false)
     {
-        if (LocalStorageService is null || EventAggregator is null)
-        {
-            return;
-        }
-
         if (string.IsNullOrWhiteSpace(hexColor))
         {
             return;
@@ -247,11 +222,6 @@
     /// </summary>
     private async Task OpenColorPickerAsync()
     {
-        if (JsInterop is null || EventAggregator is null)
-        {
-            return;
-        }
-
         await JsInterop.InvokeVoidAsync(JsFunctions.OpenColorPicker, "colorPicker");
         await EventAggregator.GetService(Event.OpenColorPicker).PublishAsync(_selectedHEXColor);
     }
@@ -274,11 +244,6 @@
     /// </summary>
     private async Task CopyColorCodeToClipboardAsync(string hexColor)
     {
-        if (JsInterop is null || LocalStorageService is null)
-        {
-            return;
-        }
-
         if (await LocalStorageService.GetKeyAsync<string>(StorageKey.AutoCopyCode) != "true")
         {
             return;
@@ -297,11 +262,6 @@
     public void Dispose()
     {
         _colorPickerDebouncer?.Dispose();
-
-        if (EventAggregator is null)
-        {
-            return;
-        }
 
         EventAggregator.GetService(Event.EyedropperPick).Unsubscribe(SetSelectedColorAndPublishEventAsync);
         EventAggregator.GetService(Event.EyedropperPick).Unsubscribe(SaveEyedropperColorAsync);

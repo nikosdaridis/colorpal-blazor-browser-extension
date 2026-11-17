@@ -39,8 +39,8 @@
 </div>
 
 @code {
-    [Parameter]
-    public LocalStorageService? LocalStorageService { get; set; }
+    [Parameter, EditorRequired]
+    public required LocalStorageService LocalStorageService { get; set; }
 
     [Parameter]
     public string? Label { get; set; }
@@ -54,11 +54,6 @@
     {
         await base.OnInitializedAsync();
 
-        if (LocalStorageService is null)
-        {
-            return;
-        }
-
         _theme = await GetLocalStorageThemeAsync();
     }
 
@@ -67,11 +62,6 @@
     /// </summary>
     private async Task ToggleThemeAsync()
     {
-        if (LocalStorageService is null)
-        {
-            return;
-        }
-
         _theme = await GetLocalStorageThemeAsync() == Theme.Light.Value()
             ? Theme.Dark.Value()
             : Theme.Light.Value();
@@ -82,13 +72,6 @@
     /// <summary>
     /// Gets theme from local storage
     /// </summary>
-    private async Task<string> GetLocalStorageThemeAsync()
-    {
-        if (LocalStorageService is null)
-        {
-            return Theme.Light.Value();
-        }
-
-        return await LocalStorageService.GetKeyAsync<string>(StorageKey.Theme) ?? Theme.Light.Value();
-    }
+    private async Task<string> GetLocalStorageThemeAsync() =>
+        await LocalStorageService.GetKeyAsync<string>(StorageKey.Theme) ?? Theme.Light.Value();
 }

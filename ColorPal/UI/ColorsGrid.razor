@@ -34,14 +34,14 @@
 </div>
 
 @code {
-    [Parameter]
-    public JsInterop? JsInterop { get; set; }
+    [Parameter, EditorRequired]
+    public required JsInterop JsInterop { get; set; }
 
-    [Parameter]
-    public LocalStorageService? LocalStorageService { get; set; }
+    [Parameter, EditorRequired]
+    public required LocalStorageService LocalStorageService { get; set; }
 
-    [Parameter]
-    public EventAggregator<string>? EventAggregator { get; set; }
+    [Parameter, EditorRequired]
+    public required EventAggregator<string> EventAggregator { get; set; }
 
     private string[] _savedHexColors = [];
     private string? _selectedHexColor;
@@ -58,11 +58,6 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-
-        if (JsInterop is null || LocalStorageService is null || EventAggregator is null)
-        {
-            return;
-        }
 
         EventAggregator.GetService(Event.ColorCodeActiveTab).Subscribe(UpdateActiveColorCodeFormatAsync);
         EventAggregator.GetService(Event.ColorsPerLine).Subscribe(HandleColorsPerLineChangeAsync);
@@ -87,7 +82,7 @@
     {
         await base.OnAfterRenderAsync(firstRender);
 
-        if (JsInterop is null || _lostFocusTargetSelector is null)
+        if (_lostFocusTargetSelector is null)
         {
             return;
         }
@@ -103,22 +98,12 @@
     [JSInvokable]
     public async Task RenderSavedColorsAsync(string? input = null)
     {
-        if (LocalStorageService is null)
-        {
-            return;
-        }
-
         _savedHexColors = await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [];
         StateHasChanged();
     }
 
     private async Task HandleDeleteSavedColorAsync(string hexColor)
     {
-        if (LocalStorageService is null)
-        {
-            return;
-        }
-
         _savedHexColors = await LocalStorageService.GetKeyAsync<string[]>(StorageKey.SavedColorsArray) ?? [];
         _lostFocusTargetSelector = _savedHexColors.Length > 0
             ? "#colorsGrid > :last-child"
@@ -131,11 +116,6 @@
     /// </summary>
     private async Task UpdateActiveColorCodeFormatAsync(string? activeColorCodeFormat = null)
     {
-        if (LocalStorageService is null)
-        {
-            return;
-        }
-
         if (string.IsNullOrWhiteSpace(activeColorCodeFormat))
         {
             activeColorCodeFormat = await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat);
@@ -158,15 +138,8 @@
     /// <summary>
     /// Sets grid columns based on colors per line
     /// </summary>
-    private async Task SetGridColumnsAsync(string colorsPerLine)
-    {
-        if (JsInterop is null)
-        {
-            return;
-        }
-
+    private async Task SetGridColumnsAsync(string colorsPerLine) =>
         await JsInterop.InvokeVoidAsync(JsFunctions.SetGridColumns, "colorsGrid", colorsPerLine);
-    }
 
     /// <summary>
     /// Handles selected color change
@@ -193,11 +166,6 @@
             _activeColorTool = ColorToolType.None;
         }
 
-        if (LocalStorageService is null || EventAggregator is null)
-        {
-            return;
-        }
-
         if (_activeColorTool != ColorToolType.TintsShades)
         {
             _tintsShadesBaseHslColor = null;
@@ -213,11 +181,6 @@
     /// </summary>
     private async Task HandleRenderTintsShadesAsync(string hexColor)
     {
-        if (JsInterop is null || EventAggregator is null)
-        {
-            return;
-        }
-
         await EventAggregator.GetService(Event.ColorsPerLine).PublishAsync("10");
 
         _tintsShadesBaseHslColor = await JsInterop.InvokeAsync<ColorHSL>(JsFunctions.HexToHsl, hexColor);
@@ -231,11 +194,6 @@
 
     public async ValueTask DisposeAsync()
     {
-        if (EventAggregator is null)
-        {
-            return;
-        }
-
         EventAggregator.GetService(Event.ColorCodeActiveTab).Unsubscribe(UpdateActiveColorCodeFormatAsync);
         EventAggregator.GetService(Event.ColorsPerLine).Unsubscribe(HandleColorsPerLineChangeAsync);
         EventAggregator.GetService(Event.SaveColor).Unsubscribe(RenderSavedColorsAsync);
@@ -245,7 +203,7 @@
         EventAggregator.GetService(Event.SetSelectedColor).Unsubscribe(HandleSetSelectedColorAsync);
         EventAggregator.GetService(Event.SetActiveColorTool).Unsubscribe(HandleActiveColorToolAsync);
 
-        if (JsInterop is null || _dotNetObjectReference is null)
+        if (_dotNetObjectReference is null)
         {
             return;
         }

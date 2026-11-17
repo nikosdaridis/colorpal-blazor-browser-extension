@@ -41,18 +41,15 @@
     </div>
 
     <div class="flex items-center justify-between gap-4 pt-4">
-        @if (JsInterop is not null)
-        {
-            <RectangularLabelButton Label="Website"
-                                    IconPath="Icons\website.svg"
-                                    IconSize=Size.Small
-                                    HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, WEBSITE_URL)) />
-            <RectangularLabelButton Label="GitHub"
-                                    IconPath="Icons\github.svg"
-                                    IconSize=Size.Small
-                                    HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, GITHUB_URL)) />
-            <h4>@_manifestVersion</h4>
-        }
+        <RectangularLabelButton Label="Website"
+                                IconPath="Icons\website.svg"
+                                IconSize=Size.Small
+                                HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, WEBSITE_URL)) />
+        <RectangularLabelButton Label="GitHub"
+                                IconPath="Icons\github.svg"
+                                IconSize=Size.Small
+                                HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, GITHUB_URL)) />
+        <h4>@_manifestVersion</h4>
     </div>
 </div>
 
@@ -69,14 +66,9 @@
     {
         await base.OnInitializedAsync();
 
-        if (JsInterop is null)
-        {
-            return;
-        }
-
         _manifestVersion = await JsInterop.InvokeAsync<string>(JsFunctions.GetManifestVersionAsync);
     }
 
     private void NavigateBackToHome() =>
-        NavigationManager?.NavigateTo("/", new NavigationOptions { HistoryEntryState = nameof(Settings) });
+        NavigationManager.NavigateTo("/", new NavigationOptions { HistoryEntryState = nameof(Settings) });
 }

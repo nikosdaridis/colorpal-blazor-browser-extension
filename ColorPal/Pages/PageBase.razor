@@ -2,17 +2,17 @@
 
 @code {
     [Inject]
-    protected NavigationManager? NavigationManager { get; set; }
+    public required NavigationManager NavigationManager { get; set; }
 
     [Inject]
-    protected JsInterop? JsInterop { get; set; }
+    public required JsInterop JsInterop { get; set; }
 
     [Inject]
-    protected LocalStorageService? LocalStorageService { get; set; }
+    public required LocalStorageService LocalStorageService { get; set; }
 
     [Inject]
-    protected EventAggregator<string>? EventAggregator { get; set; }
+    public required EventAggregator<string> EventAggregator { get; set; }
 
     [Inject]
-    protected StateService? StateService { get; set; }
+    public required StateService StateService { get; set; }
 }

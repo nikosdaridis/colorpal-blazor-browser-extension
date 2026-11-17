@@ -28,17 +28,12 @@
     {
         await base.OnInitializedAsync();
 
-        if (JsInterop is null || LocalStorageService is null)
-        {
-            return;
-        }
-
         await LocalStorageService.ValidateAsync();
         _isInitialized = true;
 
         if (await LocalStorageService.GetKeyAsync<string>(StorageKey.ShowColorNames) == "true")
         {
-            _ = StateService?.LoadColorNamesAsync();
+            _ = StateService.LoadColorNamesAsync();
         }
 
         _ = JsInterop.InvokeVoidAsync(JsFunctions.IsInitialized);

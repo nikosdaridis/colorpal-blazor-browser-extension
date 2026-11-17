@@ -12,11 +12,11 @@
 </div>
 
 @code {
-    [Parameter]
-    public LocalStorageService? LocalStorageService { get; set; }
+    [Parameter, EditorRequired]
+    public required LocalStorageService LocalStorageService { get; set; }
 
-    [Parameter]
-    public StateService? StateService { get; set; }
+    [Parameter, EditorRequired]
+    public required StateService StateService { get; set; }
 
     [Parameter]
     public string? Label { get; set; }
@@ -34,11 +34,6 @@
     {
         await base.OnInitializedAsync();
 
-        if (LocalStorageService is null)
-        {
-            return;
-        }
-
         string? localStorageIsActive = await LocalStorageService.GetKeyAsync<string>(StorageKey);
 
         _isActive = localStorageIsActive == "true";
@@ -52,16 +47,11 @@
     {
         _isActive = !_isActive;
 
-        if (LocalStorageService is null)
-        {
-            return;
-        }
-
         await LocalStorageService.SetKeyAsync<string>(StorageKey, _isActive.ToString().ToLower());
 
         if (StorageKey == StorageKey.ShowColorNames && _isActive)
         {
-            _ = StateService?.LoadColorNamesAsync();
+            _ = StateService.LoadColorNamesAsync();
         }
     }
 }
