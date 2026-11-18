@@ -2,7 +2,7 @@
 @implements IDisposable
 
 <div class="mt-2 space-y-2">
-    <div class="flex items-center space-x-2">
+    <div class="flex items-center gap-2">
         <button class="inline-flex h-8 w-10 cursor-pointer items-center justify-center rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] font-medium transition-transform duration-100 hover:bg-[var(--secondary-color)] active:scale-90"
                 aria-label="Copy color code"
                 @onclick=@(() => JsInterop.InvokeVoidAsync(JsFunctions.CopyToClipboard, _colorCodeValue))>
@@ -24,8 +24,7 @@
             }
         </button>
 
-        <div class="flex min-h-8 w-full items-center justify-center rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] text-center text-sm break-words text-[var(--theme-invert-color)] select-text"
-             style="font-size: @((_activeColorCodeFormat == ColorCodeFormat.Filter) ? "11" : "14")px;">
+        <div class="flex min-h-8 w-full items-center justify-center rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] text-center @ColorCodeTextSizeClass break-words text-[var(--theme-invert-color)] select-text">
             @_colorCodeValue
         </div>
     </div>
@@ -51,6 +50,9 @@
     private Debouncer? _updateColorCodeDebouncer;
     private long _lastColorCodeActivityTimestamp;
     private long _lastColorCodeUpdateTimestamp;
+
+    private string ColorCodeTextSizeClass =>
+        _activeColorCodeFormat == ColorCodeFormat.Filter ? "text-[0.6875rem]/(--text-sm--line-height)" : "text-sm";
 
     /// <summary>
     /// Subscribes to events, updates active color code format and value

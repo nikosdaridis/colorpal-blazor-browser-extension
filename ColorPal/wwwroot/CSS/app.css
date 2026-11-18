@@ -686,8 +686,8 @@ img[src=""] {
         height: 100%;
         border-radius: 70px;
         background: var(--primary-color);
-        transition: left 1s cubic-bezier(0.2, 0.9, 0.3, 1), padding 1s ease, margin 1s ease;
-        left: 0;
+        transition: inset-inline-start 1s cubic-bezier(0.2, 0.9, 0.3, 1), padding 1s ease, margin 1s ease;
+        inset-inline-start: 0;
     }
 
     .toggle-option[active="true"] {
@@ -695,11 +695,11 @@ img[src=""] {
     }
 
         .toggle-option[active="true"]:after {
-            left: 65%;
+            inset-inline-start: 65%;
         }
 
     .toggle-option:active:after {
-        padding-right: .8em;
+        padding-inline-end: .8em;
     }
 
     .toggle-option:focus-visible {
