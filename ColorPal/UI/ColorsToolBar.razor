@@ -9,7 +9,7 @@
                    IconTextFilter=true
                    AriaLabel=@GetColorToolLabel(tool)
                    HandleClick=@(async () => await HandleColorToolClickAsync(tool))
-                   IsActive=@(_activeColorTool == tool.Value())
+                   IsActive=@(_activeColorTool == tool)
                    IsToggle=@IsToggleColorTool(tool) />
     }
 
@@ -40,7 +40,7 @@
     [Parameter, EditorRequired]
     public required StateService StateService { get; set; }
 
-    private string? _activeColorTool;
+    private ColorToolType _activeColorTool = ColorToolType.None;
     private string _colorsPerLine = "5";
 
     /// <summary>
@@ -63,30 +63,22 @@
     /// </summary>
     private async Task HandleColorToolClickAsync(ColorToolType tool)
     {
-        ColorToolType previousActiveColorTool = await SetActiveColorToolAsync();
+        ColorToolType previousActiveColorTool = _activeColorTool;
+
+        await RemoveMoveListenersIfActiveAsync();
+        await SetActiveColorToolAsync(IsToggleColorTool(tool) && tool != _activeColorTool ? tool : ColorToolType.None);
 
         Task task = tool switch
         {
-            ColorToolType.Move => HandleMoveAsync(previousActiveColorTool),
-            ColorToolType.TintsShades => Task.CompletedTask,
-            ColorToolType.Delete => Task.CompletedTask,
+            ColorToolType.Move when previousActiveColorTool != ColorToolType.Move => JsInterop.InvokeVoidAsync(JsFunctions.HandleColorsMove),
+            ColorToolType.Move or ColorToolType.TintsShades or ColorToolType.Delete => Task.CompletedTask,
             ColorToolType.DeleteAll => HandleDeleteAllAsync(),
             ColorToolType.DownloadPNG => HandleDownloadPNGAsync(),
             ColorToolType.DownloadCSV => HandleDownloadCSVAsync(),
-            _ => Task.CompletedTask
+            _ => throw new ArgumentOutOfRangeException(nameof(tool), $"Not expected: {tool}")
         };
 
         await task;
-
-        async Task HandleMoveAsync(ColorToolType previousActiveColorTool)
-        {
-            if (previousActiveColorTool == ColorToolType.Move)
-            {
-                return;
-            }
-
-            await JsInterop.InvokeVoidAsync(JsFunctions.HandleColorsMove);
-        }
 
         async Task HandleDeleteAllAsync()
         {
@@ -163,30 +155,20 @@
 
             await JsInterop.InvokeVoidAsync(JsFunctions.DownloadCsv, csvBuilder.ToString(), "ColorPal-Data");
         }
+    }
 
-        async Task<ColorToolType> SetActiveColorToolAsync()
+    private async Task RemoveMoveListenersIfActiveAsync()
+    {
+        if (_activeColorTool == ColorToolType.Move)
         {
-            if (!EnumExtensions.TryParse(_activeColorTool, out previousActiveColorTool))
-            {
-                previousActiveColorTool = ColorToolType.None;
-            }
-
-            if (previousActiveColorTool == ColorToolType.Move)
-            {
-                await JsInterop.InvokeVoidAsync(JsFunctions.RemoveMoveColorsListeners);
-            }
-
-            _activeColorTool = tool switch
-            {
-                ColorToolType.DeleteAll or ColorToolType.DownloadPNG or ColorToolType.DownloadCSV => ColorToolType.None.Value(),
-                _ when _activeColorTool != tool.Value() => tool.Value(),
-                _ => ColorToolType.None.Value()
-            };
-
-            await EventAggregator.GetService(Event.SetActiveColorTool).PublishAsync(_activeColorTool);
-
-            return previousActiveColorTool;
+            await JsInterop.InvokeVoidAsync(JsFunctions.RemoveMoveColorsListeners);
         }
+    }
+
+    private async Task SetActiveColorToolAsync(ColorToolType activeColorTool)
+    {
+        _activeColorTool = activeColorTool;
+        await EventAggregator.GetService(Event.SetActiveColorTool).PublishAsync(_activeColorTool.Value());
     }
 
     /// <summary>
@@ -194,13 +176,8 @@
     /// </summary>
     private async Task ResetActiveColorToolAsync(string hexColor)
     {
-        if (_activeColorTool == ColorToolType.Move.Value())
-        {
-            await JsInterop.InvokeVoidAsync(JsFunctions.RemoveMoveColorsListeners);
-        }
-
-        _activeColorTool = string.Empty;
-        await EventAggregator.GetService(Event.SetActiveColorTool).PublishAsync(_activeColorTool);
+        await RemoveMoveListenersIfActiveAsync();
+        await SetActiveColorToolAsync(ColorToolType.None);
 
         StateHasChanged();
     }
