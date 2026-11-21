@@ -1,6 +1,6 @@
 ﻿@implements IDisposable
 
-<div class="selected-color relative flex h-[125px] w-full cursor-pointer flex-col items-center justify-center text-black"
+<div class="selected-color relative flex h-[var(--selected-color-height)] w-full cursor-pointer flex-col items-center justify-center text-black"
      style=@($"background-color: {_selectedHEXColor}")
      @onclick=OpenColorPickerAsync>
     <div class="absolute inset-x-4 top-2 flex items-center justify-between">

@@ -51,8 +51,9 @@
     --theme-toggle-crater-glow-color: #c0c6c5;
     --theme-toggle-star-color: #ffffff;
     --theme-toggle-cloud-gradient: radial-gradient(#ffffff 30%, #e6e6e6);
-    --popup-width: 300px;
-    --home-min-height: 273px;
+    --popup-width: max(300px, 18.75rem);
+    --home-min-height: max(273px, 17.0625rem);
+    --selected-color-height: max(125px, 7.8125rem);
 }
 
 html:has(> body.hidden) {
