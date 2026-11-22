@@ -3,7 +3,7 @@
     "message": "ColorPal: Color Picker & Eyedropper"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Color picker and eyedropper: get the HEX, RGB, HSL or CSS filter code of any color on screen, see its name, save color palettes."
   },
   "defaultTitle": {
     "message": "Click to open ColorPal"
