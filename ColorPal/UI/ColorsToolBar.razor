@@ -15,7 +15,7 @@
 
     <select class="h-8 w-13 cursor-pointer items-center justify-center rounded-md bg-[var(--secondary-color)] p-2 text-sm text-[var(--text-color)] focus:ring-0"
             id="colorsPerLine"
-            aria-label="Colors per line"
+            aria-label=@LocalizationService.GetMessage(MessageKey.ColorsPerLine)
             @bind:get=_colorsPerLine
             @bind:set=HandleColorsPerLineChangeAndPublishEventAsync>
         @for (int colorsPerLine = 5; colorsPerLine <= 10; colorsPerLine++)
@@ -39,6 +39,9 @@
 
     [Parameter, EditorRequired]
     public required StateService StateService { get; set; }
+
+    [Parameter, EditorRequired]
+    public required LocalizationService LocalizationService { get; set; }
 
     private ColorToolType _activeColorTool = ColorToolType.None;
     private string _colorsPerLine = "5";
@@ -87,7 +90,7 @@
                 return;
             }
 
-            if (await JsInterop.InvokeAsync<bool>(JsFunctions.ConfirmAction, "Delete all saved colors?"))
+            if (await JsInterop.InvokeAsync<bool>(JsFunctions.ConfirmAction, LocalizationService.GetMessage(MessageKey.DeleteAllConfirmation)))
             {
                 await LocalStorageService.SetKeyAsync<string[]>(StorageKey.SavedColorsArray, []);
                 await EventAggregator.GetService(Event.DeleteAllSavedColors).PublishAsync(ColorToolType.DeleteAll.Value());
@@ -204,17 +207,17 @@
         StateHasChanged();
     }
 
-    private static string GetColorToolLabel(ColorToolType tool) =>
-        tool switch
+    private string GetColorToolLabel(ColorToolType tool) =>
+        LocalizationService.GetMessage(tool switch
         {
-            ColorToolType.Move => "Move colors",
-            ColorToolType.TintsShades => "Tints and shades",
-            ColorToolType.Delete => "Delete colors",
-            ColorToolType.DeleteAll => "Delete all colors",
-            ColorToolType.DownloadPNG => "Download PNG",
-            ColorToolType.DownloadCSV => "Download CSV",
+            ColorToolType.Move => MessageKey.MoveColors,
+            ColorToolType.TintsShades => MessageKey.TintsAndShades,
+            ColorToolType.Delete => MessageKey.DeleteColors,
+            ColorToolType.DeleteAll => MessageKey.DeleteAllColors,
+            ColorToolType.DownloadPNG => MessageKey.DownloadPng,
+            ColorToolType.DownloadCSV => MessageKey.DownloadCsv,
             _ => throw new ArgumentOutOfRangeException(nameof(tool), $"Not expected: {tool}")
-        };
+        });
 
     private static bool IsToggleColorTool(ColorToolType tool) =>
         tool switch

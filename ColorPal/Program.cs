@@ -18,7 +18,10 @@ public sealed class Program
         builder.Services.AddSingleton<EventAggregator<string>>();
         builder.Services.AddSingleton<LocalStorageService>();
         builder.Services.AddSingleton<StateService>();
+        builder.Services.AddSingleton<LocalizationService>();
 
-        await builder.Build().RunAsync();
+        WebAssemblyHost host = builder.Build();
+        await host.Services.GetRequiredService<LocalizationService>().LoadMessagesAsync();
+        await host.RunAsync();
     }
 }

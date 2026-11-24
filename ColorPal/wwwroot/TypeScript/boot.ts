@@ -2,6 +2,7 @@ type ColorScheme = "light" | "dark";
 
 interface BootSnapshot {
     version: string;
+    language: string;
     storage: string;
     rootVariables: string;
     html: string;
@@ -16,6 +17,7 @@ const BOOT_VIEW_HOLD_TIMEOUT_MS = 500;
 const HEIGHT_TOLERANCE_PX = 1;
 const PRIMARY_COLOR_VARIABLE = "--primary-color";
 const DARK_PRIMARY_COLOR = "var(--dark-primary-color)";
+const LANGUAGE_CODE_MESSAGE = "languageCode";
 
 let bootSnapshotSaveTimer: number | undefined;
 let storageAtLastHomeChange: string | null = null;
@@ -48,6 +50,14 @@ function getExtensionVersion(): string | null {
     return globalThis.chrome?.runtime?.id === undefined ? null : chrome.runtime.getManifest().version;
 }
 
+function applyLanguage(): void {
+    const languageCode = globalThis.chrome?.i18n?.getMessage(LANGUAGE_CODE_MESSAGE) ?? "";
+
+    if (languageCode.length > 0) {
+        document.documentElement.lang = languageCode;
+    }
+}
+
 function getStorageFingerprint(): string {
     const entries: string[] = [];
 
@@ -62,7 +72,7 @@ function getStorageFingerprint(): string {
     return entries.sort().join("\n");
 }
 
-function readBootSnapshot(version: string): BootSnapshot | null {
+function readBootSnapshot(version: string, language: string): BootSnapshot | null {
     const storedValue = localStorage.getItem(BOOT_SNAPSHOT_STORAGE_KEY);
 
     if (storedValue === null) {
@@ -79,7 +89,7 @@ function readBootSnapshot(version: string): BootSnapshot | null {
     }
 
     const isCurrent = typeof snapshot.html === "string" && typeof snapshot.rootVariables === "string"
-        && snapshot.version === version && snapshot.storage === getStorageFingerprint();
+        && snapshot.version === version && snapshot.language === language && snapshot.storage === getStorageFingerprint();
 
     return isCurrent ? snapshot as BootSnapshot : null;
 }
@@ -125,7 +135,7 @@ function holdBootViewHeight(height: number): void {
 
 function applyBootView(): void {
     const version = getExtensionVersion();
-    const snapshot = version === null ? null : readBootSnapshot(version);
+    const snapshot = version === null ? null : readBootSnapshot(version, document.documentElement.lang);
 
     if (snapshot !== null) {
         showBootSnapshot(snapshot);
@@ -172,6 +182,7 @@ function saveBootSnapshot(): void {
 
     const snapshot: BootSnapshot = {
         version,
+        language: document.documentElement.lang,
         storage,
         rootVariables: getRootVariables(),
         html: copyHomeForSnapshot(app).innerHTML,
@@ -227,4 +238,5 @@ function completeBootView(): void {
     watchBootSnapshot();
 }
 
+applyLanguage();
 applyBootView();

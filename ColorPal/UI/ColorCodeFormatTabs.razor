@@ -2,6 +2,7 @@
     @foreach (ColorCodeFormat colorFormat in _colorCodeFormats)
     {
         <ColorCodeFormatTab Name=@colorFormat.Value()
+                            Label=@GetColorCodeFormatLabel(colorFormat)
                             IsActive=@(_currentColorCodeFormat == colorFormat)
                             HandleClick=@(() => HandleOnClickAsync(colorFormat.Value())) />
     }
@@ -15,6 +16,9 @@
 
     [Parameter, EditorRequired]
     public required EventAggregator<string> EventAggregator { get; set; }
+
+    [Parameter, EditorRequired]
+    public required LocalizationService LocalizationService { get; set; }
 
     private ColorCodeFormat _currentColorCodeFormat = ColorCodeFormat.None;
 
@@ -49,4 +53,12 @@
     /// </summary>
     private async Task<bool> TryParseColorCodeFormatAsync() =>
         EnumExtensions.TryParse<ColorCodeFormat>(await LocalStorageService.GetKeyAsync<string>(StorageKey.ColorCodeFormat), out _currentColorCodeFormat);
+
+    private string GetColorCodeFormatLabel(ColorCodeFormat colorCodeFormat) =>
+        colorCodeFormat switch
+        {
+            ColorCodeFormat.HEX or ColorCodeFormat.RGB or ColorCodeFormat.HSL or ColorCodeFormat.HSV => colorCodeFormat.Value(),
+            ColorCodeFormat.Filter => LocalizationService.GetMessage(MessageKey.FilterFormat),
+            _ => throw new ArgumentOutOfRangeException(nameof(colorCodeFormat), $"Not expected: {colorCodeFormat}")
+        };
 }

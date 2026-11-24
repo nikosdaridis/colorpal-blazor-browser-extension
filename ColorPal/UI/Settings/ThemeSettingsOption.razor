@@ -4,7 +4,7 @@
     @if (_theme is not null)
     {
         <button class="theme-toggle relative end-[30px] inline-flex scale-[0.2] cursor-pointer items-center justify-end"
-                aria-label="Dark theme"
+                aria-label=@LocalizationService.GetMessage(MessageKey.DarkTheme)
                 aria-pressed=@(_theme == Theme.Dark.Value() ? "true" : "false")
                 @onclick="ToggleThemeAsync">
 
@@ -41,6 +41,9 @@
 @code {
     [Parameter, EditorRequired]
     public required LocalStorageService LocalStorageService { get; set; }
+
+    [Parameter, EditorRequired]
+    public required LocalizationService LocalizationService { get; set; }
 
     [Parameter]
     public string? Label { get; set; }

@@ -95,6 +95,81 @@ public enum StorageKey
     PrependBlackFilter,
 }
 
+public enum MessageKey
+{
+    [Value("eyedropper")]
+    Eyedropper,
+
+    [Value("copyColorName")]
+    CopyColorName,
+
+    [Value("settings")]
+    Settings,
+
+    [Value("saveColor")]
+    SaveColor,
+
+    [Value("selectedColor")]
+    SelectedColor,
+
+    [Value("filterFormat")]
+    FilterFormat,
+
+    [Value("copyColorCode")]
+    CopyColorCode,
+
+    [Value("moveColors")]
+    MoveColors,
+
+    [Value("tintsAndShades")]
+    TintsAndShades,
+
+    [Value("deleteColors")]
+    DeleteColors,
+
+    [Value("deleteAllColors")]
+    DeleteAllColors,
+
+    [Value("downloadPng")]
+    DownloadPng,
+
+    [Value("downloadCsv")]
+    DownloadCsv,
+
+    [Value("colorsPerLine")]
+    ColorsPerLine,
+
+    [Value("deleteAllConfirmation")]
+    DeleteAllConfirmation,
+
+    [Value("back")]
+    Back,
+
+    [Value("theme")]
+    Theme,
+
+    [Value("darkTheme")]
+    DarkTheme,
+
+    [Value("autoSaveEyedropper")]
+    AutoSaveEyedropper,
+
+    [Value("autoCopyCode")]
+    AutoCopyCode,
+
+    [Value("addHashToHex")]
+    AddHashToHex,
+
+    [Value("showColorName")]
+    ShowColorName,
+
+    [Value("prependBlackToFilter")]
+    PrependBlackToFilter,
+
+    [Value("website")]
+    Website,
+}
+
 public enum JsFunctions
 {
     [Value("isInitialized")]
@@ -120,6 +195,9 @@ public enum JsFunctions
 
     [Value("getManifestVersionAsync")]
     GetManifestVersionAsync,
+
+    [Value("getLocalizedMessagesAsync")]
+    GetLocalizedMessagesAsync,
 
     [Value("getLocalStorageItem")]
     GetLocalStorageItem,

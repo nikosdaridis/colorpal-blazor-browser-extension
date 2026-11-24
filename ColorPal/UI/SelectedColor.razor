@@ -6,12 +6,12 @@
     <div class="absolute inset-x-4 top-2 flex items-center justify-between">
         <RoundButton IconPath="Icons\eyedropper.svg"
                      IconThemeFilter=false
-                     AriaLabel="Eyedropper"
+                     AriaLabel=@LocalizationService.GetMessage(MessageKey.Eyedropper)
                      HandleClick=HandleEyeDropperClickAsync />
         @if (_colorName.Show && !string.IsNullOrWhiteSpace(_colorName.Selected))
         {
             <button class="selected-color__name cursor-pointer rounded-lg bg-white/50 px-2 py-1 text-center font-semibold text-[0.6875rem] shadow-xl backdrop-blur-xl transition-all duration-200 hover:bg-white/75 active:scale-90"
-                    aria-label=@($"{_colorName.Selected}, copy color name")
+                    aria-label=@LocalizationService.FormatMessage(MessageKey.CopyColorName, _colorName.Selected)
                     @onclick:stopPropagation
                     @onclick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.CopyToClipboard, _colorName.Selected))>
                 @_colorName.Selected
@@ -21,7 +21,7 @@
         <RoundButton IconPath="Icons\settings.svg"
                      IconThemeFilter=false
                      Id="settingsButton"
-                     AriaLabel="Settings"
+                     AriaLabel=@LocalizationService.GetMessage(MessageKey.Settings)
                      HandleClick=@(() => NavigationManager.NavigateTo("/settings")) />
     </div>
 
@@ -30,7 +30,7 @@
         <div class="absolute bottom-2">
             <RoundButton IconPath="Icons\plus.svg"
                          IconThemeFilter=false
-                         AriaLabel="Save color"
+                         AriaLabel=@LocalizationService.GetMessage(MessageKey.SaveColor)
                          HandleClick=@(async () => await SaveColorAsync(_selectedHEXColor)) />
         </div>
     }
@@ -39,7 +39,7 @@
 <input class="selected-color__picker absolute inset-s-[34px] m-0 h-0 w-0 border-0 p-0 opacity-0"
        type="color"
        id="colorPicker"
-       aria-label="Selected color"
+       aria-label=@LocalizationService.GetMessage(MessageKey.SelectedColor)
        value=@_selectedHEXColor
        @oninput=HandleColorPickerInput>
 
@@ -60,6 +60,9 @@
 
     [Parameter, EditorRequired]
     public required StateService StateService { get; set; }
+
+    [Parameter, EditorRequired]
+    public required LocalizationService LocalizationService { get; set; }
 
     private string _selectedHEXColor = "#000000";
     private bool _isSelectedColorSaved;

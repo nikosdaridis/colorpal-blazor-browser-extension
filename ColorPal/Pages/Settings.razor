@@ -4,44 +4,45 @@
 
 <div class="space-y-4 p-4 text-[var(--theme-invert-color)]">
     <div class="flex items-center justify-between">
-        <h2 class="text-xl font-bold">Settings</h2>
+        <h2 class="text-xl font-bold">@LocalizationService.GetMessage(MessageKey.Settings)</h2>
         <TransparentRoundButton IconPath="Icons\arrow.svg"
-                                AriaLabel="Back"
+                                AriaLabel=@LocalizationService.GetMessage(MessageKey.Back)
                                 HandleClick=NavigateBackToHome />
     </div>
 
     <div class="space-y-4">
         <ThemeSettingsOption LocalStorageService=LocalStorageService
-                             Label="Theme" />
+                             LocalizationService=LocalizationService
+                             Label=@LocalizationService.GetMessage(MessageKey.Theme) />
 
         <ToggleSettingsOption LocalStorageService=LocalStorageService
                               StateService=StateService
-                              Label="Auto Save EyeDropper"
+                              Label=@LocalizationService.GetMessage(MessageKey.AutoSaveEyedropper)
                               StorageKey=StorageKey.AutoSaveEyedropper />
 
         <ToggleSettingsOption LocalStorageService=LocalStorageService
                               StateService=StateService
-                              Label="Auto Copy Code"
+                              Label=@LocalizationService.GetMessage(MessageKey.AutoCopyCode)
                               StorageKey=StorageKey.AutoCopyCode />
 
         <ToggleSettingsOption LocalStorageService=LocalStorageService
                               StateService=StateService
-                              Label="Add # to HEX"
+                              Label=@LocalizationService.GetMessage(MessageKey.AddHashToHex)
                               StorageKey=StorageKey.AddHexCharacter />
 
         <ToggleSettingsOption LocalStorageService=LocalStorageService
                               StateService=StateService
-                              Label="Show Color Name"
+                              Label=@LocalizationService.GetMessage(MessageKey.ShowColorName)
                               StorageKey=StorageKey.ShowColorNames />
 
         <ToggleSettingsOption LocalStorageService=LocalStorageService
                               StateService=StateService
-                              Label="Prepend Black To Filter"
+                              Label=@LocalizationService.GetMessage(MessageKey.PrependBlackToFilter)
                               StorageKey=StorageKey.PrependBlackFilter />
     </div>
 
     <div class="flex items-center justify-between gap-4 pt-4">
-        <RectangularLabelButton Label="Website"
+        <RectangularLabelButton Label=@LocalizationService.GetMessage(MessageKey.Website)
                                 IconPath="Icons\website.svg"
                                 IconSize=Size.Small
                                 HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, WEBSITE_URL)) />

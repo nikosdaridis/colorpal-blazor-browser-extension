@@ -7,5 +7,111 @@
   },
   "defaultTitle": {
     "message": "Click to open ColorPal"
+  },
+  "eyedropper": {
+    "message": "Eyedropper",
+    "description": "Screen reader name of the round button that starts the eyedropper, which picks a color from anywhere on the screen. Not shown on screen."
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, copy color name",
+    "description": "Screen reader name of the button that shows the selected color's name; pressing it copies the name. Keep $COLOR_NAME$ where the name is read. Not shown on screen.",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Settings",
+    "description": "Heading of the Settings page, and the screen reader name of the gear button that opens it."
+  },
+  "saveColor": {
+    "message": "Save color",
+    "description": "Screen reader name of the + button that saves the selected color to the palette. Not shown on screen."
+  },
+  "selectedColor": {
+    "message": "Selected color",
+    "description": "Screen reader name of the color field that opens the system's color picker for the selected color. Not shown on screen."
+  },
+  "filterFormat": {
+    "message": "Filter",
+    "description": "Text of the last of five tabs (HEX, RGB, HSL, HSV, Filter); it shows the color as a CSS filter. The tab is about 50 pixels wide, so one short word. Keep Filter if your language uses the CSS term as is."
+  },
+  "copyColorCode": {
+    "message": "Copy color code",
+    "description": "Screen reader name of the button that copies the color's code in the selected format. Not shown on screen."
+  },
+  "moveColors": {
+    "message": "Move colors",
+    "description": "Screen reader name of the toolbar button that lets you drag saved colors to reorder them. Not shown on screen."
+  },
+  "tintsAndShades": {
+    "message": "Tints and shades",
+    "description": "Screen reader name of the toolbar button that shows lighter (tints) and darker (shades) versions of a color. Not shown on screen."
+  },
+  "deleteColors": {
+    "message": "Delete colors",
+    "description": "Screen reader name of the toolbar button that lets you delete saved colors one at a time. Not shown on screen."
+  },
+  "deleteAllColors": {
+    "message": "Delete all colors",
+    "description": "Screen reader name of the toolbar button that deletes every saved color. Not shown on screen."
+  },
+  "downloadPng": {
+    "message": "Download PNG",
+    "description": "Screen reader name of the toolbar button that downloads the palette as a PNG image. Keep PNG. Not shown on screen."
+  },
+  "downloadCsv": {
+    "message": "Download CSV",
+    "description": "Screen reader name of the toolbar button that downloads the palette as a CSV file. Keep CSV. Not shown on screen."
+  },
+  "colorsPerLine": {
+    "message": "Colors per line",
+    "description": "Screen reader name of the menu that sets how many colors each row of the palette shows, from 5 to 10. Not shown on screen."
+  },
+  "deleteAllConfirmation": {
+    "message": "Delete all saved colors?",
+    "description": "Question in the browser's confirmation dialog before every saved color is deleted."
+  },
+  "back": {
+    "message": "Back",
+    "description": "Screen reader name of the arrow button that goes back from Settings to the color picker. Not shown on screen."
+  },
+  "theme": {
+    "message": "Theme",
+    "description": "Settings label next to the switch between the light and the dark theme."
+  },
+  "darkTheme": {
+    "message": "Dark theme",
+    "description": "Screen reader name of the theme switch, which is on while the dark theme is used. Not shown on screen."
+  },
+  "autoSaveEyedropper": {
+    "message": "Auto Save EyeDropper",
+    "description": "Settings label of a switch: when on, a color picked with the eyedropper is saved to the palette right away."
+  },
+  "autoCopyCode": {
+    "message": "Auto Copy Code",
+    "description": "Settings label of a switch: when on, a color's code is copied to the clipboard when the color is saved or clicked in the palette."
+  },
+  "addHashToHex": {
+    "message": "Add # to HEX",
+    "description": "Settings label of a switch: when on, HEX codes start with #, as in #FF6600. Keep # and HEX."
+  },
+  "showColorName": {
+    "message": "Show Color Name",
+    "description": "Settings label of a switch: when on, the selected color's name shows at the top of the popup and in the PNG download."
+  },
+  "prependBlackToFilter": {
+    "message": "Prepend Black To Filter",
+    "description": "Settings label of a switch: when on, the CSS filter code starts with brightness(0) saturate(100%), which first turns the element black so the filter gives the same color on any element."
+  },
+  "website": {
+    "message": "Website",
+    "description": "Label of the button in Settings that opens ColorPal's website."
+  },
+  "languageCode": {
+    "message": "en",
+    "description": "This file's language code, such as en, de or pt-BR. Not translated."
   }
 }

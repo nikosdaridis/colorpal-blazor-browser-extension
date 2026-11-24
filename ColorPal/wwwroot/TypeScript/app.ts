@@ -18,8 +18,14 @@ interface ColorRectangleElement extends HTMLElement {
     readonly dataset: DOMStringMap & { color: string };
 }
 
+interface LocaleMessage {
+    message: string;
+}
+
 const COLOR_RECTANGLE_DRAGGING_CLASS = "color-rectangle--dragging";
 const COLOR_RECTANGLE_REPLACING_CLASS = "color-rectangle--replacing";
+const DEFAULT_LOCALE_MESSAGES_URL = "_locales/en/messages.json";
+const MESSAGE_PLACEHOLDER_PATTERN = /\$\w+\$/g;
 
 let stateServiceReference: DotNetObjectReference | null = null;
 let colorsGridComponent: DotNetObjectReference | null = null;
@@ -64,6 +70,17 @@ async function getManifestVersionAsync(): Promise<string> {
     const response = await fetch("manifest.json");
     const manifest: chrome.runtime.Manifest = await response.json();
     return manifest.version;
+}
+
+async function getLocalizedMessagesAsync(messageNames: string[], substitution: string): Promise<string[]> {
+    if (globalThis.chrome?.i18n !== undefined) {
+        return messageNames.map((messageName) => chrome.i18n.getMessage(messageName, substitution));
+    }
+
+    const response = await fetch(DEFAULT_LOCALE_MESSAGES_URL);
+    const localeMessages: Record<string, LocaleMessage | undefined> = await response.json();
+
+    return messageNames.map((messageName) => localeMessages[messageName]?.message.replace(MESSAGE_PLACEHOLDER_PATTERN, () => substitution) ?? "");
 }
 
 function getLocalStorageItem(key: string): string | null {

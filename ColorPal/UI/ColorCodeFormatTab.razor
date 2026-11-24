@@ -2,12 +2,15 @@
         id=@($"colorCodeTab-{Name}")
         aria-pressed=@(IsActive ? "true" : "false")
         @onclick=HandleOnClickAsync>
-    @Name
+    @Label
 </button>
 
 @code {
     [Parameter]
     public string? Name { get; set; }
+
+    [Parameter]
+    public string? Label { get; set; }
 
     [Parameter]
     public bool IsActive { get; set; }

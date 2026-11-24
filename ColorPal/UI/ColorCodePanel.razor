@@ -4,7 +4,7 @@
 <div class="mt-2 space-y-2">
     <div class="flex items-center gap-2">
         <button class="inline-flex h-8 w-10 cursor-pointer items-center justify-center rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] font-medium transition-transform duration-100 hover:bg-[var(--secondary-color)] active:scale-90"
-                aria-label="Copy color code"
+                aria-label=@LocalizationService.GetMessage(MessageKey.CopyColorCode)
                 @onclick=@(() => JsInterop.InvokeVoidAsync(JsFunctions.CopyToClipboard, _colorCodeValue))>
 
             @if (_activeColorCodeFormat == ColorCodeFormat.Filter)
@@ -43,6 +43,9 @@
 
     [Parameter, EditorRequired]
     public required EventAggregator<string> EventAggregator { get; set; }
+
+    [Parameter, EditorRequired]
+    public required LocalizationService LocalizationService { get; set; }
 
     private ColorCodeFormat _activeColorCodeFormat = ColorCodeFormat.HEX;
     private string _colorCodeValue = string.Empty;
