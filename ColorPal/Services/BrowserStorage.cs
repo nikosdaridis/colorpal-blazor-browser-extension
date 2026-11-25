@@ -7,15 +7,28 @@ public interface IBrowserStorage
 {
     Task<T?> GetItemAsync<T>(string key);
 
+    Task<T?[]> GetItemsAsync<T>(string[] keys);
+
     Task SetItemAsync<T>(string key, T value);
 }
 
 public sealed class BrowserStorage(JsInterop jsInterop) : IBrowserStorage
 {
-    public async Task<T?> GetItemAsync<T>(string key)
-    {
-        string? storedValue = await jsInterop.InvokeAsync<string?>(JsFunctions.GetLocalStorageItem, key);
+    public async Task<T?> GetItemAsync<T>(string key) =>
+        Deserialize<T>(await jsInterop.InvokeAsync<string?>(JsFunctions.GetLocalStorageItem, key));
 
+    public async Task<T?[]> GetItemsAsync<T>(string[] keys)
+    {
+        string?[] storedValues = await jsInterop.InvokeAsync<string?[]>(JsFunctions.GetLocalStorageItems, [keys]);
+
+        return Array.ConvertAll(storedValues, Deserialize<T>);
+    }
+
+    public async Task SetItemAsync<T>(string key, T value) =>
+        await jsInterop.InvokeVoidAsync(JsFunctions.SetLocalStorageItem, key, JsonSerializer.Serialize(value));
+
+    private static T? Deserialize<T>(string? storedValue)
+    {
         if (string.IsNullOrWhiteSpace(storedValue))
         {
             return default;
@@ -30,7 +43,4 @@ public sealed class BrowserStorage(JsInterop jsInterop) : IBrowserStorage
             return (T)(object)storedValue;
         }
     }
-
-    public async Task SetItemAsync<T>(string key, T value) =>
-        await jsInterop.InvokeVoidAsync(JsFunctions.SetLocalStorageItem, key, JsonSerializer.Serialize(value));
 }

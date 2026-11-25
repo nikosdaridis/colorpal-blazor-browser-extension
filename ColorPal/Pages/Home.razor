@@ -16,6 +16,7 @@
 <div class="grid gap-3 bg-[var(--secondary-color)] px-3 pt-1 pb-2">
     <ColorsToolBar JsInterop=JsInterop LocalStorageService=LocalStorageService EventAggregator=EventAggregator StateService=StateService LocalizationService=LocalizationService />
     <ColorsGrid JsInterop=JsInterop LocalStorageService=LocalStorageService EventAggregator=EventAggregator />
+    <RatingReminder JsInterop=JsInterop EventAggregator=EventAggregator LocalizationService=LocalizationService RatingReminderService=RatingReminderService />
 </div>
 
 @code {
@@ -29,6 +30,7 @@
         await base.OnInitializedAsync();
 
         await LocalStorageService.ValidateAsync();
+        await RatingReminderService.RecordOpenAsync();
         _isInitialized = true;
 
         if (await LocalStorageService.GetKeyAsync<string>(StorageKey.ShowColorNames) == "true")

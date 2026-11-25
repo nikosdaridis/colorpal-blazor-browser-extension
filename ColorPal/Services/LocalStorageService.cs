@@ -1,5 +1,6 @@
 using ColorPal.Common;
 using ColorPal.Common.Models;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -21,6 +22,24 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
     /// </summary>
     public async Task SetKeyAsync<T>(StorageKey key, T value) =>
         await browserStorage.SetItemAsync(key.Value(), value);
+
+    public async Task<Dictionary<StorageKey, string?>> GetKeysAsync(StorageKey[] keys)
+    {
+        string[] storageKeys = new string[keys.Length];
+        for (int index = 0; index < keys.Length; index++)
+        {
+            storageKeys[index] = keys[index].Value();
+        }
+
+        string?[] storedValues = await browserStorage.GetItemsAsync<string>(storageKeys);
+        Dictionary<StorageKey, string?> storedValueMap = new(keys.Length);
+        for (int index = 0; index < keys.Length; index++)
+        {
+            storedValueMap[keys[index]] = storedValues[index];
+        }
+
+        return storedValueMap;
+    }
 
     /// <summary>
     /// Validates every stored setting and writes back the corrected values.
@@ -77,6 +96,14 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
         // PrependBlackFilter
         await ValidateTrueOrFalseAsync(StorageKey.PrependBlackFilter, "false");
 
+        Dictionary<StorageKey, string?> ratingValueMap = await GetKeysAsync(RatingReminderService.StorageKeys);
+        await ValidateRatingIntegerAsync(StorageKey.EyedropperPickCount, RatingReminderService.REQUIRED_PICK_COUNT, 0);
+        await ValidateRatingIntegerAsync(StorageKey.RatingOpenCount, RatingReminderService.REQUIRED_OPEN_COUNT, 0);
+        await ValidateRatingIntegerAsync(StorageKey.RatingOpenDays, RatingReminderService.REQUIRED_OPEN_DAY_COUNT, 0);
+        await ValidateRatingIntegerAsync(StorageKey.RatingLastOpenDay, DateOnly.MaxValue.DayNumber, 0);
+        await ValidateRatingIntegerAsync(StorageKey.RatingPromptsLeft, RatingReminderService.PROMPT_COUNT, RatingReminderService.PROMPT_COUNT);
+        await ValidateRatingIntegerAsync(StorageKey.RatingLastShownDay, DateOnly.MaxValue.DayNumber, 0);
+
         async Task<List<string>> ValidateJsonArrayAsync(StorageKey key)
         {
             string? storedValue = await GetKeyAsync<string>(key);
@@ -102,6 +129,14 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
             if (storedValue is not "true" and not "false")
             {
                 await SetKeyAsync(key, defaultValue);
+            }
+        }
+
+        async Task ValidateRatingIntegerAsync(StorageKey key, int maximum, int defaultValue)
+        {
+            if (!RatingReminderService.TryParseInteger(ratingValueMap[key], out int value) || value > maximum)
+            {
+                await SetKeyAsync(key, defaultValue.ToString(CultureInfo.InvariantCulture));
             }
         }
     }

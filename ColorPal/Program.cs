@@ -19,6 +19,7 @@ public sealed class Program
         builder.Services.AddSingleton<LocalStorageService>();
         builder.Services.AddSingleton<StateService>();
         builder.Services.AddSingleton<LocalizationService>();
+        builder.Services.AddSingleton<RatingReminderService>();
 
         WebAssemblyHost host = builder.Build();
         await host.Services.GetRequiredService<LocalizationService>().LoadMessagesAsync();

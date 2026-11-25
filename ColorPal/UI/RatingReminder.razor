@@ -1,0 +1,109 @@
+﻿@implements IDisposable
+
+@if (RatingReminderService.IsBannerVisible)
+{
+    <aside class="rating-reminder sticky bottom-2 z-10"
+           aria-label=@LocalizationService.GetMessage(MessageKey.RateColorPal)>
+        <div class="rating-reminder__card grid gap-2.5 p-3 text-[var(--text-color)] rounded-lg bg-[var(--primary-color)]">
+            <div class="flex items-start gap-2.5">
+                <img class="size-8 shrink-0" src="Icons/logo128.png" alt="" />
+                <div class="grid gap-0.5">
+                    <p class="text-[0.8125rem] leading-4.5 font-semibold text-[var(--theme-invert-color)]">@LocalizationService.GetMessage(MessageKey.RatingReminderTitle)</p>
+                    <p class="text-xs leading-4.25">@LocalizationService.GetMessage(MessageKey.RatingReminder)</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap justify-end gap-1.5">
+                <button class="h-7 px-2.5 text-xs font-semibold text-[var(--theme-invert-color)] rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] cursor-pointer transition-colors duration-200 hover:bg-[var(--secondary-color)]"
+                        @onclick=CloseBanner>
+                    @LocalizationService.GetMessage(MessageKey.NotNow)
+                </button>
+                <button class="h-7 px-2.5 text-xs font-semibold text-[var(--primary-color)] rounded-md border border-[var(--theme-invert-color)] bg-[var(--theme-invert-color)] cursor-pointer transition-opacity duration-200 hover:opacity-80"
+                        @onclick=RateAsync>
+                    @LocalizationService.GetMessage(MessageKey.RateColorPal)
+                </button>
+            </div>
+        </div>
+    </aside>
+}
+
+@code {
+    private const string LAST_TILE_SELECTOR = "#colorsGrid > :last-child";
+    private const string COLORS_PER_LINE_SELECTOR = "#colorsPerLine";
+    private const int BANNER_DELAY_AFTER_PICK_MS = 1000;
+
+    [Parameter, EditorRequired]
+    public required JsInterop JsInterop { get; set; }
+
+    [Parameter, EditorRequired]
+    public required EventAggregator<string> EventAggregator { get; set; }
+
+    [Parameter, EditorRequired]
+    public required LocalizationService LocalizationService { get; set; }
+
+    [Parameter, EditorRequired]
+    public required RatingReminderService RatingReminderService { get; set; }
+
+    private bool _isFocusToRestore;
+    private bool _isDisposed;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        EventAggregator.GetService(Event.EyedropperPick).Subscribe(HandleEyedropperPickAsync);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (!_isFocusToRestore)
+        {
+            return;
+        }
+
+        _isFocusToRestore = false;
+        await JsInterop.InvokeVoidAsync(JsFunctions.RestoreLostFocus, LAST_TILE_SELECTOR);
+        await JsInterop.InvokeVoidAsync(JsFunctions.RestoreLostFocus, COLORS_PER_LINE_SELECTOR);
+    }
+
+    private async Task HandleEyedropperPickAsync(string hexColor)
+    {
+        await RatingReminderService.RecordEyedropperPickAsync(hexColor);
+
+        if (string.IsNullOrEmpty(hexColor) || !RatingReminderService.IsBannerDue)
+        {
+            return;
+        }
+
+        await Task.Delay(BANNER_DELAY_AFTER_PICK_MS);
+
+        if (_isDisposed || !RatingReminderService.IsBannerDue)
+        {
+            return;
+        }
+
+        await RatingReminderService.ShowBannerAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task RateAsync()
+    {
+        await RatingReminderService.StopRemindingAsync();
+        _isFocusToRestore = true;
+        StateHasChanged();
+        await RatingReminderService.OpenStoreReviewsAsync();
+    }
+
+    private void CloseBanner()
+    {
+        RatingReminderService.CloseBanner();
+        _isFocusToRestore = true;
+    }
+
+    public void Dispose()
+    {
+        _isDisposed = true;
+        EventAggregator.GetService(Event.EyedropperPick).Unsubscribe(HandleEyedropperPickAsync);
+    }
+}

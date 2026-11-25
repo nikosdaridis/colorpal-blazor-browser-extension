@@ -87,6 +87,10 @@ function getLocalStorageItem(key: string): string | null {
     return localStorage.getItem(key);
 }
 
+function getLocalStorageItems(keys: string[]): (string | null)[] {
+    return keys.map((key) => localStorage.getItem(key));
+}
+
 function setLocalStorageItem(key: string, value: string): void {
     localStorage.setItem(key, value);
 }

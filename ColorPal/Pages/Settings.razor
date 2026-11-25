@@ -41,16 +41,26 @@
                               StorageKey=StorageKey.PrependBlackFilter />
     </div>
 
-    <div class="flex items-center justify-between gap-4 pt-4">
-        <RectangularLabelButton Label=@LocalizationService.GetMessage(MessageKey.Website)
-                                IconPath="Icons\website.svg"
-                                IconSize=Size.Small
-                                HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, WEBSITE_URL)) />
-        <RectangularLabelButton Label="GitHub"
-                                IconPath="Icons\github.svg"
-                                IconSize=Size.Small
-                                HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, GITHUB_URL)) />
-        <h4>@_manifestVersion</h4>
+    <div class="grid gap-4 pt-4">
+        @if (RatingReminderService.IsRatingAvailable)
+        {
+            <RectangularLabelButton Label=@LocalizationService.GetMessage(MessageKey.RateColorPal)
+                                    IconPath="Icons\star.svg"
+                                    IconSize=Size.Small
+                                    HandleClick=RateAsync />
+        }
+
+        <div class="flex items-center justify-between gap-4">
+            <RectangularLabelButton Label=@LocalizationService.GetMessage(MessageKey.Website)
+                                    IconPath="Icons\website.svg"
+                                    IconSize=Size.Small
+                                    HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, WEBSITE_URL)) />
+            <RectangularLabelButton Label="GitHub"
+                                    IconPath="Icons\github.svg"
+                                    IconSize=Size.Small
+                                    HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, GITHUB_URL)) />
+            <h4>@_manifestVersion</h4>
+        </div>
     </div>
 </div>
 
@@ -72,4 +82,10 @@
 
     private void NavigateBackToHome() =>
         NavigationManager.NavigateTo("/", new NavigationOptions { HistoryEntryState = nameof(Settings) });
+
+    private async Task RateAsync()
+    {
+        await RatingReminderService.StopRemindingAsync();
+        await RatingReminderService.OpenStoreReviewsAsync();
+    }
 }

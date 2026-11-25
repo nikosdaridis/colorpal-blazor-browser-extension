@@ -110,6 +110,22 @@
     "message": "Website",
     "description": "Label of the button in Settings that opens ColorPal's website."
   },
+  "ratingReminderTitle": {
+    "message": "Enjoying ColorPal?",
+    "description": "Title of the small banner under the saved colors that asks for a rating in the Chrome Web Store. It appears right after an eyedropper pick, only after regular use, at most three times, a month apart. Keep ColorPal."
+  },
+  "ratingReminder": {
+    "message": "A quick rating on the Chrome Web Store helps others find it.",
+    "description": "Sentence under the rating banner's title. Keep Chrome Web Store, the store's name."
+  },
+  "notNow": {
+    "message": "Not now",
+    "description": "Button in the rating banner that closes it; it may come back a month later."
+  },
+  "rateColorPal": {
+    "message": "Rate ColorPal",
+    "description": "Button in the rating banner and in Settings that opens ColorPal's reviews page in the Chrome Web Store in a new tab, and the screen reader name of the banner. Keep ColorPal. In the banner it shares a line about 250 pixels wide with Not now."
+  },
   "languageCode": {
     "message": "en",
     "description": "This file's language code, such as en, de or pt-BR. Not translated."

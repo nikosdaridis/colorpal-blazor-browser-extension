@@ -93,6 +93,24 @@ public enum StorageKey
 
     [Value("colorpal-prepend-black-filter")]
     PrependBlackFilter,
+
+    [Value("colorpal-eyedropper-pick-count")]
+    EyedropperPickCount,
+
+    [Value("colorpal-rating-open-count")]
+    RatingOpenCount,
+
+    [Value("colorpal-rating-open-days")]
+    RatingOpenDays,
+
+    [Value("colorpal-rating-last-open-day")]
+    RatingLastOpenDay,
+
+    [Value("colorpal-rating-prompts-left")]
+    RatingPromptsLeft,
+
+    [Value("colorpal-rating-last-shown-day")]
+    RatingLastShownDay,
 }
 
 public enum MessageKey
@@ -168,6 +186,18 @@ public enum MessageKey
 
     [Value("website")]
     Website,
+
+    [Value("ratingReminderTitle")]
+    RatingReminderTitle,
+
+    [Value("ratingReminder")]
+    RatingReminder,
+
+    [Value("notNow")]
+    NotNow,
+
+    [Value("rateColorPal")]
+    RateColorPal,
 }
 
 public enum JsFunctions
@@ -187,6 +217,9 @@ public enum JsFunctions
     [Value("getClientColorScheme")]
     GetClientColorScheme,
 
+    [Value("scheduleBootSnapshotSave")]
+    ScheduleBootSnapshotSave,
+
     [Value("getThemeFilter")]
     GetThemeFilter,
 
@@ -201,6 +234,9 @@ public enum JsFunctions
 
     [Value("getLocalStorageItem")]
     GetLocalStorageItem,
+
+    [Value("getLocalStorageItems")]
+    GetLocalStorageItems,
 
     [Value("setLocalStorageItem")]
     SetLocalStorageItem,

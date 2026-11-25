@@ -157,6 +157,7 @@ function isHomeAtRest(): boolean {
 function copyHomeForSnapshot(app: HTMLElement): HTMLElement {
     const copy = app.cloneNode(true) as HTMLElement;
     copy.querySelector(".selected-color__name")?.remove();
+    copy.querySelector(".rating-reminder")?.remove();
 
     const liveColorsPerLine = document.getElementById("colorsPerLine");
     const copiedColorsPerLine = copy.querySelector("#colorsPerLine");
