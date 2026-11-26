@@ -11,6 +11,8 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
     [GeneratedRegex("^#[0-9abcdef]{6}\\z", RegexOptions.IgnoreCase)]
     private static partial Regex HexColorValidationRegex();
 
+    public string ManifestVersion { get; private set; } = string.Empty;
+
     /// <summary>
     /// Gets localstorage value for enum key
     /// </summary>
@@ -47,8 +49,8 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
     public async Task ValidateAsync()
     {
         // Version
-        string version = await jsInterop.InvokeAsync<string>(JsFunctions.GetManifestVersionAsync) ?? string.Empty;
-        await SetKeyAsync(StorageKey.Version, version);
+        ManifestVersion = await jsInterop.InvokeAsync<string>(JsFunctions.GetManifestVersionAsync) ?? string.Empty;
+        await SetKeyAsync(StorageKey.Version, ManifestVersion);
 
         // Theme
         string? storedTheme = await GetKeyAsync<string>(StorageKey.Theme);

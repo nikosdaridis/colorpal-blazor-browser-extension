@@ -59,7 +59,7 @@
                                     IconPath="Icons\github.svg"
                                     IconSize=Size.Small
                                     HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, GITHUB_URL)) />
-            <h4>@_manifestVersion</h4>
+            <h4>@LocalizationService.FormatMessage(MessageKey.Version, LocalStorageService.ManifestVersion)</h4>
         </div>
     </div>
 </div>
@@ -67,18 +67,6 @@
 @code {
     private const string WEBSITE_URL = "https://daridis.com/colorpal";
     private const string GITHUB_URL = "https://github.com/nikosdaridis/colorpal-blazor-browser-extension";
-
-    private string? _manifestVersion;
-
-    /// <summary>
-    /// Gets manifest version and sets it to version element
-    /// </summary>
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-
-        _manifestVersion = await JsInterop.InvokeAsync<string>(JsFunctions.GetManifestVersionAsync);
-    }
 
     private void NavigateBackToHome() =>
         NavigationManager.NavigateTo("/", new NavigationOptions { HistoryEntryState = nameof(Settings) });

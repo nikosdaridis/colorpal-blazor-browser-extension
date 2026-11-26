@@ -187,6 +187,9 @@ public enum MessageKey
     [Value("website")]
     Website,
 
+    [Value("version")]
+    Version,
+
     [Value("ratingReminderTitle")]
     RatingReminderTitle,
 

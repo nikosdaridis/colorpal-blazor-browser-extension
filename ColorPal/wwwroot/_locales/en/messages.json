@@ -10,11 +10,11 @@
   },
   "eyedropper": {
     "message": "Eyedropper",
-    "description": "Screen reader name of the round button that starts the eyedropper, which picks a color from anywhere on the screen. Not shown on screen."
+    "description": "Screen reader name of the button that picks a color from the screen."
   },
   "copyColorName": {
     "message": "$COLOR_NAME$, copy color name",
-    "description": "Screen reader name of the button that shows the selected color's name; pressing it copies the name. Keep $COLOR_NAME$ where the name is read. Not shown on screen.",
+    "description": "Screen reader name of the color name button, which copies the name. Keep $COLOR_NAME$.",
     "placeholders": {
       "color_name": {
         "content": "$1",
@@ -24,107 +24,117 @@
   },
   "settings": {
     "message": "Settings",
-    "description": "Heading of the Settings page, and the screen reader name of the gear button that opens it."
+    "description": "Settings page heading and the gear button's screen reader name."
   },
   "saveColor": {
     "message": "Save color",
-    "description": "Screen reader name of the + button that saves the selected color to the palette. Not shown on screen."
+    "description": "Screen reader name of the + button that saves the color."
   },
   "selectedColor": {
     "message": "Selected color",
-    "description": "Screen reader name of the color field that opens the system's color picker for the selected color. Not shown on screen."
+    "description": "Screen reader name of the color field that opens the color picker."
   },
   "filterFormat": {
     "message": "Filter",
-    "description": "Text of the last of five tabs (HEX, RGB, HSL, HSV, Filter); it shows the color as a CSS filter. The tab is about 50 pixels wide, so one short word. Keep Filter if your language uses the CSS term as is."
+    "description": "Last format tab, after HEX, RGB, HSL and HSV: the CSS filter. One short word."
   },
   "copyColorCode": {
     "message": "Copy color code",
-    "description": "Screen reader name of the button that copies the color's code in the selected format. Not shown on screen."
+    "description": "Screen reader name of the button that copies the color code."
   },
   "moveColors": {
     "message": "Move colors",
-    "description": "Screen reader name of the toolbar button that lets you drag saved colors to reorder them. Not shown on screen."
+    "description": "Screen reader name of the tool that reorders saved colors."
   },
   "tintsAndShades": {
     "message": "Tints and shades",
-    "description": "Screen reader name of the toolbar button that shows lighter (tints) and darker (shades) versions of a color. Not shown on screen."
+    "description": "Screen reader name of the tool that shows lighter and darker colors."
   },
   "deleteColors": {
     "message": "Delete colors",
-    "description": "Screen reader name of the toolbar button that lets you delete saved colors one at a time. Not shown on screen."
+    "description": "Screen reader name of the tool that deletes saved colors one by one."
   },
   "deleteAllColors": {
     "message": "Delete all colors",
-    "description": "Screen reader name of the toolbar button that deletes every saved color. Not shown on screen."
+    "description": "Screen reader name of the tool that deletes all saved colors."
   },
   "downloadPng": {
     "message": "Download PNG",
-    "description": "Screen reader name of the toolbar button that downloads the palette as a PNG image. Keep PNG. Not shown on screen."
+    "description": "Screen reader name of the tool that downloads the palette as an image. Keep PNG."
   },
   "downloadCsv": {
     "message": "Download CSV",
-    "description": "Screen reader name of the toolbar button that downloads the palette as a CSV file. Keep CSV. Not shown on screen."
+    "description": "Screen reader name of the tool that downloads the palette as a CSV file. Keep CSV."
   },
   "colorsPerLine": {
     "message": "Colors per line",
-    "description": "Screen reader name of the menu that sets how many colors each row of the palette shows, from 5 to 10. Not shown on screen."
+    "description": "Screen reader name of the menu that sets colors per row (5 to 10)."
   },
   "deleteAllConfirmation": {
     "message": "Delete all saved colors?",
-    "description": "Question in the browser's confirmation dialog before every saved color is deleted."
+    "description": "Question asked before all saved colors are deleted."
   },
   "back": {
     "message": "Back",
-    "description": "Screen reader name of the arrow button that goes back from Settings to the color picker. Not shown on screen."
+    "description": "Screen reader name of the arrow button that leaves Settings."
   },
   "theme": {
     "message": "Theme",
-    "description": "Settings label next to the switch between the light and the dark theme."
+    "description": "Settings label of the light and dark theme switch."
   },
   "darkTheme": {
     "message": "Dark theme",
-    "description": "Screen reader name of the theme switch, which is on while the dark theme is used. Not shown on screen."
+    "description": "Screen reader name of the theme switch, on when the theme is dark."
   },
   "autoSaveEyedropper": {
     "message": "Auto Save EyeDropper",
-    "description": "Settings label of a switch: when on, a color picked with the eyedropper is saved to the palette right away."
+    "description": "Settings switch: save every eyedropper pick to the palette."
   },
   "autoCopyCode": {
     "message": "Auto Copy Code",
-    "description": "Settings label of a switch: when on, a color's code is copied to the clipboard when the color is saved or clicked in the palette."
+    "description": "Settings switch: copy the code when a color is saved or clicked."
   },
   "addHashToHex": {
     "message": "Add # to HEX",
-    "description": "Settings label of a switch: when on, HEX codes start with #, as in #FF6600. Keep # and HEX."
+    "description": "Settings switch: start HEX codes with #. Keep # and HEX."
   },
   "showColorName": {
     "message": "Show Color Name",
-    "description": "Settings label of a switch: when on, the selected color's name shows at the top of the popup and in the PNG download."
+    "description": "Settings switch: show the color's name in the popup and the PNG."
   },
   "prependBlackToFilter": {
     "message": "Prepend Black To Filter",
-    "description": "Settings label of a switch: when on, the CSS filter code starts with brightness(0) saturate(100%), which first turns the element black so the filter gives the same color on any element."
+    "description": "Settings switch: make the CSS filter turn the element black first."
   },
   "website": {
     "message": "Website",
-    "description": "Label of the button in Settings that opens ColorPal's website."
+    "description": "Settings button that opens ColorPal's website."
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "description": "Version in Settings, such as v2.1.0. Keep $VERSION$; use a short mark like v, not a word.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
   },
   "ratingReminderTitle": {
     "message": "Enjoying ColorPal?",
-    "description": "Title of the small banner under the saved colors that asks for a rating in the Chrome Web Store. It appears right after an eyedropper pick, only after regular use, at most three times, a month apart. Keep ColorPal."
+    "description": "Title of the rating card. Keep ColorPal."
   },
   "ratingReminder": {
     "message": "A quick rating on the Chrome Web Store helps others find it.",
-    "description": "Sentence under the rating banner's title. Keep Chrome Web Store, the store's name."
+    "description": "Sentence on the rating card. Keep Chrome Web Store."
   },
   "notNow": {
     "message": "Not now",
-    "description": "Button in the rating banner that closes it; it may come back a month later."
+    "description": "Rating card button that closes the card."
   },
   "rateColorPal": {
     "message": "Rate ColorPal",
-    "description": "Button in the rating banner and in Settings that opens ColorPal's reviews page in the Chrome Web Store in a new tab, and the screen reader name of the banner. Keep ColorPal. In the banner it shares a line about 250 pixels wide with Not now."
+    "description": "Button on the rating card and in Settings that opens the store reviews. Keep ColorPal."
   },
   "languageCode": {
     "message": "en",
