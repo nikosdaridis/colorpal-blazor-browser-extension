@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: కలర్ పికర్ & ఐడ్రాపర్"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "కలర్ పికర్, ఐడ్రాపర్: స్క్రీన్‌పై ఏ రంగుకైనా HEX, RGB, HSL లేదా CSS ఫిల్టర్ కోడ్ పొందండి, పేరు చూడండి, రంగుల పాలెట్‌లను సేవ్ చేయండి."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "ColorPalను తెరవడానికి క్లిక్ చేయండి"
+  },
+  "eyedropper": {
+    "message": "ఐడ్రాపర్"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, రంగు పేరును కాపీ చేయండి",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "సెట్టింగ్‌లు"
+  },
+  "saveColor": {
+    "message": "రంగును సేవ్ చేయండి"
+  },
+  "selectedColor": {
+    "message": "ఎంచుకున్న రంగు"
+  },
+  "filterFormat": {
+    "message": "ఫిల్టర్"
+  },
+  "copyColorCode": {
+    "message": "రంగు కోడ్‌ను కాపీ చేయండి"
+  },
+  "moveColors": {
+    "message": "రంగులను తరలించండి"
+  },
+  "tintsAndShades": {
+    "message": "లేత, ముదురు ఛాయలు"
+  },
+  "deleteColors": {
+    "message": "రంగులను తొలగించండి"
+  },
+  "deleteAllColors": {
+    "message": "అన్ని రంగులను తొలగించండి"
+  },
+  "downloadPng": {
+    "message": "PNGగా డౌన్‌లోడ్ చేయండి"
+  },
+  "downloadCsv": {
+    "message": "CSVగా డౌన్‌లోడ్ చేయండి"
+  },
+  "colorsPerLine": {
+    "message": "ఒక్కో వరుసకు రంగులు"
+  },
+  "deleteAllConfirmation": {
+    "message": "సేవ్ చేసిన అన్ని రంగులను తొలగించాలా?"
+  },
+  "back": {
+    "message": "వెనుకకు"
+  },
+  "theme": {
+    "message": "థీమ్"
+  },
+  "darkTheme": {
+    "message": "డార్క్ థీమ్"
+  },
+  "autoSaveEyedropper": {
+    "message": "ఐడ్రాపర్ రంగులను ఆటోమేటిక్‌గా సేవ్ చేయండి"
+  },
+  "autoCopyCode": {
+    "message": "కోడ్‌ను ఆటోమేటిక్‌గా కాపీ చేయండి"
+  },
+  "addHashToHex": {
+    "message": "HEXకు # జోడించండి"
+  },
+  "showColorName": {
+    "message": "రంగు పేరును చూపించండి"
+  },
+  "prependBlackToFilter": {
+    "message": "ఫిల్టర్‌కు ముందు నలుపు రంగును జోడించండి"
+  },
+  "website": {
+    "message": "వెబ్‌సైట్"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "ColorPal మీకు నచ్చిందా?"
+  },
+  "ratingReminder": {
+    "message": "Chrome వెబ్ స్టోర్‌లో మీరు ఇచ్చే ఒక త్వరిత రేటింగ్, ఇతరులకు దీన్ని కనుగొనడంలో సహాయపడుతుంది."
+  },
+  "notNow": {
+    "message": "ఇప్పుడు కాదు"
+  },
+  "rateColorPal": {
+    "message": "ColorPalను రేట్ చేయండి"
+  },
+  "languageCode": {
+    "message": "te"
   }
 }

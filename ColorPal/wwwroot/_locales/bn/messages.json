@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: কালার পিকার ও আইড্রপার"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "কালার পিকার ও আইড্রপার: স্ক্রিনের যেকোনো রঙের HEX, RGB, HSL বা CSS ফিল্টার কোড পান, এর নাম দেখুন এবং রঙের প্যালেট সেভ করুন।"
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "ColorPal খুলতে ক্লিক করুন"
+  },
+  "eyedropper": {
+    "message": "আইড্রপার"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, রঙের নাম কপি করুন",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "সেটিংস"
+  },
+  "saveColor": {
+    "message": "রঙ সেভ করুন"
+  },
+  "selectedColor": {
+    "message": "বেছে নেওয়া রঙ"
+  },
+  "filterFormat": {
+    "message": "ফিল্টার"
+  },
+  "copyColorCode": {
+    "message": "রঙের কোড কপি করুন"
+  },
+  "moveColors": {
+    "message": "রঙের ক্রম বদলান"
+  },
+  "tintsAndShades": {
+    "message": "হালকা ও গাঢ় শেড"
+  },
+  "deleteColors": {
+    "message": "রঙ মুছুন"
+  },
+  "deleteAllColors": {
+    "message": "সব রঙ মুছুন"
+  },
+  "downloadPng": {
+    "message": "PNG ডাউনলোড করুন"
+  },
+  "downloadCsv": {
+    "message": "CSV ডাউনলোড করুন"
+  },
+  "colorsPerLine": {
+    "message": "প্রতি সারিতে রঙ"
+  },
+  "deleteAllConfirmation": {
+    "message": "আপনি কি সেভ করা সব রঙ মুছে ফেলতে চান?"
+  },
+  "back": {
+    "message": "ফিরে যান"
+  },
+  "theme": {
+    "message": "থিম"
+  },
+  "darkTheme": {
+    "message": "ডার্ক থিম"
+  },
+  "autoSaveEyedropper": {
+    "message": "আইড্রপারের রঙ অটো-সেভ করুন"
+  },
+  "autoCopyCode": {
+    "message": "কোড অটো-কপি করুন"
+  },
+  "addHashToHex": {
+    "message": "HEX-এ # যোগ করুন"
+  },
+  "showColorName": {
+    "message": "রঙের নাম দেখান"
+  },
+  "prependBlackToFilter": {
+    "message": "ফিল্টারের শুরুতে কালো যোগ করুন"
+  },
+  "website": {
+    "message": "ওয়েবসাইট"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "ColorPal ভালো লাগছে?"
+  },
+  "ratingReminder": {
+    "message": "Chrome ওয়েব স্টোরে ঝটপট একটি রেটিং দিলে অন্যদের এটি খুঁজে পেতে সুবিধা হয়।"
+  },
+  "notNow": {
+    "message": "এখনই নয়"
+  },
+  "rateColorPal": {
+    "message": "ColorPal-কে রেটিং দিন"
+  },
+  "languageCode": {
+    "message": "bn"
   }
 }

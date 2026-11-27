@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Seletor de cores e conta-gotas"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Seletor de cores e conta-gotas: obtenha o código HEX, RGB, HSL ou filtro CSS de qualquer cor na tela, veja o nome e salve paletas."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Clique para abrir o ColorPal"
+  },
+  "eyedropper": {
+    "message": "Conta-gotas"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, copiar nome da cor",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Configurações"
+  },
+  "saveColor": {
+    "message": "Salvar cor"
+  },
+  "selectedColor": {
+    "message": "Cor selecionada"
+  },
+  "filterFormat": {
+    "message": "Filtro"
+  },
+  "copyColorCode": {
+    "message": "Copiar código da cor"
+  },
+  "moveColors": {
+    "message": "Mover cores"
+  },
+  "tintsAndShades": {
+    "message": "Tons claros e escuros"
+  },
+  "deleteColors": {
+    "message": "Excluir cores"
+  },
+  "deleteAllColors": {
+    "message": "Excluir todas as cores"
+  },
+  "downloadPng": {
+    "message": "Baixar PNG"
+  },
+  "downloadCsv": {
+    "message": "Baixar CSV"
+  },
+  "colorsPerLine": {
+    "message": "Cores por linha"
+  },
+  "deleteAllConfirmation": {
+    "message": "Excluir todas as cores salvas?"
+  },
+  "back": {
+    "message": "Voltar"
+  },
+  "theme": {
+    "message": "Tema"
+  },
+  "darkTheme": {
+    "message": "Tema escuro"
+  },
+  "autoSaveEyedropper": {
+    "message": "Salvar ao usar o conta-gotas"
+  },
+  "autoCopyCode": {
+    "message": "Copiar código automaticamente"
+  },
+  "addHashToHex": {
+    "message": "Adicionar # ao código HEX"
+  },
+  "showColorName": {
+    "message": "Mostrar nome da cor"
+  },
+  "prependBlackToFilter": {
+    "message": "Começar o filtro com preto"
+  },
+  "website": {
+    "message": "Website"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Está gostando do ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Uma avaliação rápida na Chrome Web Store ajuda outras pessoas a encontrá-lo."
+  },
+  "notNow": {
+    "message": "Não agora"
+  },
+  "rateColorPal": {
+    "message": "Avaliar o ColorPal"
+  },
+  "languageCode": {
+    "message": "pt-BR"
   }
 }

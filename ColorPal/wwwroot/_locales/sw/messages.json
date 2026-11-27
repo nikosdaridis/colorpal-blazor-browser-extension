@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Kiteua rangi na kinasa rangi"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Kiteua na kinasa rangi: pata msimbo wa HEX, RGB, HSL au kichujio cha CSS na jina la rangi yoyote kwenye skrini, na uhifadhi paleti."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Bofya ili ufungue ColorPal"
+  },
+  "eyedropper": {
+    "message": "Kinasa rangi"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, nakili jina la rangi",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Mipangilio"
+  },
+  "saveColor": {
+    "message": "Hifadhi rangi"
+  },
+  "selectedColor": {
+    "message": "Rangi iliyochaguliwa"
+  },
+  "filterFormat": {
+    "message": "Kichujio"
+  },
+  "copyColorCode": {
+    "message": "Nakili msimbo wa rangi"
+  },
+  "moveColors": {
+    "message": "Sogeza rangi"
+  },
+  "tintsAndShades": {
+    "message": "Rangi nyepesi na nzito"
+  },
+  "deleteColors": {
+    "message": "Futa rangi"
+  },
+  "deleteAllColors": {
+    "message": "Futa rangi zote"
+  },
+  "downloadPng": {
+    "message": "Pakua picha ya PNG"
+  },
+  "downloadCsv": {
+    "message": "Pakua faili ya CSV"
+  },
+  "colorsPerLine": {
+    "message": "Idadi ya rangi kwa kila safu"
+  },
+  "deleteAllConfirmation": {
+    "message": "Ungependa kufuta rangi zote zilizohifadhiwa?"
+  },
+  "back": {
+    "message": "Rudi nyuma"
+  },
+  "theme": {
+    "message": "Mandhari"
+  },
+  "darkTheme": {
+    "message": "Mandhari meusi"
+  },
+  "autoSaveEyedropper": {
+    "message": "Hifadhi kiotomatiki rangi zilizonaswa"
+  },
+  "autoCopyCode": {
+    "message": "Nakili msimbo kiotomatiki"
+  },
+  "addHashToHex": {
+    "message": "Ongeza # mbele ya HEX"
+  },
+  "showColorName": {
+    "message": "Onyesha jina la rangi"
+  },
+  "prependBlackToFilter": {
+    "message": "Anza kichujio kwa rangi nyeusi"
+  },
+  "website": {
+    "message": "Tovuti"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Unafurahia ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Ukadiriaji wa haraka kwenye Chrome Web Store huwasaidia wengine kuipata."
+  },
+  "notNow": {
+    "message": "Si sasa"
+  },
+  "rateColorPal": {
+    "message": "Kadiria ColorPal"
+  },
+  "languageCode": {
+    "message": "sw"
   }
 }

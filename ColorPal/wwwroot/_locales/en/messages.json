@@ -87,11 +87,11 @@
     "description": "Screen reader name of the theme switch, on when the theme is dark."
   },
   "autoSaveEyedropper": {
-    "message": "Auto Save EyeDropper",
+    "message": "Auto save eyedropper",
     "description": "Settings switch: save every eyedropper pick to the palette."
   },
   "autoCopyCode": {
-    "message": "Auto Copy Code",
+    "message": "Auto copy code",
     "description": "Settings switch: copy the code when a color is saved or clicked."
   },
   "addHashToHex": {
@@ -99,11 +99,11 @@
     "description": "Settings switch: start HEX codes with #. Keep # and HEX."
   },
   "showColorName": {
-    "message": "Show Color Name",
+    "message": "Show color name",
     "description": "Settings switch: show the color's name in the popup and the PNG."
   },
   "prependBlackToFilter": {
-    "message": "Prepend Black To Filter",
+    "message": "Prepend black to filter",
     "description": "Settings switch: make the CSS filter turn the element black first."
   },
   "website": {
@@ -126,7 +126,7 @@
   },
   "ratingReminder": {
     "message": "A quick rating on the Chrome Web Store helps others find it.",
-    "description": "Sentence on the rating card. Keep Chrome Web Store."
+    "description": "Sentence on the rating card. Name the Chrome Web Store as Chrome does in your language."
   },
   "notNow": {
     "message": "Not now",

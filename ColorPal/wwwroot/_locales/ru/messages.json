@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: выбор цвета и пипетка"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Выбор цвета и пипетка: узнавайте код HEX, RGB, HSL или CSS-фильтра и название любого цвета на экране, сохраняйте палитры цветов."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Нажмите, чтобы открыть ColorPal"
+  },
+  "eyedropper": {
+    "message": "Пипетка"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, скопировать название цвета",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Настройки"
+  },
+  "saveColor": {
+    "message": "Сохранить цвет"
+  },
+  "selectedColor": {
+    "message": "Выбранный цвет"
+  },
+  "filterFormat": {
+    "message": "Фильтр"
+  },
+  "copyColorCode": {
+    "message": "Скопировать код цвета"
+  },
+  "moveColors": {
+    "message": "Переместить цвета"
+  },
+  "tintsAndShades": {
+    "message": "Светлые и тёмные оттенки"
+  },
+  "deleteColors": {
+    "message": "Удалить цвета"
+  },
+  "deleteAllColors": {
+    "message": "Удалить все цвета"
+  },
+  "downloadPng": {
+    "message": "Скачать PNG"
+  },
+  "downloadCsv": {
+    "message": "Скачать CSV"
+  },
+  "colorsPerLine": {
+    "message": "Цветов в строке"
+  },
+  "deleteAllConfirmation": {
+    "message": "Удалить все сохранённые цвета?"
+  },
+  "back": {
+    "message": "Назад"
+  },
+  "theme": {
+    "message": "Тема"
+  },
+  "darkTheme": {
+    "message": "Тёмная тема"
+  },
+  "autoSaveEyedropper": {
+    "message": "Автосохранение из пипетки"
+  },
+  "autoCopyCode": {
+    "message": "Автокопирование кода"
+  },
+  "addHashToHex": {
+    "message": "Добавлять # к HEX"
+  },
+  "showColorName": {
+    "message": "Показывать название цвета"
+  },
+  "prependBlackToFilter": {
+    "message": "Начинать фильтр с чёрного"
+  },
+  "website": {
+    "message": "Сайт"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Нравится ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Оценка в Chrome Web Store займёт всего минуту и поможет другим найти ColorPal."
+  },
+  "notNow": {
+    "message": "Не сейчас"
+  },
+  "rateColorPal": {
+    "message": "Оценить ColorPal"
+  },
+  "languageCode": {
+    "message": "ru"
   }
 }

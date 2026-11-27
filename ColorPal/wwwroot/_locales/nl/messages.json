@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Kleurenkiezer en pipet"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Kleurenkiezer en pipet: bekijk de HEX-, RGB-, HSL- of CSS-filtercode en naam van elke kleur op je scherm en sla kleurenpaletten op."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Klik om ColorPal te openen"
+  },
+  "eyedropper": {
+    "message": "Pipet"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, kleurnaam kopiëren",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Instellingen"
+  },
+  "saveColor": {
+    "message": "Kleur opslaan"
+  },
+  "selectedColor": {
+    "message": "Geselecteerde kleur"
+  },
+  "filterFormat": {
+    "message": "Filter"
+  },
+  "copyColorCode": {
+    "message": "Kleurcode kopiëren"
+  },
+  "moveColors": {
+    "message": "Kleuren verplaatsen"
+  },
+  "tintsAndShades": {
+    "message": "Lichtere en donkerdere tinten"
+  },
+  "deleteColors": {
+    "message": "Kleuren verwijderen"
+  },
+  "deleteAllColors": {
+    "message": "Alle kleuren verwijderen"
+  },
+  "downloadPng": {
+    "message": "PNG downloaden"
+  },
+  "downloadCsv": {
+    "message": "CSV downloaden"
+  },
+  "colorsPerLine": {
+    "message": "Kleuren per rij"
+  },
+  "deleteAllConfirmation": {
+    "message": "Wil je alle opgeslagen kleuren verwijderen?"
+  },
+  "back": {
+    "message": "Terug"
+  },
+  "theme": {
+    "message": "Thema"
+  },
+  "darkTheme": {
+    "message": "Donker thema"
+  },
+  "autoSaveEyedropper": {
+    "message": "Pipetkleuren automatisch opslaan"
+  },
+  "autoCopyCode": {
+    "message": "Code automatisch kopiëren"
+  },
+  "addHashToHex": {
+    "message": "# toevoegen aan HEX"
+  },
+  "showColorName": {
+    "message": "Kleurnaam tonen"
+  },
+  "prependBlackToFilter": {
+    "message": "Filter met zwart beginnen"
+  },
+  "website": {
+    "message": "Website"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Blij met ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Met een snelle beoordeling in de Chrome Web Store help je anderen ColorPal te vinden."
+  },
+  "notNow": {
+    "message": "Niet nu"
+  },
+  "rateColorPal": {
+    "message": "ColorPal beoordelen"
+  },
+  "languageCode": {
+    "message": "nl"
   }
 }

@@ -7,5 +7,44 @@
   },
   "defaultTitle": {
     "message": "Click to open ColorPal"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, copy colour name",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "saveColor": {
+    "message": "Save colour"
+  },
+  "selectedColor": {
+    "message": "Selected colour"
+  },
+  "copyColorCode": {
+    "message": "Copy colour code"
+  },
+  "moveColors": {
+    "message": "Move colours"
+  },
+  "deleteColors": {
+    "message": "Delete colours"
+  },
+  "deleteAllColors": {
+    "message": "Delete all colours"
+  },
+  "colorsPerLine": {
+    "message": "Colours per line"
+  },
+  "deleteAllConfirmation": {
+    "message": "Delete all saved colours?"
+  },
+  "showColorName": {
+    "message": "Show colour name"
+  },
+  "languageCode": {
+    "message": "en-GB"
   }
 }

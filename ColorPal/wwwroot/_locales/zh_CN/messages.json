@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: 取色器与吸管工具"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "取色器与吸管工具：获取屏幕上任意颜色的 HEX、RGB、HSL 或 CSS 滤镜代码，查看颜色名称，保存调色板。"
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "点击打开 ColorPal"
+  },
+  "eyedropper": {
+    "message": "吸管工具"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$，复制颜色名称",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "设置"
+  },
+  "saveColor": {
+    "message": "保存颜色"
+  },
+  "selectedColor": {
+    "message": "所选颜色"
+  },
+  "filterFormat": {
+    "message": "滤镜"
+  },
+  "copyColorCode": {
+    "message": "复制颜色代码"
+  },
+  "moveColors": {
+    "message": "调整颜色顺序"
+  },
+  "tintsAndShades": {
+    "message": "浅色调与深色调"
+  },
+  "deleteColors": {
+    "message": "删除颜色"
+  },
+  "deleteAllColors": {
+    "message": "删除所有颜色"
+  },
+  "downloadPng": {
+    "message": "下载 PNG"
+  },
+  "downloadCsv": {
+    "message": "下载 CSV"
+  },
+  "colorsPerLine": {
+    "message": "每行颜色数"
+  },
+  "deleteAllConfirmation": {
+    "message": "要删除所有已保存的颜色吗？"
+  },
+  "back": {
+    "message": "返回"
+  },
+  "theme": {
+    "message": "主题"
+  },
+  "darkTheme": {
+    "message": "深色主题"
+  },
+  "autoSaveEyedropper": {
+    "message": "吸管取色后自动保存"
+  },
+  "autoCopyCode": {
+    "message": "自动复制颜色代码"
+  },
+  "addHashToHex": {
+    "message": "HEX 前添加 #"
+  },
+  "showColorName": {
+    "message": "显示颜色名称"
+  },
+  "prependBlackToFilter": {
+    "message": "滤镜前添加黑色"
+  },
+  "website": {
+    "message": "网站"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "喜欢 ColorPal 吗？"
+  },
+  "ratingReminder": {
+    "message": "您只需在 Chrome 应用商店快速评分，就能帮助其他人找到 ColorPal。"
+  },
+  "notNow": {
+    "message": "以后再说"
+  },
+  "rateColorPal": {
+    "message": "为 ColorPal 评分"
+  },
+  "languageCode": {
+    "message": "zh-CN"
   }
 }

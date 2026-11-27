@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: selector de color i comptagotes"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Selector de color i comptagotes: obtén el codi HEX, RGB, HSL o filtre CSS i el nom de qualsevol color en pantalla, i desa paletes."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Fes clic per obrir ColorPal"
+  },
+  "eyedropper": {
+    "message": "Comptagotes"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, copia el nom del color",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Configuració"
+  },
+  "saveColor": {
+    "message": "Desa el color"
+  },
+  "selectedColor": {
+    "message": "Color seleccionat"
+  },
+  "filterFormat": {
+    "message": "Filtre"
+  },
+  "copyColorCode": {
+    "message": "Copia el codi del color"
+  },
+  "moveColors": {
+    "message": "Mou els colors"
+  },
+  "tintsAndShades": {
+    "message": "Tons clars i foscos"
+  },
+  "deleteColors": {
+    "message": "Suprimeix colors"
+  },
+  "deleteAllColors": {
+    "message": "Suprimeix tots els colors"
+  },
+  "downloadPng": {
+    "message": "Baixa en PNG"
+  },
+  "downloadCsv": {
+    "message": "Baixa en CSV"
+  },
+  "colorsPerLine": {
+    "message": "Colors per fila"
+  },
+  "deleteAllConfirmation": {
+    "message": "Vols suprimir tots els colors desats?"
+  },
+  "back": {
+    "message": "Enrere"
+  },
+  "theme": {
+    "message": "Tema"
+  },
+  "darkTheme": {
+    "message": "Tema fosc"
+  },
+  "autoSaveEyedropper": {
+    "message": "Desa cada color capturat"
+  },
+  "autoCopyCode": {
+    "message": "Copia el codi automàticament"
+  },
+  "addHashToHex": {
+    "message": "Afegeix # als codis HEX"
+  },
+  "showColorName": {
+    "message": "Mostra el nom del color"
+  },
+  "prependBlackToFilter": {
+    "message": "Comença el filtre amb negre"
+  },
+  "website": {
+    "message": "Lloc web"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "T'agrada ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Una valoració ràpida a Chrome Web Store ajuda altres persones a descobrir-lo."
+  },
+  "notNow": {
+    "message": "Ara no"
+  },
+  "rateColorPal": {
+    "message": "Valora ColorPal"
+  },
+  "languageCode": {
+    "message": "ca"
   }
 }

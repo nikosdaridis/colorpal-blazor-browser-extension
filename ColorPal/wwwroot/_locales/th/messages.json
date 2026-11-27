@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: เครื่องมือเลือกสีและดูดสี"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "เครื่องมือเลือกสีและดูดสี: หารหัสสี HEX, RGB, HSL หรือฟิลเตอร์ CSS ของสีใดก็ได้บนหน้าจอ ดูชื่อสี และบันทึกจานสี"
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "คลิกเพื่อเปิด ColorPal"
+  },
+  "eyedropper": {
+    "message": "เครื่องมือดูดสี"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, คัดลอกชื่อสี",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "การตั้งค่า"
+  },
+  "saveColor": {
+    "message": "บันทึกสี"
+  },
+  "selectedColor": {
+    "message": "สีที่เลือก"
+  },
+  "filterFormat": {
+    "message": "ฟิลเตอร์"
+  },
+  "copyColorCode": {
+    "message": "คัดลอกรหัสสี"
+  },
+  "moveColors": {
+    "message": "ย้ายสี"
+  },
+  "tintsAndShades": {
+    "message": "เฉดสีอ่อนและเข้ม"
+  },
+  "deleteColors": {
+    "message": "ลบสี"
+  },
+  "deleteAllColors": {
+    "message": "ลบสีทั้งหมด"
+  },
+  "downloadPng": {
+    "message": "ดาวน์โหลดภาพ PNG"
+  },
+  "downloadCsv": {
+    "message": "ดาวน์โหลดไฟล์ CSV"
+  },
+  "colorsPerLine": {
+    "message": "จำนวนสีต่อแถว"
+  },
+  "deleteAllConfirmation": {
+    "message": "ลบสีที่บันทึกไว้ทั้งหมดใช่ไหม"
+  },
+  "back": {
+    "message": "กลับ"
+  },
+  "theme": {
+    "message": "ธีม"
+  },
+  "darkTheme": {
+    "message": "ธีมมืด"
+  },
+  "autoSaveEyedropper": {
+    "message": "บันทึกอัตโนมัติเมื่อดูดสี"
+  },
+  "autoCopyCode": {
+    "message": "คัดลอกรหัสสีอัตโนมัติ"
+  },
+  "addHashToHex": {
+    "message": "เพิ่ม # หน้ารหัส HEX"
+  },
+  "showColorName": {
+    "message": "แสดงชื่อสี"
+  },
+  "prependBlackToFilter": {
+    "message": "เพิ่มสีดำไว้หน้าฟิลเตอร์"
+  },
+  "website": {
+    "message": "เว็บไซต์"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "ชอบ ColorPal ไหม"
+  },
+  "ratingReminder": {
+    "message": "แค่ให้คะแนนใน Chrome Web Store ก็ช่วยให้คนอื่นค้นพบ ColorPal ได้"
+  },
+  "notNow": {
+    "message": "ไม่ใช่ตอนนี้"
+  },
+  "rateColorPal": {
+    "message": "ให้คะแนน ColorPal"
+  },
+  "languageCode": {
+    "message": "th"
   }
 }

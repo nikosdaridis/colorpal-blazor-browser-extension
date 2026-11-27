@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: ቀለም መምረጫ እና ቀለም መውሰጃ"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "ቀለም መምረጫ እና ቀለም መውሰጃ፦ በማያ ገጹ ላይ ላለ ማንኛውም ቀለም የHEX፣ RGB፣ HSL ወይም የCSS ማጣሪያ ኮድ ያግኙ፣ ስሙን ይመልከቱ እና የቀለም ስብስቦችን ያስቀምጡ።"
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "ColorPalን ለመክፈት ጠቅ ያድርጉ"
+  },
+  "eyedropper": {
+    "message": "ቀለም መውሰጃ"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$፣ የቀለሙን ስም ቅዳ",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "ቅንብሮች"
+  },
+  "saveColor": {
+    "message": "ቀለሙን አስቀምጥ"
+  },
+  "selectedColor": {
+    "message": "የተመረጠው ቀለም"
+  },
+  "filterFormat": {
+    "message": "ማጣሪያ"
+  },
+  "copyColorCode": {
+    "message": "የቀለም ኮድ ቅዳ"
+  },
+  "moveColors": {
+    "message": "ቀለሞችን አንቀሳቅስ"
+  },
+  "tintsAndShades": {
+    "message": "ፈካ ያሉ እና ጠቆር ያሉ ቀለሞች"
+  },
+  "deleteColors": {
+    "message": "ቀለሞችን ሰርዝ"
+  },
+  "deleteAllColors": {
+    "message": "ሁሉንም ቀለሞች ሰርዝ"
+  },
+  "downloadPng": {
+    "message": "PNG ምስል አውርድ"
+  },
+  "downloadCsv": {
+    "message": "CSV ፋይል አውርድ"
+  },
+  "colorsPerLine": {
+    "message": "በአንድ ረድፍ የቀለሞች ብዛት"
+  },
+  "deleteAllConfirmation": {
+    "message": "ሁሉንም የተቀመጡ ቀለሞች መሰረዝ ይፈልጋሉ?"
+  },
+  "back": {
+    "message": "ተመለስ"
+  },
+  "theme": {
+    "message": "ገጽታ"
+  },
+  "darkTheme": {
+    "message": "ጨለማ ገጽታ"
+  },
+  "autoSaveEyedropper": {
+    "message": "የተወሰዱ ቀለሞችን በራስ-ሰር ማስቀመጥ"
+  },
+  "autoCopyCode": {
+    "message": "ኮዱን በራስ-ሰር መቅዳት"
+  },
+  "addHashToHex": {
+    "message": "በHEX ኮድ ላይ # ማከል"
+  },
+  "showColorName": {
+    "message": "የቀለም ስም ማሳየት"
+  },
+  "prependBlackToFilter": {
+    "message": "ማጣሪያውን በጥቁር መጀመር"
+  },
+  "website": {
+    "message": "ድር ጣቢያ"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "ColorPalን ወደዱት?"
+  },
+  "ratingReminder": {
+    "message": "በChrome የድር ገበያ ላይ ፈጣን ደረጃ መስጠት ሌሎች እንዲያገኙት ይረዳል።"
+  },
+  "notNow": {
+    "message": "አሁን አይደለም"
+  },
+  "rateColorPal": {
+    "message": "ለColorPal ደረጃ ስጥ"
+  },
+  "languageCode": {
+    "message": "am"
   }
 }

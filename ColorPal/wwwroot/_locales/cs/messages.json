@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Výběr barev a kapátko"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Výběr barev a kapátko: zjistěte kód HEX, RGB, HSL nebo filtr CSS libovolné barvy na obrazovce i její název a ukládejte palety barev."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Kliknutím otevřete ColorPal"
+  },
+  "eyedropper": {
+    "message": "Kapátko"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, kopírovat název barvy",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Nastavení"
+  },
+  "saveColor": {
+    "message": "Uložit barvu"
+  },
+  "selectedColor": {
+    "message": "Vybraná barva"
+  },
+  "filterFormat": {
+    "message": "Filtr"
+  },
+  "copyColorCode": {
+    "message": "Kopírovat kód barvy"
+  },
+  "moveColors": {
+    "message": "Přesunout barvy"
+  },
+  "tintsAndShades": {
+    "message": "Světlejší a tmavší odstíny"
+  },
+  "deleteColors": {
+    "message": "Smazat barvy"
+  },
+  "deleteAllColors": {
+    "message": "Smazat všechny barvy"
+  },
+  "downloadPng": {
+    "message": "Stáhnout PNG"
+  },
+  "downloadCsv": {
+    "message": "Stáhnout CSV"
+  },
+  "colorsPerLine": {
+    "message": "Barev na řádek"
+  },
+  "deleteAllConfirmation": {
+    "message": "Chcete smazat všechny uložené barvy?"
+  },
+  "back": {
+    "message": "Zpět"
+  },
+  "theme": {
+    "message": "Motiv"
+  },
+  "darkTheme": {
+    "message": "Tmavý motiv"
+  },
+  "autoSaveEyedropper": {
+    "message": "Automaticky ukládat z kapátka"
+  },
+  "autoCopyCode": {
+    "message": "Automaticky kopírovat kód"
+  },
+  "addHashToHex": {
+    "message": "Přidat # před kód HEX"
+  },
+  "showColorName": {
+    "message": "Zobrazit název barvy"
+  },
+  "prependBlackToFilter": {
+    "message": "Přidat černou před filtr"
+  },
+  "website": {
+    "message": "Web"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Líbí se vám ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Rychlé hodnocení v Internetovém obchodě Chrome pomůže ostatním ColorPal najít."
+  },
+  "notNow": {
+    "message": "Teď ne"
+  },
+  "rateColorPal": {
+    "message": "Ohodnotit ColorPal"
+  },
+  "languageCode": {
+    "message": "cs"
   }
 }

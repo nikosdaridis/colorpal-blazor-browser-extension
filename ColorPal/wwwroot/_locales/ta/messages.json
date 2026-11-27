@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: கலர் பிக்கர் & ஐடிராப்பர்"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "கலர் பிக்கர், ஐடிராப்பர்: திரையிலுள்ள எந்த வண்ணத்தின் HEX, RGB, HSL, CSS ஃபில்டர், பெயரைப் பெறலாம், வண்ணத் தட்டுகளைச் சேமிக்கலாம்."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "ColorPal-ஐத் திறக்கக் கிளிக் செய்யவும்"
+  },
+  "eyedropper": {
+    "message": "ஐடிராப்பர்"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, வண்ணப் பெயரை நகலெடு",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "அமைப்புகள்"
+  },
+  "saveColor": {
+    "message": "வண்ணத்தைச் சேமி"
+  },
+  "selectedColor": {
+    "message": "தேர்ந்தெடுத்த வண்ணம்"
+  },
+  "filterFormat": {
+    "message": "ஃபில்டர்"
+  },
+  "copyColorCode": {
+    "message": "வண்ணக் குறியீட்டை நகலெடு"
+  },
+  "moveColors": {
+    "message": "வண்ணங்களை நகர்த்து"
+  },
+  "tintsAndShades": {
+    "message": "வெளிர், அடர் சாயல்கள்"
+  },
+  "deleteColors": {
+    "message": "வண்ணங்களை நீக்கு"
+  },
+  "deleteAllColors": {
+    "message": "அனைத்து வண்ணங்களையும் நீக்கு"
+  },
+  "downloadPng": {
+    "message": "PNG-ஆகப் பதிவிறக்கு"
+  },
+  "downloadCsv": {
+    "message": "CSV-ஆகப் பதிவிறக்கு"
+  },
+  "colorsPerLine": {
+    "message": "ஒரு வரிசைக்கு வண்ணங்கள்"
+  },
+  "deleteAllConfirmation": {
+    "message": "சேமித்த வண்ணங்கள் அனைத்தையும் நீக்கவா?"
+  },
+  "back": {
+    "message": "பின்செல்"
+  },
+  "theme": {
+    "message": "தீம்"
+  },
+  "darkTheme": {
+    "message": "டார்க் தீம்"
+  },
+  "autoSaveEyedropper": {
+    "message": "ஐடிராப்பர் வண்ணத்தைத் தானாகச் சேமி"
+  },
+  "autoCopyCode": {
+    "message": "குறியீட்டைத் தானாக நகலெடு"
+  },
+  "addHashToHex": {
+    "message": "HEX-க்கு முன் # சேர்"
+  },
+  "showColorName": {
+    "message": "வண்ணப் பெயரைக் காட்டு"
+  },
+  "prependBlackToFilter": {
+    "message": "ஃபில்டருக்கு முன் கருப்பு வண்ணத்தைச் சேர்"
+  },
+  "website": {
+    "message": "இணையதளம்"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "ColorPal உங்களுக்குப் பிடித்திருக்கிறதா?"
+  },
+  "ratingReminder": {
+    "message": "Chrome Web Store-இல் நீங்கள் தரும் ஒரு விரைவான மதிப்பீடு, மற்றவர்கள் இதைக் கண்டறிய உதவும்."
+  },
+  "notNow": {
+    "message": "இப்பொழுது இல்லை"
+  },
+  "rateColorPal": {
+    "message": "ColorPal-ஐ மதிப்பிடு"
+  },
+  "languageCode": {
+    "message": "ta"
   }
 }

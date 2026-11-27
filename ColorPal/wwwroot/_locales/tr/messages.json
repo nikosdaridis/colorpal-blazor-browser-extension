@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Renk Seçici ve Damlalık"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Renk seçici ve damlalık: ekrandaki her rengin HEX, RGB, HSL renk kodunu veya CSS filtresini alın, adını görün ve paletler kaydedin."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "ColorPal'ı açmak için tıklayın"
+  },
+  "eyedropper": {
+    "message": "Damlalık"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, renk adını kopyala",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Ayarlar"
+  },
+  "saveColor": {
+    "message": "Rengi kaydet"
+  },
+  "selectedColor": {
+    "message": "Seçili renk"
+  },
+  "filterFormat": {
+    "message": "Filtre"
+  },
+  "copyColorCode": {
+    "message": "Renk kodunu kopyala"
+  },
+  "moveColors": {
+    "message": "Renkleri taşı"
+  },
+  "tintsAndShades": {
+    "message": "Açık ve koyu tonlar"
+  },
+  "deleteColors": {
+    "message": "Renkleri sil"
+  },
+  "deleteAllColors": {
+    "message": "Tüm renkleri sil"
+  },
+  "downloadPng": {
+    "message": "PNG olarak indir"
+  },
+  "downloadCsv": {
+    "message": "CSV olarak indir"
+  },
+  "colorsPerLine": {
+    "message": "Satır başına renk sayısı"
+  },
+  "deleteAllConfirmation": {
+    "message": "Kaydedilen tüm renkler silinsin mi?"
+  },
+  "back": {
+    "message": "Geri"
+  },
+  "theme": {
+    "message": "Tema"
+  },
+  "darkTheme": {
+    "message": "Koyu tema"
+  },
+  "autoSaveEyedropper": {
+    "message": "Damlalıkla otomatik kaydet"
+  },
+  "autoCopyCode": {
+    "message": "Kodu otomatik kopyala"
+  },
+  "addHashToHex": {
+    "message": "HEX koduna # ekle"
+  },
+  "showColorName": {
+    "message": "Renk adını göster"
+  },
+  "prependBlackToFilter": {
+    "message": "Filtrenin başına siyah ekle"
+  },
+  "website": {
+    "message": "Web sitesi"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "ColorPal'ı beğendiniz mi?"
+  },
+  "ratingReminder": {
+    "message": "Chrome Web Store'da hızlı bir değerlendirme, başkalarının da ColorPal'ı bulmasına yardımcı olur."
+  },
+  "notNow": {
+    "message": "Şimdi değil"
+  },
+  "rateColorPal": {
+    "message": "ColorPal'ı değerlendir"
+  },
+  "languageCode": {
+    "message": "tr"
   }
 }

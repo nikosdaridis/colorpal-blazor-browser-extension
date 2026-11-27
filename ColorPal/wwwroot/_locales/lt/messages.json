@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: spalvos parinkiklis ir pipetė"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Spalvos parinkiklis ir pipetė: gaukite bet kurios ekrano spalvos HEX, RGB, HSL ar CSS filtro kodą ir pavadinimą, saugokite paletes."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Spustelėkite, kad atidarytumėte „ColorPal“"
+  },
+  "eyedropper": {
+    "message": "Pipetė"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, kopijuoti spalvos pavadinimą",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Nustatymai"
+  },
+  "saveColor": {
+    "message": "Išsaugoti spalvą"
+  },
+  "selectedColor": {
+    "message": "Pasirinkta spalva"
+  },
+  "filterFormat": {
+    "message": "Filtras"
+  },
+  "copyColorCode": {
+    "message": "Kopijuoti spalvos kodą"
+  },
+  "moveColors": {
+    "message": "Perkelti spalvas"
+  },
+  "tintsAndShades": {
+    "message": "Šviesesni ir tamsesni atspalviai"
+  },
+  "deleteColors": {
+    "message": "Ištrinti spalvas"
+  },
+  "deleteAllColors": {
+    "message": "Ištrinti visas spalvas"
+  },
+  "downloadPng": {
+    "message": "Atsisiųsti PNG"
+  },
+  "downloadCsv": {
+    "message": "Atsisiųsti CSV"
+  },
+  "colorsPerLine": {
+    "message": "Spalvų eilutėje"
+  },
+  "deleteAllConfirmation": {
+    "message": "Ar norite ištrinti visas išsaugotas spalvas?"
+  },
+  "back": {
+    "message": "Atgal"
+  },
+  "theme": {
+    "message": "Tema"
+  },
+  "darkTheme": {
+    "message": "Tamsioji tema"
+  },
+  "autoSaveEyedropper": {
+    "message": "Automatiškai išsaugoti pipetės spalvas"
+  },
+  "autoCopyCode": {
+    "message": "Automatiškai kopijuoti kodą"
+  },
+  "addHashToHex": {
+    "message": "Pridėti # prie HEX kodo"
+  },
+  "showColorName": {
+    "message": "Rodyti spalvos pavadinimą"
+  },
+  "prependBlackToFilter": {
+    "message": "Pradėti filtrą nuo juodos"
+  },
+  "website": {
+    "message": "Svetainė"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Patinka „ColorPal“?"
+  },
+  "ratingReminder": {
+    "message": "Greitas įvertinimas parduotuvėje „Chrome Web Store“ padeda kitiems jį atrasti."
+  },
+  "notNow": {
+    "message": "Ne dabar"
+  },
+  "rateColorPal": {
+    "message": "Įvertinti „ColorPal“"
+  },
+  "languageCode": {
+    "message": "lt"
   }
 }

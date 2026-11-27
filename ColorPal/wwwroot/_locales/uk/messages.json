@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: вибір кольору та піпетка"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Вибір кольору та піпетка: дізнавайтеся код HEX, RGB, HSL або CSS-фільтра й назву будь-якого кольору на екрані, зберігайте палітри."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Натисніть, щоб відкрити ColorPal"
+  },
+  "eyedropper": {
+    "message": "Піпетка"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, копіювати назву кольору",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Налаштування"
+  },
+  "saveColor": {
+    "message": "Зберегти колір"
+  },
+  "selectedColor": {
+    "message": "Вибраний колір"
+  },
+  "filterFormat": {
+    "message": "Фільтр"
+  },
+  "copyColorCode": {
+    "message": "Копіювати код кольору"
+  },
+  "moveColors": {
+    "message": "Перемістити кольори"
+  },
+  "tintsAndShades": {
+    "message": "Світлі й темні відтінки"
+  },
+  "deleteColors": {
+    "message": "Видалити кольори"
+  },
+  "deleteAllColors": {
+    "message": "Видалити всі кольори"
+  },
+  "downloadPng": {
+    "message": "Завантажити PNG"
+  },
+  "downloadCsv": {
+    "message": "Завантажити CSV"
+  },
+  "colorsPerLine": {
+    "message": "Кольорів у рядку"
+  },
+  "deleteAllConfirmation": {
+    "message": "Видалити всі збережені кольори?"
+  },
+  "back": {
+    "message": "Назад"
+  },
+  "theme": {
+    "message": "Тема"
+  },
+  "darkTheme": {
+    "message": "Темна тема"
+  },
+  "autoSaveEyedropper": {
+    "message": "Автозбереження з піпетки"
+  },
+  "autoCopyCode": {
+    "message": "Автокопіювання коду"
+  },
+  "addHashToHex": {
+    "message": "Додавати # до HEX"
+  },
+  "showColorName": {
+    "message": "Показувати назву кольору"
+  },
+  "prependBlackToFilter": {
+    "message": "Починати фільтр із чорного"
+  },
+  "website": {
+    "message": "Веб-сайт"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Подобається ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Оцінка в Chrome Web Store займе лише хвилину й допоможе іншим знайти ColorPal."
+  },
+  "notNow": {
+    "message": "Не зараз"
+  },
+  "rateColorPal": {
+    "message": "Оцінити ColorPal"
+  },
+  "languageCode": {
+    "message": "uk"
   }
 }

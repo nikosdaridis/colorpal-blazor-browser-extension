@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: انتخابگر رنگ و قطره‌چکان"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "انتخابگر رنگ و قطره‌چکان: کد HEX، RGB، HSL یا فیلتر CSS هر رنگی را از صفحه‌نمایش بگیرید، نامش را ببینید و پالت‌های رنگ ذخیره کنید."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "برای باز کردن ColorPal کلیک کنید"
+  },
+  "eyedropper": {
+    "message": "قطره‌چکان"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$، کپی کردن نام رنگ",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "تنظیمات"
+  },
+  "saveColor": {
+    "message": "ذخیره رنگ"
+  },
+  "selectedColor": {
+    "message": "رنگ انتخاب‌شده"
+  },
+  "filterFormat": {
+    "message": "فیلتر"
+  },
+  "copyColorCode": {
+    "message": "کپی کردن کد رنگ"
+  },
+  "moveColors": {
+    "message": "جابه‌جایی رنگ‌ها"
+  },
+  "tintsAndShades": {
+    "message": "طیف‌های روشن و تیره"
+  },
+  "deleteColors": {
+    "message": "حذف رنگ‌ها"
+  },
+  "deleteAllColors": {
+    "message": "حذف همه رنگ‌ها"
+  },
+  "downloadPng": {
+    "message": "بارگیری تصویر PNG"
+  },
+  "downloadCsv": {
+    "message": "بارگیری فایل CSV"
+  },
+  "colorsPerLine": {
+    "message": "تعداد رنگ در هر ردیف"
+  },
+  "deleteAllConfirmation": {
+    "message": "می‌خواهید همه رنگ‌های ذخیره‌شده را حذف کنید؟"
+  },
+  "back": {
+    "message": "برگشتن"
+  },
+  "theme": {
+    "message": "طرح زمینه"
+  },
+  "darkTheme": {
+    "message": "طرح زمینه تیره"
+  },
+  "autoSaveEyedropper": {
+    "message": "ذخیره خودکار رنگ قطره‌چکان"
+  },
+  "autoCopyCode": {
+    "message": "کپی خودکار کد"
+  },
+  "addHashToHex": {
+    "message": "افزودن # به کد HEX"
+  },
+  "showColorName": {
+    "message": "نمایش نام رنگ"
+  },
+  "prependBlackToFilter": {
+    "message": "شروع فیلتر با رنگ سیاه"
+  },
+  "website": {
+    "message": "وب‌سایت"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "از ColorPal لذت می‌برید؟"
+  },
+  "ratingReminder": {
+    "message": "یک امتیاز سریع در «نت‌بازار Chrome» به دیگران کمک می‌کند آن را پیدا کنند."
+  },
+  "notNow": {
+    "message": "حالا نه"
+  },
+  "rateColorPal": {
+    "message": "امتیاز دادن به ColorPal"
+  },
+  "languageCode": {
+    "message": "fa"
   }
 }

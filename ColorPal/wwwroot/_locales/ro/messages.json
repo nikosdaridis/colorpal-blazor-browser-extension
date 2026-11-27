@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: selector de culoare și pipetă"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Selector de culoare și pipetă: află codul HEX, RGB, HSL sau filtru CSS și numele oricărei culori de pe ecran, salvează-ți paletele."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Dă clic pentru a deschide ColorPal"
+  },
+  "eyedropper": {
+    "message": "Pipetă"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, copiază numele culorii",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Setări"
+  },
+  "saveColor": {
+    "message": "Salvează culoarea"
+  },
+  "selectedColor": {
+    "message": "Culoarea selectată"
+  },
+  "filterFormat": {
+    "message": "Filtru"
+  },
+  "copyColorCode": {
+    "message": "Copiază codul culorii"
+  },
+  "moveColors": {
+    "message": "Mută culorile"
+  },
+  "tintsAndShades": {
+    "message": "Tonuri deschise și închise"
+  },
+  "deleteColors": {
+    "message": "Șterge culori"
+  },
+  "deleteAllColors": {
+    "message": "Șterge toate culorile"
+  },
+  "downloadPng": {
+    "message": "Descarcă PNG"
+  },
+  "downloadCsv": {
+    "message": "Descarcă CSV"
+  },
+  "colorsPerLine": {
+    "message": "Culori pe fiecare rând"
+  },
+  "deleteAllConfirmation": {
+    "message": "Ștergi toate culorile salvate?"
+  },
+  "back": {
+    "message": "Înapoi"
+  },
+  "theme": {
+    "message": "Temă"
+  },
+  "darkTheme": {
+    "message": "Temă întunecată"
+  },
+  "autoSaveEyedropper": {
+    "message": "Salvează automat culorile din pipetă"
+  },
+  "autoCopyCode": {
+    "message": "Copiază automat codul"
+  },
+  "addHashToHex": {
+    "message": "Adaugă # la codurile HEX"
+  },
+  "showColorName": {
+    "message": "Afișează numele culorii"
+  },
+  "prependBlackToFilter": {
+    "message": "Începe filtrul cu negru"
+  },
+  "website": {
+    "message": "Site"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Îți place ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "O evaluare rapidă în Magazinul web Chrome îi ajută pe alții să-l găsească."
+  },
+  "notNow": {
+    "message": "Nu acum"
+  },
+  "rateColorPal": {
+    "message": "Evaluează ColorPal"
+  },
+  "languageCode": {
+    "message": "ro"
   }
 }

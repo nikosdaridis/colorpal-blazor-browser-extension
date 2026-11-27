@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: בוחר צבעים וטפטפת"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "בוחר צבעים וטפטפת: אפשר לקבל קוד HEX, RGB, HSL או פילטר CSS של כל צבע במסך, לראות את שמו ולשמור פלטות צבעים."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "לחיצה לפתיחת ColorPal"
+  },
+  "eyedropper": {
+    "message": "טפטפת"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, העתקת שם הצבע",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "הגדרות"
+  },
+  "saveColor": {
+    "message": "שמירת הצבע"
+  },
+  "selectedColor": {
+    "message": "הצבע שנבחר"
+  },
+  "filterFormat": {
+    "message": "פילטר"
+  },
+  "copyColorCode": {
+    "message": "העתקת קוד הצבע"
+  },
+  "moveColors": {
+    "message": "הזזת צבעים"
+  },
+  "tintsAndShades": {
+    "message": "גוונים בהירים וכהים"
+  },
+  "deleteColors": {
+    "message": "מחיקת צבעים"
+  },
+  "deleteAllColors": {
+    "message": "מחיקת כל הצבעים"
+  },
+  "downloadPng": {
+    "message": "הורדה כתמונת PNG"
+  },
+  "downloadCsv": {
+    "message": "הורדה כקובץ CSV"
+  },
+  "colorsPerLine": {
+    "message": "מספר צבעים בשורה"
+  },
+  "deleteAllConfirmation": {
+    "message": "למחוק את כל הצבעים השמורים?"
+  },
+  "back": {
+    "message": "חזרה"
+  },
+  "theme": {
+    "message": "עיצוב"
+  },
+  "darkTheme": {
+    "message": "עיצוב כהה"
+  },
+  "autoSaveEyedropper": {
+    "message": "שמירה אוטומטית מהטפטפת"
+  },
+  "autoCopyCode": {
+    "message": "העתקה אוטומטית של הקוד"
+  },
+  "addHashToHex": {
+    "message": "הוספת # לקוד HEX"
+  },
+  "showColorName": {
+    "message": "הצגת שם הצבע"
+  },
+  "prependBlackToFilter": {
+    "message": "הוספת שחור בתחילת הפילטר"
+  },
+  "website": {
+    "message": "אתר"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "נהנים מ-ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "דירוג מהיר ב-Chrome Web Store עוזר לאחרים למצוא אותו."
+  },
+  "notNow": {
+    "message": "לא עכשיו"
+  },
+  "rateColorPal": {
+    "message": "דירוג ColorPal"
+  },
+  "languageCode": {
+    "message": "he"
   }
 }

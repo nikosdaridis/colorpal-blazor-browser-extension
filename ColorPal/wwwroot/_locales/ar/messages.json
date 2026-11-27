@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: منتقي الألوان والقطارة"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "منتقي الألوان والقطارة: احصل على رمز HEX أو RGB أو HSL أو فلتر CSS لأي لون على الشاشة، واعرف اسمه، واحفظ لوحات الألوان."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "انقر لفتح ColorPal"
+  },
+  "eyedropper": {
+    "message": "القطارة"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$، نسخ اسم اللون",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "الإعدادات"
+  },
+  "saveColor": {
+    "message": "حفظ اللون"
+  },
+  "selectedColor": {
+    "message": "اللون المحدد"
+  },
+  "filterFormat": {
+    "message": "فلتر"
+  },
+  "copyColorCode": {
+    "message": "نسخ رمز اللون"
+  },
+  "moveColors": {
+    "message": "نقل الألوان"
+  },
+  "tintsAndShades": {
+    "message": "الدرجات الفاتحة والداكنة"
+  },
+  "deleteColors": {
+    "message": "حذف الألوان"
+  },
+  "deleteAllColors": {
+    "message": "حذف كل الألوان"
+  },
+  "downloadPng": {
+    "message": "تنزيل صورة PNG"
+  },
+  "downloadCsv": {
+    "message": "تنزيل ملف CSV"
+  },
+  "colorsPerLine": {
+    "message": "عدد الألوان في كل صف"
+  },
+  "deleteAllConfirmation": {
+    "message": "هل تريد حذف كل الألوان المحفوظة؟"
+  },
+  "back": {
+    "message": "رجوع"
+  },
+  "theme": {
+    "message": "المظهر"
+  },
+  "darkTheme": {
+    "message": "المظهر الداكن"
+  },
+  "autoSaveEyedropper": {
+    "message": "حفظ ألوان القطارة تلقائيًا"
+  },
+  "autoCopyCode": {
+    "message": "نسخ الرمز تلقائيًا"
+  },
+  "addHashToHex": {
+    "message": "إضافة # إلى رمز HEX"
+  },
+  "showColorName": {
+    "message": "إظهار اسم اللون"
+  },
+  "prependBlackToFilter": {
+    "message": "بدء الفلتر بالأسود"
+  },
+  "website": {
+    "message": "موقع إلكتروني"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "هل يعجبك ColorPal؟"
+  },
+  "ratingReminder": {
+    "message": "تقييم سريع منك في Chrome Web Store يساعد الآخرين على اكتشافه."
+  },
+  "notNow": {
+    "message": "ليس الآن"
+  },
+  "rateColorPal": {
+    "message": "تقييم ColorPal"
+  },
+  "languageCode": {
+    "message": "ar"
   }
 }

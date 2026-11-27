@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Izbirnik barve in kapalka"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Izbirnik barve in kapalka: dobite kodo HEX, RGB, HSL ali filter CSS ter ime katere koli barve na zaslonu in shranjujte palete barv."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Kliknite, da odprete ColorPal"
+  },
+  "eyedropper": {
+    "message": "Kapalka"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, kopiraj ime barve",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Nastavitve"
+  },
+  "saveColor": {
+    "message": "Shrani barvo"
+  },
+  "selectedColor": {
+    "message": "Izbrana barva"
+  },
+  "filterFormat": {
+    "message": "Filter"
+  },
+  "copyColorCode": {
+    "message": "Kopiraj kodo barve"
+  },
+  "moveColors": {
+    "message": "Premakni barve"
+  },
+  "tintsAndShades": {
+    "message": "Svetlejši in temnejši odtenki"
+  },
+  "deleteColors": {
+    "message": "Izbriši barve"
+  },
+  "deleteAllColors": {
+    "message": "Izbriši vse barve"
+  },
+  "downloadPng": {
+    "message": "Prenesi PNG"
+  },
+  "downloadCsv": {
+    "message": "Prenesi CSV"
+  },
+  "colorsPerLine": {
+    "message": "Barv na vrstico"
+  },
+  "deleteAllConfirmation": {
+    "message": "Ali želite izbrisati vse shranjene barve?"
+  },
+  "back": {
+    "message": "Nazaj"
+  },
+  "theme": {
+    "message": "Tema"
+  },
+  "darkTheme": {
+    "message": "Temna tema"
+  },
+  "autoSaveEyedropper": {
+    "message": "Samodejno shrani iz kapalke"
+  },
+  "autoCopyCode": {
+    "message": "Samodejno kopiraj kodo"
+  },
+  "addHashToHex": {
+    "message": "Dodaj # pred kodo HEX"
+  },
+  "showColorName": {
+    "message": "Pokaži ime barve"
+  },
+  "prependBlackToFilter": {
+    "message": "Dodaj črno pred filter"
+  },
+  "website": {
+    "message": "Spletno mesto"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Vam je ColorPal všeč?"
+  },
+  "ratingReminder": {
+    "message": "Hitra ocena v trgovini Chrome Web Store pomaga drugim, da ga najdejo."
+  },
+  "notNow": {
+    "message": "Ne zdaj"
+  },
+  "rateColorPal": {
+    "message": "Oceni ColorPal"
+  },
+  "languageCode": {
+    "message": "sl"
   }
 }

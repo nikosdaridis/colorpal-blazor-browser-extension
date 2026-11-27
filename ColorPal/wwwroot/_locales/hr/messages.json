@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Odabir boja i pipeta"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Odabir boja i pipeta: saznajte kôd HEX, RGB, HSL ili CSS-filtra i naziv bilo koje boje na zaslonu te spremajte palete boja."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Kliknite da biste otvorili ColorPal"
+  },
+  "eyedropper": {
+    "message": "Pipeta"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, kopiraj naziv boje",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Postavke"
+  },
+  "saveColor": {
+    "message": "Spremi boju"
+  },
+  "selectedColor": {
+    "message": "Odabrana boja"
+  },
+  "filterFormat": {
+    "message": "Filtar"
+  },
+  "copyColorCode": {
+    "message": "Kopiraj kôd boje"
+  },
+  "moveColors": {
+    "message": "Premjesti boje"
+  },
+  "tintsAndShades": {
+    "message": "Svjetlije i tamnije nijanse"
+  },
+  "deleteColors": {
+    "message": "Izbriši boje"
+  },
+  "deleteAllColors": {
+    "message": "Izbriši sve boje"
+  },
+  "downloadPng": {
+    "message": "Preuzmi PNG"
+  },
+  "downloadCsv": {
+    "message": "Preuzmi CSV"
+  },
+  "colorsPerLine": {
+    "message": "Broj boja po retku"
+  },
+  "deleteAllConfirmation": {
+    "message": "Želite li izbrisati sve spremljene boje?"
+  },
+  "back": {
+    "message": "Natrag"
+  },
+  "theme": {
+    "message": "Tema"
+  },
+  "darkTheme": {
+    "message": "Tamna tema"
+  },
+  "autoSaveEyedropper": {
+    "message": "Automatski spremi iz pipete"
+  },
+  "autoCopyCode": {
+    "message": "Automatski kopiraj kôd"
+  },
+  "addHashToHex": {
+    "message": "Dodaj # ispred HEX-koda"
+  },
+  "showColorName": {
+    "message": "Prikaži naziv boje"
+  },
+  "prependBlackToFilter": {
+    "message": "Dodaj crnu ispred filtra"
+  },
+  "website": {
+    "message": "Web-lokacija"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Sviđa li vam se ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Brza ocjena u Chrome web-trgovini pomaže drugima da ga pronađu."
+  },
+  "notNow": {
+    "message": "Ne sada"
+  },
+  "rateColorPal": {
+    "message": "Ocijeni ColorPal"
+  },
+  "languageCode": {
+    "message": "hr"
   }
 }

@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Farvevælger og pipette"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Farvevælger og pipette: Få HEX-, RGB-, HSL- eller CSS-filterkoden for enhver farve på skærmen, se navnet og gem farvepaletter."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Klik for at åbne ColorPal"
+  },
+  "eyedropper": {
+    "message": "Pipette"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, kopiér farvenavn",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Indstillinger"
+  },
+  "saveColor": {
+    "message": "Gem farve"
+  },
+  "selectedColor": {
+    "message": "Valgt farve"
+  },
+  "filterFormat": {
+    "message": "Filter"
+  },
+  "copyColorCode": {
+    "message": "Kopiér farvekode"
+  },
+  "moveColors": {
+    "message": "Flyt farver"
+  },
+  "tintsAndShades": {
+    "message": "Lysere og mørkere nuancer"
+  },
+  "deleteColors": {
+    "message": "Slet farver"
+  },
+  "deleteAllColors": {
+    "message": "Slet alle farver"
+  },
+  "downloadPng": {
+    "message": "Download PNG"
+  },
+  "downloadCsv": {
+    "message": "Download CSV"
+  },
+  "colorsPerLine": {
+    "message": "Farver per række"
+  },
+  "deleteAllConfirmation": {
+    "message": "Vil du slette alle gemte farver?"
+  },
+  "back": {
+    "message": "Tilbage"
+  },
+  "theme": {
+    "message": "Tema"
+  },
+  "darkTheme": {
+    "message": "Mørkt tema"
+  },
+  "autoSaveEyedropper": {
+    "message": "Gem pipettefarver automatisk"
+  },
+  "autoCopyCode": {
+    "message": "Kopiér kode automatisk"
+  },
+  "addHashToHex": {
+    "message": "Tilføj # foran HEX"
+  },
+  "showColorName": {
+    "message": "Vis farvenavn"
+  },
+  "prependBlackToFilter": {
+    "message": "Start filteret med sort"
+  },
+  "website": {
+    "message": "Website"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Er du glad for ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "En hurtig bedømmelse i Chrome Webshop hjælper andre med at finde ColorPal."
+  },
+  "notNow": {
+    "message": "Ikke nu"
+  },
+  "rateColorPal": {
+    "message": "Bedøm ColorPal"
+  },
+  "languageCode": {
+    "message": "da"
   }
 }

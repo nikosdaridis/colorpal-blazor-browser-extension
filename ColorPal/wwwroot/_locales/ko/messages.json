@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: 컬러 피커 & 스포이드"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "컬러 피커와 스포이드로 화면 속 모든 색의 색상 코드(HEX, RGB, HSL 또는 CSS 필터)를 추출하고, 색상 이름을 확인하며, 색상 팔레트를 저장할 수 있습니다."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "클릭하여 ColorPal 열기"
+  },
+  "eyedropper": {
+    "message": "스포이드"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, 색상 이름 복사",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "설정"
+  },
+  "saveColor": {
+    "message": "색상 저장"
+  },
+  "selectedColor": {
+    "message": "선택한 색상"
+  },
+  "filterFormat": {
+    "message": "필터"
+  },
+  "copyColorCode": {
+    "message": "색상 코드 복사"
+  },
+  "moveColors": {
+    "message": "색상 순서 변경"
+  },
+  "tintsAndShades": {
+    "message": "틴트와 셰이드"
+  },
+  "deleteColors": {
+    "message": "색상 삭제"
+  },
+  "deleteAllColors": {
+    "message": "모든 색상 삭제"
+  },
+  "downloadPng": {
+    "message": "PNG 다운로드"
+  },
+  "downloadCsv": {
+    "message": "CSV 다운로드"
+  },
+  "colorsPerLine": {
+    "message": "줄당 색상 수"
+  },
+  "deleteAllConfirmation": {
+    "message": "저장된 색상을 모두 삭제하시겠습니까?"
+  },
+  "back": {
+    "message": "뒤로"
+  },
+  "theme": {
+    "message": "테마"
+  },
+  "darkTheme": {
+    "message": "어두운 테마"
+  },
+  "autoSaveEyedropper": {
+    "message": "스포이드 색상 자동 저장"
+  },
+  "autoCopyCode": {
+    "message": "색상 코드 자동 복사"
+  },
+  "addHashToHex": {
+    "message": "HEX에 # 추가"
+  },
+  "showColorName": {
+    "message": "색상 이름 표시"
+  },
+  "prependBlackToFilter": {
+    "message": "필터 앞에 검은색 추가"
+  },
+  "website": {
+    "message": "웹사이트"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "ColorPal이 마음에 드시나요?"
+  },
+  "ratingReminder": {
+    "message": "Chrome Web Store에서 간단히 평가해 주시면 다른 사용자가 ColorPal을 찾는 데 도움이 됩니다."
+  },
+  "notNow": {
+    "message": "나중에"
+  },
+  "rateColorPal": {
+    "message": "ColorPal 평가하기"
+  },
+  "languageCode": {
+    "message": "ko"
   }
 }

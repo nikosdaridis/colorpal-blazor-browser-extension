@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Színválasztó és pipetta"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Színválasztó és pipetta: megkapja a képernyő bármely színének HEX-, RGB-, HSL- vagy CSS-szűrőkódját és nevét, és palettákat menthet."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Kattintson a ColorPal megnyitásához"
+  },
+  "eyedropper": {
+    "message": "Pipetta"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, színnév másolása",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Beállítások"
+  },
+  "saveColor": {
+    "message": "Szín mentése"
+  },
+  "selectedColor": {
+    "message": "Kiválasztott szín"
+  },
+  "filterFormat": {
+    "message": "Szűrő"
+  },
+  "copyColorCode": {
+    "message": "Színkód másolása"
+  },
+  "moveColors": {
+    "message": "Színek áthelyezése"
+  },
+  "tintsAndShades": {
+    "message": "Világosabb és sötétebb árnyalatok"
+  },
+  "deleteColors": {
+    "message": "Színek törlése"
+  },
+  "deleteAllColors": {
+    "message": "Az összes szín törlése"
+  },
+  "downloadPng": {
+    "message": "PNG letöltése"
+  },
+  "downloadCsv": {
+    "message": "CSV letöltése"
+  },
+  "colorsPerLine": {
+    "message": "Színek soronként"
+  },
+  "deleteAllConfirmation": {
+    "message": "Törli az összes mentett színt?"
+  },
+  "back": {
+    "message": "Vissza"
+  },
+  "theme": {
+    "message": "Téma"
+  },
+  "darkTheme": {
+    "message": "Sötét téma"
+  },
+  "autoSaveEyedropper": {
+    "message": "Automatikus mentés pipettázáskor"
+  },
+  "autoCopyCode": {
+    "message": "Automatikus kódmásolás"
+  },
+  "addHashToHex": {
+    "message": "# hozzáadása a HEX-kódhoz"
+  },
+  "showColorName": {
+    "message": "Színnév megjelenítése"
+  },
+  "prependBlackToFilter": {
+    "message": "Fekete beszúrása a szűrő elé"
+  },
+  "website": {
+    "message": "Webhely"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Tetszik a ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Egy gyors értékelés a Chrome Web Store-ban segít másoknak is rátalálni."
+  },
+  "notNow": {
+    "message": "Ne most"
+  },
+  "rateColorPal": {
+    "message": "ColorPal értékelése"
+  },
+  "languageCode": {
+    "message": "hu"
   }
 }

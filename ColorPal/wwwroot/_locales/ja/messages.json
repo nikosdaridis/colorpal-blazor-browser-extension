@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: カラーピッカー＆スポイト"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "カラーピッカーとスポイトで、画面上のあらゆる色のカラーコード（HEX・RGB・HSL・CSS フィルタ）を取得。色名の確認やカラーパレットの保存もできます。"
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "クリックして ColorPal を開く"
+  },
+  "eyedropper": {
+    "message": "スポイト"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$、色名をコピー",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "設定"
+  },
+  "saveColor": {
+    "message": "色を保存"
+  },
+  "selectedColor": {
+    "message": "選択中の色"
+  },
+  "filterFormat": {
+    "message": "フィルタ"
+  },
+  "copyColorCode": {
+    "message": "カラーコードをコピー"
+  },
+  "moveColors": {
+    "message": "色を移動"
+  },
+  "tintsAndShades": {
+    "message": "ティントとシェード"
+  },
+  "deleteColors": {
+    "message": "色を削除"
+  },
+  "deleteAllColors": {
+    "message": "すべての色を削除"
+  },
+  "downloadPng": {
+    "message": "PNG をダウンロード"
+  },
+  "downloadCsv": {
+    "message": "CSV をダウンロード"
+  },
+  "colorsPerLine": {
+    "message": "1 行あたりの色数"
+  },
+  "deleteAllConfirmation": {
+    "message": "保存した色をすべて削除しますか？"
+  },
+  "back": {
+    "message": "戻る"
+  },
+  "theme": {
+    "message": "モード"
+  },
+  "darkTheme": {
+    "message": "ダークモード"
+  },
+  "autoSaveEyedropper": {
+    "message": "スポイトで取った色を自動保存"
+  },
+  "autoCopyCode": {
+    "message": "カラーコードを自動コピー"
+  },
+  "addHashToHex": {
+    "message": "HEX に # を追加"
+  },
+  "showColorName": {
+    "message": "色名を表示"
+  },
+  "prependBlackToFilter": {
+    "message": "フィルタの先頭に黒を追加"
+  },
+  "website": {
+    "message": "ウェブサイト"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "ColorPal は気に入りましたか？"
+  },
+  "ratingReminder": {
+    "message": "Chrome Web Store でさっと評価していただけると、ほかのユーザーにも見つけてもらいやすくなります。"
+  },
+  "notNow": {
+    "message": "後で"
+  },
+  "rateColorPal": {
+    "message": "ColorPal を評価"
+  },
+  "languageCode": {
+    "message": "ja"
   }
 }

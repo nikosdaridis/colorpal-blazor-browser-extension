@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Επιλογέας χρώματος και σταγονόμετρο"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Επιλογέας χρώματος και σταγονόμετρο: κωδικός HEX, RGB, HSL ή φίλτρο CSS και όνομα για κάθε χρώμα στην οθόνη και αποθήκευση παλετών."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Κάντε κλικ για να ανοίξετε το ColorPal"
+  },
+  "eyedropper": {
+    "message": "Σταγονόμετρο"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, αντιγραφή ονόματος χρώματος",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Ρυθμίσεις"
+  },
+  "saveColor": {
+    "message": "Αποθήκευση χρώματος"
+  },
+  "selectedColor": {
+    "message": "Επιλεγμένο χρώμα"
+  },
+  "filterFormat": {
+    "message": "Φίλτρο"
+  },
+  "copyColorCode": {
+    "message": "Αντιγραφή κωδικού χρώματος"
+  },
+  "moveColors": {
+    "message": "Μετακίνηση χρωμάτων"
+  },
+  "tintsAndShades": {
+    "message": "Ανοιχτές και σκούρες αποχρώσεις"
+  },
+  "deleteColors": {
+    "message": "Διαγραφή χρωμάτων"
+  },
+  "deleteAllColors": {
+    "message": "Διαγραφή όλων των χρωμάτων"
+  },
+  "downloadPng": {
+    "message": "Λήψη PNG"
+  },
+  "downloadCsv": {
+    "message": "Λήψη CSV"
+  },
+  "colorsPerLine": {
+    "message": "Χρώματα ανά σειρά"
+  },
+  "deleteAllConfirmation": {
+    "message": "Να διαγραφούν όλα τα αποθηκευμένα χρώματα;"
+  },
+  "back": {
+    "message": "Πίσω"
+  },
+  "theme": {
+    "message": "Θέμα"
+  },
+  "darkTheme": {
+    "message": "Σκούρο θέμα"
+  },
+  "autoSaveEyedropper": {
+    "message": "Αυτόματη αποθήκευση από το σταγονόμετρο"
+  },
+  "autoCopyCode": {
+    "message": "Αυτόματη αντιγραφή κωδικού"
+  },
+  "addHashToHex": {
+    "message": "Προσθήκη # στον κωδικό HEX"
+  },
+  "showColorName": {
+    "message": "Εμφάνιση ονόματος χρώματος"
+  },
+  "prependBlackToFilter": {
+    "message": "Προσθήκη μαύρου στην αρχή του φίλτρου"
+  },
+  "website": {
+    "message": "Ιστότοπος"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Σας αρέσει το ColorPal;"
+  },
+  "ratingReminder": {
+    "message": "Μια γρήγορη αξιολόγηση στο Chrome Web Store βοηθά και άλλους να το βρουν."
+  },
+  "notNow": {
+    "message": "Όχι τώρα"
+  },
+  "rateColorPal": {
+    "message": "Αξιολογήστε το ColorPal"
+  },
+  "languageCode": {
+    "message": "el"
   }
 }

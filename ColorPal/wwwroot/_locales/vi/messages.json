@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Công cụ chọn màu và hút màu"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Công cụ chọn màu và hút màu: lấy mã màu HEX, RGB, HSL hoặc bộ lọc CSS của bất kỳ màu nào trên màn hình, xem tên màu và lưu bảng màu."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Nhấp để mở ColorPal"
+  },
+  "eyedropper": {
+    "message": "Công cụ hút màu"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, sao chép tên màu",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Cài đặt"
+  },
+  "saveColor": {
+    "message": "Lưu màu"
+  },
+  "selectedColor": {
+    "message": "Màu đã chọn"
+  },
+  "filterFormat": {
+    "message": "Bộ lọc"
+  },
+  "copyColorCode": {
+    "message": "Sao chép mã màu"
+  },
+  "moveColors": {
+    "message": "Di chuyển màu"
+  },
+  "tintsAndShades": {
+    "message": "Sắc độ sáng và tối"
+  },
+  "deleteColors": {
+    "message": "Xoá màu"
+  },
+  "deleteAllColors": {
+    "message": "Xoá tất cả màu"
+  },
+  "downloadPng": {
+    "message": "Tải xuống ảnh PNG"
+  },
+  "downloadCsv": {
+    "message": "Tải xuống tệp CSV"
+  },
+  "colorsPerLine": {
+    "message": "Số màu mỗi hàng"
+  },
+  "deleteAllConfirmation": {
+    "message": "Xoá tất cả màu đã lưu?"
+  },
+  "back": {
+    "message": "Quay lại"
+  },
+  "theme": {
+    "message": "Giao diện"
+  },
+  "darkTheme": {
+    "message": "Giao diện tối"
+  },
+  "autoSaveEyedropper": {
+    "message": "Tự động lưu màu đã hút"
+  },
+  "autoCopyCode": {
+    "message": "Tự động sao chép mã màu"
+  },
+  "addHashToHex": {
+    "message": "Thêm # vào mã HEX"
+  },
+  "showColorName": {
+    "message": "Hiển thị tên màu"
+  },
+  "prependBlackToFilter": {
+    "message": "Thêm màu đen trước bộ lọc"
+  },
+  "website": {
+    "message": "Trang web"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Bạn có thích ColorPal không?"
+  },
+  "ratingReminder": {
+    "message": "Một lượt đánh giá nhanh trên Cửa hàng Chrome trực tuyến sẽ giúp người khác tìm thấy tiện ích này."
+  },
+  "notNow": {
+    "message": "Để sau"
+  },
+  "rateColorPal": {
+    "message": "Đánh giá ColorPal"
+  },
+  "languageCode": {
+    "message": "vi"
   }
 }

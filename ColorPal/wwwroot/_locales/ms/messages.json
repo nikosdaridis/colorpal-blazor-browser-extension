@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Pemilih & Penitis Warna"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Pemilih dan penitis warna: ambil kod HEX, RGB, HSL atau penapis CSS sebarang warna di skrin, lihat namanya dan simpan palet warna."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Klik untuk membuka ColorPal"
+  },
+  "eyedropper": {
+    "message": "Penitis warna"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, salin nama warna",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Tetapan"
+  },
+  "saveColor": {
+    "message": "Simpan warna"
+  },
+  "selectedColor": {
+    "message": "Warna yang dipilih"
+  },
+  "filterFormat": {
+    "message": "Penapis"
+  },
+  "copyColorCode": {
+    "message": "Salin kod warna"
+  },
+  "moveColors": {
+    "message": "Alihkan warna"
+  },
+  "tintsAndShades": {
+    "message": "Rona cerah dan gelap"
+  },
+  "deleteColors": {
+    "message": "Padam warna"
+  },
+  "deleteAllColors": {
+    "message": "Padamkan semua warna"
+  },
+  "downloadPng": {
+    "message": "Muat turun PNG"
+  },
+  "downloadCsv": {
+    "message": "Muat turun CSV"
+  },
+  "colorsPerLine": {
+    "message": "Bilangan warna setiap baris"
+  },
+  "deleteAllConfirmation": {
+    "message": "Padamkan semua warna yang disimpan?"
+  },
+  "back": {
+    "message": "Kembali"
+  },
+  "theme": {
+    "message": "Tema"
+  },
+  "darkTheme": {
+    "message": "Tema gelap"
+  },
+  "autoSaveEyedropper": {
+    "message": "Simpan automatik warna daripada penitis"
+  },
+  "autoCopyCode": {
+    "message": "Salin automatik kod warna"
+  },
+  "addHashToHex": {
+    "message": "Tambah # pada kod HEX"
+  },
+  "showColorName": {
+    "message": "Tunjukkan nama warna"
+  },
+  "prependBlackToFilter": {
+    "message": "Mulakan penapis dengan hitam"
+  },
+  "website": {
+    "message": "Tapak web"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Seronok menggunakan ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Menilai ColorPal di Kedai Web Chrome hanya mengambil masa seketika dan membantu orang lain menemuinya."
+  },
+  "notNow": {
+    "message": "Bukan sekarang"
+  },
+  "rateColorPal": {
+    "message": "Nilaikan ColorPal"
+  },
+  "languageCode": {
+    "message": "ms"
   }
 }

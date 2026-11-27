@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Fargevelger og pipette"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Fargevelger og pipette: Finn HEX-, RGB-, HSL- eller CSS-filterkoden til enhver farge på skjermen, se navnet og lagre fargepaletter."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Klikk for å åpne ColorPal"
+  },
+  "eyedropper": {
+    "message": "Pipette"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, kopiér fargenavn",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Innstillinger"
+  },
+  "saveColor": {
+    "message": "Lagre farge"
+  },
+  "selectedColor": {
+    "message": "Valgt farge"
+  },
+  "filterFormat": {
+    "message": "Filter"
+  },
+  "copyColorCode": {
+    "message": "Kopiér fargekode"
+  },
+  "moveColors": {
+    "message": "Flytt farger"
+  },
+  "tintsAndShades": {
+    "message": "Lysere og mørkere nyanser"
+  },
+  "deleteColors": {
+    "message": "Slett farger"
+  },
+  "deleteAllColors": {
+    "message": "Slett alle farger"
+  },
+  "downloadPng": {
+    "message": "Last ned PNG"
+  },
+  "downloadCsv": {
+    "message": "Last ned CSV"
+  },
+  "colorsPerLine": {
+    "message": "Farger per rad"
+  },
+  "deleteAllConfirmation": {
+    "message": "Vil du slette alle lagrede farger?"
+  },
+  "back": {
+    "message": "Tilbake"
+  },
+  "theme": {
+    "message": "Tema"
+  },
+  "darkTheme": {
+    "message": "Mørkt tema"
+  },
+  "autoSaveEyedropper": {
+    "message": "Lagre pipettefarger automatisk"
+  },
+  "autoCopyCode": {
+    "message": "Kopiér kode automatisk"
+  },
+  "addHashToHex": {
+    "message": "Legg til # foran HEX"
+  },
+  "showColorName": {
+    "message": "Vis fargenavn"
+  },
+  "prependBlackToFilter": {
+    "message": "Start filteret med svart"
+  },
+  "website": {
+    "message": "Nettsted"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Liker du ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "En rask vurdering i Chrome Nettmarked hjelper andre med å finne ColorPal."
+  },
+  "notNow": {
+    "message": "Ikke nå"
+  },
+  "rateColorPal": {
+    "message": "Vurder ColorPal"
+  },
+  "languageCode": {
+    "message": "nb"
   }
 }

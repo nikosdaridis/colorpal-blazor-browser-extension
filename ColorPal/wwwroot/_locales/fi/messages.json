@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: värinvalitsin ja pipetti"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Värinvalitsin ja pipetti: poimi näytöltä minkä tahansa värin HEX-, RGB-, HSL- tai CSS-suodatinkoodi ja nimi, tallenna väripaletteja."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Avaa ColorPal napsauttamalla"
+  },
+  "eyedropper": {
+    "message": "Pipetti"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, kopioi värin nimi",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Asetukset"
+  },
+  "saveColor": {
+    "message": "Tallenna väri"
+  },
+  "selectedColor": {
+    "message": "Valittu väri"
+  },
+  "filterFormat": {
+    "message": "Suodatin"
+  },
+  "copyColorCode": {
+    "message": "Kopioi värikoodi"
+  },
+  "moveColors": {
+    "message": "Siirrä värejä"
+  },
+  "tintsAndShades": {
+    "message": "Vaaleammat ja tummemmat sävyt"
+  },
+  "deleteColors": {
+    "message": "Poista värejä"
+  },
+  "deleteAllColors": {
+    "message": "Poista kaikki värit"
+  },
+  "downloadPng": {
+    "message": "Lataa PNG"
+  },
+  "downloadCsv": {
+    "message": "Lataa CSV"
+  },
+  "colorsPerLine": {
+    "message": "Värejä rivillä"
+  },
+  "deleteAllConfirmation": {
+    "message": "Poistetaanko kaikki tallennetut värit?"
+  },
+  "back": {
+    "message": "Takaisin"
+  },
+  "theme": {
+    "message": "Teema"
+  },
+  "darkTheme": {
+    "message": "Tumma teema"
+  },
+  "autoSaveEyedropper": {
+    "message": "Tallenna poimitut värit automaattisesti"
+  },
+  "autoCopyCode": {
+    "message": "Kopioi koodi automaattisesti"
+  },
+  "addHashToHex": {
+    "message": "Lisää # HEX-koodiin"
+  },
+  "showColorName": {
+    "message": "Näytä värin nimi"
+  },
+  "prependBlackToFilter": {
+    "message": "Aloita suodatin mustasta"
+  },
+  "website": {
+    "message": "Sivusto"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Pidätkö ColorPalista?"
+  },
+  "ratingReminder": {
+    "message": "Nopea arvio Chrome Web Storessa auttaa muita löytämään sen."
+  },
+  "notNow": {
+    "message": "Ei nyt"
+  },
+  "rateColorPal": {
+    "message": "Arvioi ColorPal"
+  },
+  "languageCode": {
+    "message": "fi"
   }
 }

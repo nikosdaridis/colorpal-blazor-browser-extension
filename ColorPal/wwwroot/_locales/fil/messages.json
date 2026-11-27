@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Color Picker at Eyedropper"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Color picker at eyedropper: kunin ang HEX, RGB, HSL o CSS filter at pangalan ng anumang kulay sa screen at mag-save ng palette."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "I-click para buksan ang ColorPal"
+  },
+  "eyedropper": {
+    "message": "Eyedropper"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, kopyahin ang pangalan ng kulay",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Mga Setting"
+  },
+  "saveColor": {
+    "message": "I-save ang kulay"
+  },
+  "selectedColor": {
+    "message": "Napiling kulay"
+  },
+  "filterFormat": {
+    "message": "Filter"
+  },
+  "copyColorCode": {
+    "message": "Kopyahin ang code ng kulay"
+  },
+  "moveColors": {
+    "message": "Ilipat ang mga kulay"
+  },
+  "tintsAndShades": {
+    "message": "Mga tint at shade"
+  },
+  "deleteColors": {
+    "message": "I-delete ang kulay"
+  },
+  "deleteAllColors": {
+    "message": "I-delete ang lahat ng kulay"
+  },
+  "downloadPng": {
+    "message": "I-download bilang PNG"
+  },
+  "downloadCsv": {
+    "message": "I-download bilang CSV"
+  },
+  "colorsPerLine": {
+    "message": "Bilang ng kulay bawat hilera"
+  },
+  "deleteAllConfirmation": {
+    "message": "I-delete ang lahat ng naka-save na kulay?"
+  },
+  "back": {
+    "message": "Bumalik"
+  },
+  "theme": {
+    "message": "Tema"
+  },
+  "darkTheme": {
+    "message": "Madilim na tema"
+  },
+  "autoSaveEyedropper": {
+    "message": "Auto-save mula sa eyedropper"
+  },
+  "autoCopyCode": {
+    "message": "Auto-copy ng code"
+  },
+  "addHashToHex": {
+    "message": "Lagyan ng # ang HEX"
+  },
+  "showColorName": {
+    "message": "Ipakita ang pangalan ng kulay"
+  },
+  "prependBlackToFilter": {
+    "message": "Simulan ang filter sa itim"
+  },
+  "website": {
+    "message": "Website"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Gusto mo ba ang ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Makakatulong ang mabilis na rating sa Chrome Web Store para mahanap ng iba ang ColorPal."
+  },
+  "notNow": {
+    "message": "Hindi ngayon"
+  },
+  "rateColorPal": {
+    "message": "I-rate ang ColorPal"
+  },
+  "languageCode": {
+    "message": "fil"
   }
 }

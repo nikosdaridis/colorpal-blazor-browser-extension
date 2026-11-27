@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: 取色器與滴管工具"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "取色器與滴管工具：取得螢幕上任何顏色的色碼（HEX、RGB、HSL 或 CSS 濾鏡），查看顏色名稱，並儲存調色盤。"
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "按一下即可開啟 ColorPal"
+  },
+  "eyedropper": {
+    "message": "滴管工具"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$，複製顏色名稱",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "設定"
+  },
+  "saveColor": {
+    "message": "儲存顏色"
+  },
+  "selectedColor": {
+    "message": "選取的顏色"
+  },
+  "filterFormat": {
+    "message": "濾鏡"
+  },
+  "copyColorCode": {
+    "message": "複製色碼"
+  },
+  "moveColors": {
+    "message": "調整顏色順序"
+  },
+  "tintsAndShades": {
+    "message": "淺色調與深色調"
+  },
+  "deleteColors": {
+    "message": "刪除顏色"
+  },
+  "deleteAllColors": {
+    "message": "刪除所有顏色"
+  },
+  "downloadPng": {
+    "message": "下載 PNG"
+  },
+  "downloadCsv": {
+    "message": "下載 CSV"
+  },
+  "colorsPerLine": {
+    "message": "每列顏色數"
+  },
+  "deleteAllConfirmation": {
+    "message": "要刪除所有已儲存的顏色嗎？"
+  },
+  "back": {
+    "message": "返回"
+  },
+  "theme": {
+    "message": "主題"
+  },
+  "darkTheme": {
+    "message": "深色主題"
+  },
+  "autoSaveEyedropper": {
+    "message": "滴管取色後自動儲存"
+  },
+  "autoCopyCode": {
+    "message": "自動複製色碼"
+  },
+  "addHashToHex": {
+    "message": "HEX 前加上 #"
+  },
+  "showColorName": {
+    "message": "顯示顏色名稱"
+  },
+  "prependBlackToFilter": {
+    "message": "濾鏡前加上黑色"
+  },
+  "website": {
+    "message": "網站"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "喜歡 ColorPal 嗎？"
+  },
+  "ratingReminder": {
+    "message": "只要在 Chrome 線上應用程式商店花點時間評分，就能幫助其他人找到 ColorPal。"
+  },
+  "notNow": {
+    "message": "現在不要"
+  },
+  "rateColorPal": {
+    "message": "為 ColorPal 評分"
+  },
+  "languageCode": {
+    "message": "zh-TW"
   }
 }

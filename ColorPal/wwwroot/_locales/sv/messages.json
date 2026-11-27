@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: Färgväljare och pipett"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Färgväljare och pipett: Hämta HEX-, RGB-, HSL- eller CSS-filterkoden för valfri färg på skärmen, se namnet och spara färgpaletter."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Klicka för att öppna ColorPal"
+  },
+  "eyedropper": {
+    "message": "Pipett"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, kopiera färgnamn",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Inställningar"
+  },
+  "saveColor": {
+    "message": "Spara färg"
+  },
+  "selectedColor": {
+    "message": "Vald färg"
+  },
+  "filterFormat": {
+    "message": "Filter"
+  },
+  "copyColorCode": {
+    "message": "Kopiera färgkod"
+  },
+  "moveColors": {
+    "message": "Flytta färger"
+  },
+  "tintsAndShades": {
+    "message": "Ljusare och mörkare nyanser"
+  },
+  "deleteColors": {
+    "message": "Radera färger"
+  },
+  "deleteAllColors": {
+    "message": "Radera alla färger"
+  },
+  "downloadPng": {
+    "message": "Ladda ned PNG"
+  },
+  "downloadCsv": {
+    "message": "Ladda ned CSV"
+  },
+  "colorsPerLine": {
+    "message": "Färger per rad"
+  },
+  "deleteAllConfirmation": {
+    "message": "Vill du radera alla sparade färger?"
+  },
+  "back": {
+    "message": "Tillbaka"
+  },
+  "theme": {
+    "message": "Tema"
+  },
+  "darkTheme": {
+    "message": "Mörkt tema"
+  },
+  "autoSaveEyedropper": {
+    "message": "Spara pipettfärger automatiskt"
+  },
+  "autoCopyCode": {
+    "message": "Kopiera kod automatiskt"
+  },
+  "addHashToHex": {
+    "message": "Lägg till # före HEX"
+  },
+  "showColorName": {
+    "message": "Visa färgnamn"
+  },
+  "prependBlackToFilter": {
+    "message": "Börja filtret med svart"
+  },
+  "website": {
+    "message": "Webbplats"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Gillar du ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Ett snabbt betyg i Chrome webbshop hjälper andra att hitta ColorPal."
+  },
+  "notNow": {
+    "message": "Inte nu"
+  },
+  "rateColorPal": {
+    "message": "Betygsätt ColorPal"
+  },
+  "languageCode": {
+    "message": "sv"
   }
 }

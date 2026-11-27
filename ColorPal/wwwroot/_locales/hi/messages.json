@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: कलर पिकर और आईड्रॉपर"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "कलर पिकर और आईड्रॉपर: स्क्रीन पर किसी भी रंग का HEX, RGB, HSL या CSS फ़िल्टर कोड पाएं, उसका नाम देखें और रंगों के पैलेट सेव करें।"
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "ColorPal खोलने के लिए क्लिक करें"
+  },
+  "eyedropper": {
+    "message": "आईड्रॉपर"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, रंग का नाम कॉपी करें",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "सेटिंग"
+  },
+  "saveColor": {
+    "message": "रंग सेव करें"
+  },
+  "selectedColor": {
+    "message": "चुना गया रंग"
+  },
+  "filterFormat": {
+    "message": "फ़िल्टर"
+  },
+  "copyColorCode": {
+    "message": "रंग कोड कॉपी करें"
+  },
+  "moveColors": {
+    "message": "रंगों का क्रम बदलें"
+  },
+  "tintsAndShades": {
+    "message": "हल्के और गहरे शेड"
+  },
+  "deleteColors": {
+    "message": "रंग मिटाएं"
+  },
+  "deleteAllColors": {
+    "message": "सभी रंग मिटाएं"
+  },
+  "downloadPng": {
+    "message": "PNG डाउनलोड करें"
+  },
+  "downloadCsv": {
+    "message": "CSV डाउनलोड करें"
+  },
+  "colorsPerLine": {
+    "message": "हर पंक्ति में रंग"
+  },
+  "deleteAllConfirmation": {
+    "message": "क्या आप सेव किए गए सभी रंग मिटाना चाहते हैं?"
+  },
+  "back": {
+    "message": "वापस जाएं"
+  },
+  "theme": {
+    "message": "थीम"
+  },
+  "darkTheme": {
+    "message": "गहरे रंग वाली थीम"
+  },
+  "autoSaveEyedropper": {
+    "message": "आईड्रॉपर के रंग अपने-आप सेव करें"
+  },
+  "autoCopyCode": {
+    "message": "कोड अपने-आप कॉपी करें"
+  },
+  "addHashToHex": {
+    "message": "HEX में # जोड़ें"
+  },
+  "showColorName": {
+    "message": "रंग का नाम दिखाएं"
+  },
+  "prependBlackToFilter": {
+    "message": "फ़िल्टर के शुरू में काला जोड़ें"
+  },
+  "website": {
+    "message": "वेबसाइट"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "ColorPal पसंद आ रहा है?"
+  },
+  "ratingReminder": {
+    "message": "Chrome Web Store पर झटपट रेटिंग देने से दूसरों को इसे ढूंढने में मदद मिलती है।"
+  },
+  "notNow": {
+    "message": "अभी नहीं"
+  },
+  "rateColorPal": {
+    "message": "ColorPal को रेटिंग दें"
+  },
+  "languageCode": {
+    "message": "hi"
   }
 }

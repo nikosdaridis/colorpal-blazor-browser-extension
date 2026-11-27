@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: ಕಲರ್ ಪಿಕರ್ & ಐಡ್ರಾಪರ್"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "ಕಲರ್ ಪಿಕರ್, ಐಡ್ರಾಪರ್: ಸ್ಕ್ರೀನ್‌ನ ಯಾವುದೇ ಬಣ್ಣದ HEX, RGB, HSL, CSS ಫಿಲ್ಟರ್ ಕೋಡ್ ಪಡೆಯಿರಿ, ಹೆಸರು ನೋಡಿ, ಬಣ್ಣದ ಪ್ಯಾಲೆಟ್‌ಗಳನ್ನು ಸೇವ್ ಮಾಡಿ."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "ColorPal ಅನ್ನು ತೆರೆಯಲು ಕ್ಲಿಕ್ ಮಾಡಿ"
+  },
+  "eyedropper": {
+    "message": "ಐಡ್ರಾಪರ್"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, ಬಣ್ಣದ ಹೆಸರನ್ನು ನಕಲಿಸಿ",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "ಸೆಟ್ಟಿಂಗ್‌ಗಳು"
+  },
+  "saveColor": {
+    "message": "ಬಣ್ಣವನ್ನು ಸೇವ್ ಮಾಡಿ"
+  },
+  "selectedColor": {
+    "message": "ಆಯ್ಕೆಮಾಡಿದ ಬಣ್ಣ"
+  },
+  "filterFormat": {
+    "message": "ಫಿಲ್ಟರ್"
+  },
+  "copyColorCode": {
+    "message": "ಬಣ್ಣದ ಕೋಡ್ ನಕಲಿಸಿ"
+  },
+  "moveColors": {
+    "message": "ಬಣ್ಣಗಳನ್ನು ಸರಿಸಿ"
+  },
+  "tintsAndShades": {
+    "message": "ತಿಳಿ ಮತ್ತು ಗಾಢ ಛಾಯೆಗಳು"
+  },
+  "deleteColors": {
+    "message": "ಬಣ್ಣಗಳನ್ನು ಅಳಿಸಿ"
+  },
+  "deleteAllColors": {
+    "message": "ಎಲ್ಲಾ ಬಣ್ಣಗಳನ್ನು ಅಳಿಸಿ"
+  },
+  "downloadPng": {
+    "message": "PNG ಆಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ"
+  },
+  "downloadCsv": {
+    "message": "CSV ಆಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ"
+  },
+  "colorsPerLine": {
+    "message": "ಪ್ರತಿ ಸಾಲಿಗೆ ಬಣ್ಣಗಳು"
+  },
+  "deleteAllConfirmation": {
+    "message": "ಸೇವ್ ಮಾಡಿದ ಎಲ್ಲಾ ಬಣ್ಣಗಳನ್ನು ಅಳಿಸಬೇಕೇ?"
+  },
+  "back": {
+    "message": "ಹಿಂದಕ್ಕೆ"
+  },
+  "theme": {
+    "message": "ಥೀಮ್"
+  },
+  "darkTheme": {
+    "message": "ಡಾರ್ಕ್ ಥೀಮ್"
+  },
+  "autoSaveEyedropper": {
+    "message": "ಐಡ್ರಾಪರ್ ಬಣ್ಣಗಳನ್ನು ಸ್ವಯಂ ಸೇವ್ ಮಾಡಿ"
+  },
+  "autoCopyCode": {
+    "message": "ಕೋಡ್ ಅನ್ನು ಸ್ವಯಂ ನಕಲಿಸಿ"
+  },
+  "addHashToHex": {
+    "message": "HEX ಗೆ # ಸೇರಿಸಿ"
+  },
+  "showColorName": {
+    "message": "ಬಣ್ಣದ ಹೆಸರನ್ನು ತೋರಿಸಿ"
+  },
+  "prependBlackToFilter": {
+    "message": "ಫಿಲ್ಟರ್‌ಗೆ ಮೊದಲು ಕಪ್ಪು ಸೇರಿಸಿ"
+  },
+  "website": {
+    "message": "ವೆಬ್‌ಸೈಟ್"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "ColorPal ನಿಮಗೆ ಇಷ್ಟವಾಯಿತೇ?"
+  },
+  "ratingReminder": {
+    "message": "Chrome ವೆಬ್‌ ಸ್ಟೋರ್‌ನಲ್ಲಿ ನೀವು ನೀಡುವ ತ್ವರಿತ ರೇಟಿಂಗ್, ಇತರರಿಗೆ ಇದನ್ನು ಕಂಡುಕೊಳ್ಳಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ."
+  },
+  "notNow": {
+    "message": "ಈಗ ಬೇಡ"
+  },
+  "rateColorPal": {
+    "message": "ColorPal ಅನ್ನು ರೇಟ್ ಮಾಡಿ"
+  },
+  "languageCode": {
+    "message": "kn"
   }
 }

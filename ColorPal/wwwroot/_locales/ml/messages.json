@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: കളർ പിക്കർ & ഐഡ്രോപ്പർ"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "കളർ പിക്കർ, ഐഡ്രോപ്പർ: സ്‌ക്രീനിലെ ഏത് വർണ്ണത്തിനും HEX, RGB, HSL, CSS ഫിൽട്ടർ കോഡ് നേടാം, പേര് കാണാം, പാലെറ്റുകൾ സംരക്ഷിക്കാം."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "ColorPal തുറക്കാൻ ക്ലിക്ക് ചെയ്യുക"
+  },
+  "eyedropper": {
+    "message": "ഐഡ്രോപ്പർ"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, വർണ്ണത്തിന്റെ പേര് പകർത്തുക",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "ക്രമീകരണം"
+  },
+  "saveColor": {
+    "message": "വർണ്ണം സംരക്ഷിക്കുക"
+  },
+  "selectedColor": {
+    "message": "തിരഞ്ഞെടുത്ത വർണ്ണം"
+  },
+  "filterFormat": {
+    "message": "ഫിൽട്ടർ"
+  },
+  "copyColorCode": {
+    "message": "വർണ്ണ കോഡ് പകർത്തുക"
+  },
+  "moveColors": {
+    "message": "വർണ്ണങ്ങൾ നീക്കുക"
+  },
+  "tintsAndShades": {
+    "message": "ഇളം, കടും ഷേഡുകൾ"
+  },
+  "deleteColors": {
+    "message": "വർണ്ണങ്ങൾ ഇല്ലാതാക്കുക"
+  },
+  "deleteAllColors": {
+    "message": "എല്ലാ വർണ്ണങ്ങളും ഇല്ലാതാക്കുക"
+  },
+  "downloadPng": {
+    "message": "PNG ആയി ഡൗൺലോഡ് ചെയ്യുക"
+  },
+  "downloadCsv": {
+    "message": "CSV ആയി ഡൗൺലോഡ് ചെയ്യുക"
+  },
+  "colorsPerLine": {
+    "message": "ഒരു വരിയിലെ വർണ്ണങ്ങൾ"
+  },
+  "deleteAllConfirmation": {
+    "message": "സംരക്ഷിച്ച എല്ലാ വർണ്ണങ്ങളും ഇല്ലാതാക്കണോ?"
+  },
+  "back": {
+    "message": "മടങ്ങുക"
+  },
+  "theme": {
+    "message": "തീം"
+  },
+  "darkTheme": {
+    "message": "ഡാർക്ക് തീം"
+  },
+  "autoSaveEyedropper": {
+    "message": "ഐഡ്രോപ്പർ വർണ്ണങ്ങൾ സ്വയമേവ സംരക്ഷിക്കുക"
+  },
+  "autoCopyCode": {
+    "message": "കോഡ് സ്വയമേവ പകർത്തുക"
+  },
+  "addHashToHex": {
+    "message": "HEX-ന് മുന്നിൽ # ചേർക്കുക"
+  },
+  "showColorName": {
+    "message": "വർണ്ണത്തിന്റെ പേര് കാണിക്കുക"
+  },
+  "prependBlackToFilter": {
+    "message": "ഫിൽട്ടറിന് മുന്നിൽ കറുപ്പ് ചേർക്കുക"
+  },
+  "website": {
+    "message": "വെബ്‌സൈറ്റ്"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "ColorPal നിങ്ങൾക്ക് ഇഷ്‌ടമായോ?"
+  },
+  "ratingReminder": {
+    "message": "Chrome വെബ് സ്റ്റോറിൽ പെട്ടെന്ന് ഒരു റേറ്റിംഗ് നൽകിയാൽ, മറ്റുള്ളവർക്ക് ഇത് കണ്ടെത്താൻ സഹായമാകും."
+  },
+  "notNow": {
+    "message": "ഇപ്പോഴല്ല"
+  },
+  "rateColorPal": {
+    "message": "ColorPal റേറ്റ് ചെയ്യുക"
+  },
+  "languageCode": {
+    "message": "ml"
   }
 }

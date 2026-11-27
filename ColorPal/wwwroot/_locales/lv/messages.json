@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: krāsu izvēle un pipete"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Krāsu izvēle un pipete: uzziniet jebkuras ekrāna krāsas HEX, RGB, HSL vai CSS filtra kodu un nosaukumu, saglabājiet krāsu paletes."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Noklikšķiniet, lai atvērtu ColorPal"
+  },
+  "eyedropper": {
+    "message": "Pipete"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, kopēt krāsas nosaukumu",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Iestatījumi"
+  },
+  "saveColor": {
+    "message": "Saglabāt krāsu"
+  },
+  "selectedColor": {
+    "message": "Izvēlētā krāsa"
+  },
+  "filterFormat": {
+    "message": "Filtrs"
+  },
+  "copyColorCode": {
+    "message": "Kopēt krāsas kodu"
+  },
+  "moveColors": {
+    "message": "Pārvietot krāsas"
+  },
+  "tintsAndShades": {
+    "message": "Gaišāki un tumšāki toņi"
+  },
+  "deleteColors": {
+    "message": "Dzēst krāsas"
+  },
+  "deleteAllColors": {
+    "message": "Dzēst visas krāsas"
+  },
+  "downloadPng": {
+    "message": "Lejupielādēt PNG"
+  },
+  "downloadCsv": {
+    "message": "Lejupielādēt CSV"
+  },
+  "colorsPerLine": {
+    "message": "Krāsas rindā"
+  },
+  "deleteAllConfirmation": {
+    "message": "Vai vēlaties dzēst visas saglabātās krāsas?"
+  },
+  "back": {
+    "message": "Atpakaļ"
+  },
+  "theme": {
+    "message": "Motīvs"
+  },
+  "darkTheme": {
+    "message": "Tumšais motīvs"
+  },
+  "autoSaveEyedropper": {
+    "message": "Automātiski saglabāt pipetes krāsas"
+  },
+  "autoCopyCode": {
+    "message": "Automātiski kopēt kodu"
+  },
+  "addHashToHex": {
+    "message": "Pievienot # HEX kodam"
+  },
+  "showColorName": {
+    "message": "Rādīt krāsas nosaukumu"
+  },
+  "prependBlackToFilter": {
+    "message": "Sākt filtru ar melnu"
+  },
+  "website": {
+    "message": "Vietne"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Vai jums patīk ColorPal?"
+  },
+  "ratingReminder": {
+    "message": "Ātrs vērtējums veikalā Chrome Web Store palīdz citiem to atrast."
+  },
+  "notNow": {
+    "message": "Vēlāk"
+  },
+  "rateColorPal": {
+    "message": "Novērtēt ColorPal"
+  },
+  "languageCode": {
+    "message": "lv"
   }
 }

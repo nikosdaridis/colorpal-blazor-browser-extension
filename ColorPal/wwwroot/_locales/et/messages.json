@@ -1,11 +1,113 @@
 {
   "name": {
-    "message": "ColorPal: Color Picker & Eyedropper"
+    "message": "ColorPal: värvivalija ja pipett"
   },
   "description": {
-    "message": "Color picker and eyedropper: pick any color on screen, copy HEX, RGB, HSL or CSS filter codes, see color names and save a palette."
+    "message": "Värvivalija ja pipett: hankige ekraanilt mis tahes värvi HEX-, RGB-, HSL- või CSS-filtrikood ja nimi ning salvestage värvipalette."
   },
   "defaultTitle": {
-    "message": "Click to open ColorPal"
+    "message": "Klõpsake ColorPali avamiseks"
+  },
+  "eyedropper": {
+    "message": "Pipett"
+  },
+  "copyColorName": {
+    "message": "$COLOR_NAME$, kopeeri värvi nimi",
+    "placeholders": {
+      "color_name": {
+        "content": "$1",
+        "example": "Celtic Blue"
+      }
+    }
+  },
+  "settings": {
+    "message": "Seaded"
+  },
+  "saveColor": {
+    "message": "Salvesta värv"
+  },
+  "selectedColor": {
+    "message": "Valitud värv"
+  },
+  "filterFormat": {
+    "message": "Filter"
+  },
+  "copyColorCode": {
+    "message": "Kopeeri värvikood"
+  },
+  "moveColors": {
+    "message": "Liiguta värve"
+  },
+  "tintsAndShades": {
+    "message": "Heledamad ja tumedamad toonid"
+  },
+  "deleteColors": {
+    "message": "Kustuta värve"
+  },
+  "deleteAllColors": {
+    "message": "Kustuta kõik värvid"
+  },
+  "downloadPng": {
+    "message": "Laadi alla PNG"
+  },
+  "downloadCsv": {
+    "message": "Laadi alla CSV"
+  },
+  "colorsPerLine": {
+    "message": "Värve rea kohta"
+  },
+  "deleteAllConfirmation": {
+    "message": "Kas soovite kõik salvestatud värvid kustutada?"
+  },
+  "back": {
+    "message": "Tagasi"
+  },
+  "theme": {
+    "message": "Teema"
+  },
+  "darkTheme": {
+    "message": "Tume teema"
+  },
+  "autoSaveEyedropper": {
+    "message": "Salvesta pipeti värvid automaatselt"
+  },
+  "autoCopyCode": {
+    "message": "Kopeeri kood automaatselt"
+  },
+  "addHashToHex": {
+    "message": "Lisa # HEX-koodi ette"
+  },
+  "showColorName": {
+    "message": "Kuva värvi nimi"
+  },
+  "prependBlackToFilter": {
+    "message": "Alusta filtrit mustast"
+  },
+  "website": {
+    "message": "Veebisait"
+  },
+  "version": {
+    "message": "v$VERSION$",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "2.1.0"
+      }
+    }
+  },
+  "ratingReminderTitle": {
+    "message": "Kas ColorPal meeldib teile?"
+  },
+  "ratingReminder": {
+    "message": "Kiire hinnang Chrome Web Store'is aitab teistel seda leida."
+  },
+  "notNow": {
+    "message": "Mitte praegu"
+  },
+  "rateColorPal": {
+    "message": "Hinda ColorPali"
+  },
+  "languageCode": {
+    "message": "et"
   }
 }
