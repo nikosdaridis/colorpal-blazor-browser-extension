@@ -50,16 +50,16 @@
                                     HandleClick=RateAsync />
         }
 
-        <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center justify-between gap-2">
             <RectangularLabelButton Label=@LocalizationService.GetMessage(MessageKey.Website)
                                     IconPath="Icons\website.svg"
                                     IconSize=Size.Small
                                     HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, WEBSITE_URL)) />
+            <p class="shrink-0">@LocalizationService.FormatMessage(MessageKey.Version, LocalStorageService.ManifestVersion)</p>
             <RectangularLabelButton Label="GitHub"
                                     IconPath="Icons\github.svg"
                                     IconSize=Size.Small
                                     HandleClick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.OpenExternalUrl, GITHUB_URL)) />
-            <h4>@LocalizationService.FormatMessage(MessageKey.Version, LocalStorageService.ManifestVersion)</h4>
         </div>
     </div>
 </div>
