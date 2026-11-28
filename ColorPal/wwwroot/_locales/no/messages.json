@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Mørkt tema"
   },
+  "language": {
+    "message": "Språk"
+  },
+  "automaticLanguage": {
+    "message": "Automatisk"
+  },
   "autoSaveEyedropper": {
     "message": "Lagre pipettefarger automatisk"
   },

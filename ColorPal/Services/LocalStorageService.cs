@@ -13,6 +13,8 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
 
     public string ManifestVersion { get; private set; } = string.Empty;
 
+    public string SelectedLanguage { get; private set; } = LocalizationService.AUTOMATIC_LANGUAGE;
+
     /// <summary>
     /// Gets localstorage value for enum key
     /// </summary>
@@ -98,6 +100,13 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
         // PrependBlackFilter
         await ValidateTrueOrFalseAsync(StorageKey.PrependBlackFilter, "false");
 
+        string? storedLanguage = await GetKeyAsync<string>(StorageKey.Language);
+        SelectedLanguage = LocalizationService.IsSupportedLanguage(storedLanguage) ? storedLanguage : LocalizationService.AUTOMATIC_LANGUAGE;
+        if (SelectedLanguage != storedLanguage)
+        {
+            await SetKeyAsync(StorageKey.Language, SelectedLanguage);
+        }
+
         Dictionary<StorageKey, string?> ratingValueMap = await GetKeysAsync(RatingReminderService.StorageKeys);
         await ValidateRatingIntegerAsync(StorageKey.EyedropperPickCount, RatingReminderService.REQUIRED_PICK_COUNT, 0);
         await ValidateRatingIntegerAsync(StorageKey.RatingOpenCount, RatingReminderService.REQUIRED_OPEN_COUNT, 0);
@@ -174,6 +183,12 @@ public sealed partial class LocalStorageService(IBrowserStorage browserStorage, 
         };
 
         return (colorCode, filter);
+    }
+
+    public async Task SetSelectedLanguageAsync(string language)
+    {
+        SelectedLanguage = language;
+        await SetKeyAsync(StorageKey.Language, language);
     }
 
     /// <summary>

@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "ডার্ক থিম"
   },
+  "language": {
+    "message": "ভাষা"
+  },
+  "automaticLanguage": {
+    "message": "স্বয়ংক্রিয়"
+  },
   "autoSaveEyedropper": {
     "message": "আইড্রপারের রঙ অটো-সেভ করুন"
   },

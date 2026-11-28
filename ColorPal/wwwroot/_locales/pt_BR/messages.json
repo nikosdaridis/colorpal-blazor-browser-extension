@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Tema escuro"
   },
+  "language": {
+    "message": "Idioma"
+  },
+  "automaticLanguage": {
+    "message": "Automático"
+  },
   "autoSaveEyedropper": {
     "message": "Salvar ao usar o conta-gotas"
   },

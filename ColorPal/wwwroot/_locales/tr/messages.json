@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Koyu tema"
   },
+  "language": {
+    "message": "Dil"
+  },
+  "automaticLanguage": {
+    "message": "Otomatik"
+  },
   "autoSaveEyedropper": {
     "message": "Damlalıkla otomatik kaydet"
   },

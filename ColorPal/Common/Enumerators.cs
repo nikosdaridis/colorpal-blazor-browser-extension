@@ -94,6 +94,9 @@ public enum StorageKey
     [Value("colorpal-prepend-black-filter")]
     PrependBlackFilter,
 
+    [Value("colorpal-language")]
+    Language,
+
     [Value("colorpal-eyedropper-pick-count")]
     EyedropperPickCount,
 
@@ -168,6 +171,12 @@ public enum MessageKey
 
     [Value("darkTheme")]
     DarkTheme,
+
+    [Value("language")]
+    Language,
+
+    [Value("automaticLanguage")]
+    AutomaticLanguage,
 
     [Value("autoSaveEyedropper")]
     AutoSaveEyedropper,
@@ -258,6 +267,9 @@ public enum JsFunctions
 
     [Value("restoreLostFocus")]
     RestoreLostFocus,
+
+    [Value("revealRatingReminder")]
+    RevealRatingReminder,
 
     [Value("activateEyeDropper")]
     ActivateEyeDropper,

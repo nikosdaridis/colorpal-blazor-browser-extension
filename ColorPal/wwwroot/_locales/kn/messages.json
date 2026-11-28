@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "ಡಾರ್ಕ್ ಥೀಮ್"
   },
+  "language": {
+    "message": "ಭಾಷೆ"
+  },
+  "automaticLanguage": {
+    "message": "ಸ್ವಯಂಚಾಲಿತ"
+  },
   "autoSaveEyedropper": {
     "message": "ಐಡ್ರಾಪರ್ ಬಣ್ಣಗಳನ್ನು ಸ್ವಯಂ ಸೇವ್ ಮಾಡಿ"
   },

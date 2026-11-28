@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Σκούρο θέμα"
   },
+  "language": {
+    "message": "Γλώσσα"
+  },
+  "automaticLanguage": {
+    "message": "Αυτόματη"
+  },
   "autoSaveEyedropper": {
     "message": "Αυτόματη αποθήκευση από το σταγονόμετρο"
   },

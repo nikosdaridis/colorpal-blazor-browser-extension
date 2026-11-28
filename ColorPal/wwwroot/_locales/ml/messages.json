@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "ഡാർക്ക് തീം"
   },
+  "language": {
+    "message": "ഭാഷ"
+  },
+  "automaticLanguage": {
+    "message": "സ്വയമേവ"
+  },
   "autoSaveEyedropper": {
     "message": "ഐഡ്രോപ്പർ വർണ്ണങ്ങൾ സ്വയമേവ സംരക്ഷിക്കുക"
   },

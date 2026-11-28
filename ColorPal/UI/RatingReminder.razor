@@ -12,12 +12,12 @@
                     <p class="text-xs leading-4.25">@LocalizationService.GetMessage(MessageKey.RatingReminder)</p>
                 </div>
             </div>
-            <div class="flex flex-wrap justify-end gap-1.5">
-                <button class="h-7 px-2.5 text-xs font-semibold text-[var(--theme-invert-color)] rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] cursor-pointer transition-colors duration-200 hover:bg-[var(--secondary-color)]"
+            <div class="ms-auto flex w-fit max-w-full flex-wrap gap-1.5">
+                <button class="h-7 grow px-2.5 text-xs font-semibold text-[var(--theme-invert-color)] rounded-md border border-[var(--secondary-color)] bg-[var(--primary-color)] cursor-pointer transition-colors duration-200 hover:bg-[var(--secondary-color)]"
                         @onclick=CloseBanner>
                     @LocalizationService.GetMessage(MessageKey.NotNow)
                 </button>
-                <button class="h-7 px-2.5 text-xs font-semibold text-[var(--primary-color)] rounded-md border border-[var(--theme-invert-color)] bg-[var(--theme-invert-color)] cursor-pointer transition-opacity duration-200 hover:opacity-80"
+                <button class="h-7 grow px-2.5 text-xs font-semibold text-[var(--primary-color)] rounded-md border border-[var(--theme-invert-color)] bg-[var(--theme-invert-color)] cursor-pointer transition-opacity duration-200 hover:opacity-80"
                         @onclick=RateAsync>
                     @LocalizationService.GetMessage(MessageKey.RateColorPal)
                 </button>
@@ -44,6 +44,7 @@
     public required RatingReminderService RatingReminderService { get; set; }
 
     private bool _isFocusToRestore;
+    private bool _isRevealPending;
     private bool _isDisposed;
 
     protected override async Task OnInitializedAsync()
@@ -56,6 +57,12 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
+
+        if (_isRevealPending || (firstRender && RatingReminderService.IsBannerVisible))
+        {
+            _isRevealPending = false;
+            await JsInterop.InvokeVoidAsync(JsFunctions.RevealRatingReminder);
+        }
 
         if (!_isFocusToRestore)
         {
@@ -84,6 +91,7 @@
         }
 
         await RatingReminderService.ShowBannerAsync();
+        _isRevealPending = true;
         await InvokeAsync(StateHasChanged);
     }
 

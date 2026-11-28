@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "ダークモード"
   },
+  "language": {
+    "message": "言語"
+  },
+  "automaticLanguage": {
+    "message": "自動"
+  },
   "autoSaveEyedropper": {
     "message": "スポイトで取った色を自動保存"
   },

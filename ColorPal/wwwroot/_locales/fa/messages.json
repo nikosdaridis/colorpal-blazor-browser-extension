@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "طرح زمینه تیره"
   },
+  "language": {
+    "message": "زبان"
+  },
+  "automaticLanguage": {
+    "message": "خودکار"
+  },
   "autoSaveEyedropper": {
     "message": "ذخیره خودکار رنگ قطره‌چکان"
   },

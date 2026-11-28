@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Ciemny motyw"
   },
+  "language": {
+    "message": "Język"
+  },
+  "automaticLanguage": {
+    "message": "Automatyczny"
+  },
   "autoSaveEyedropper": {
     "message": "Autozapis kolorów z pipety"
   },

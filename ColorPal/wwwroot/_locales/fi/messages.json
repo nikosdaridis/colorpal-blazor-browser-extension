@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Tumma teema"
   },
+  "language": {
+    "message": "Kieli"
+  },
+  "automaticLanguage": {
+    "message": "Automaattinen"
+  },
   "autoSaveEyedropper": {
     "message": "Tallenna poimitut värit automaattisesti"
   },

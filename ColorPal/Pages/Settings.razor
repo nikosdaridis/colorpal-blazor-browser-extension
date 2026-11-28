@@ -6,6 +6,7 @@
     <div class="flex items-center justify-between">
         <h2 class="text-xl font-bold">@LocalizationService.GetMessage(MessageKey.Settings)</h2>
         <TransparentRoundButton IconPath="Icons\arrow.svg"
+                                IconMirroredInRightToLeft=true
                                 AriaLabel=@LocalizationService.GetMessage(MessageKey.Back)
                                 HandleClick=NavigateBackToHome />
     </div>
@@ -14,6 +15,9 @@
         <ThemeSettingsOption LocalStorageService=LocalStorageService
                              LocalizationService=LocalizationService
                              Label=@LocalizationService.GetMessage(MessageKey.Theme) />
+
+        <LanguageSettingsOption LocalizationService=LocalizationService
+                                LanguageSelected=StateHasChanged />
 
         <ToggleSettingsOption LocalStorageService=LocalStorageService
                               StateService=StateService

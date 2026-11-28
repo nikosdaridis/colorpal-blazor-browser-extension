@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Dunkles Design"
   },
+  "language": {
+    "message": "Sprache"
+  },
+  "automaticLanguage": {
+    "message": "Automatisch"
+  },
   "autoSaveEyedropper": {
     "message": "Pipettenfarben automatisch speichern"
   },

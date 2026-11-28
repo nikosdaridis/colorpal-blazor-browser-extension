@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Tume teema"
   },
+  "language": {
+    "message": "Keel"
+  },
+  "automaticLanguage": {
+    "message": "Automaatne"
+  },
   "autoSaveEyedropper": {
     "message": "Salvesta pipeti värvid automaatselt"
   },

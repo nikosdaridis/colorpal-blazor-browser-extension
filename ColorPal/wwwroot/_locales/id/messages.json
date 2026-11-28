@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Tema gelap"
   },
+  "language": {
+    "message": "Bahasa"
+  },
+  "automaticLanguage": {
+    "message": "Otomatis"
+  },
   "autoSaveEyedropper": {
     "message": "Simpan otomatis warna dari pipet"
   },

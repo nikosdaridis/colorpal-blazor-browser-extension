@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "ડાર્ક થીમ"
   },
+  "language": {
+    "message": "ભાષા"
+  },
+  "automaticLanguage": {
+    "message": "ઑટોમૅટિક"
+  },
   "autoSaveEyedropper": {
     "message": "આઇડ્રૉપરના રંગો આપમેળે સાચવો"
   },

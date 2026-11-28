@@ -1,0 +1,28 @@
+﻿<div class="flex items-center justify-between gap-3">
+    <h3 class="shrink-0 font-semibold">@LocalizationService.GetMessage(MessageKey.Language)</h3>
+
+    <select class="h-8 min-w-0 cursor-pointer rounded-md bg-[var(--secondary-color)] px-2 text-sm text-ellipsis text-[var(--text-color)] field-sizing-content"
+            aria-label=@LocalizationService.GetMessage(MessageKey.Language)
+            @bind:get=LocalizationService.SelectedLanguage
+            @bind:set=SelectLanguageAsync>
+        <option value=@LocalizationService.AUTOMATIC_LANGUAGE>@LocalizationService.GetMessage(MessageKey.AutomaticLanguage)</option>
+        @foreach (LanguageOption languageOption in LocalizationService.LanguageOptions)
+        {
+            <option value=@languageOption.Code lang=@languageOption.Code>@languageOption.Name</option>
+        }
+    </select>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public required LocalizationService LocalizationService { get; set; }
+
+    [Parameter]
+    public EventCallback LanguageSelected { get; set; }
+
+    private async Task SelectLanguageAsync(string? language)
+    {
+        await LocalizationService.SelectLanguageAsync(language ?? LocalizationService.AUTOMATIC_LANGUAGE);
+        await LanguageSelected.InvokeAsync();
+    }
+}

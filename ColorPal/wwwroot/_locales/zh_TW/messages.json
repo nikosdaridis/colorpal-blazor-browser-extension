@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "深色主題"
   },
+  "language": {
+    "message": "語言"
+  },
+  "automaticLanguage": {
+    "message": "自動"
+  },
   "autoSaveEyedropper": {
     "message": "滴管取色後自動儲存"
   },

@@ -8,8 +8,14 @@ interface BootSnapshot {
     html: string;
 }
 
+interface LanguageInUse {
+    code: string;
+    localeFolder: string | null;
+}
+
 const STORAGE_KEY_PREFIX = "colorpal-";
 const THEME_STORAGE_KEY = "colorpal-theme";
+const LANGUAGE_STORAGE_KEY = "colorpal-language";
 const BOOT_SNAPSHOT_STORAGE_KEY = "colorpal-boot-snapshot";
 const BOOT_SNAPSHOT_ELEMENT_ID = "bootSnapshot";
 const BOOT_SNAPSHOT_SAVE_DELAY_MS = 300;
@@ -18,6 +24,13 @@ const HEIGHT_TOLERANCE_PX = 1;
 const PRIMARY_COLOR_VARIABLE = "--primary-color";
 const DARK_PRIMARY_COLOR = "var(--dark-primary-color)";
 const LANGUAGE_CODE_MESSAGE = "languageCode";
+const AUTOMATIC_LANGUAGE = "automatic";
+const DEFAULT_LANGUAGE_CODE = "en";
+const LANGUAGE_CODE_PATTERN = /^[a-z]{2,3}(-[A-Z]{2}|-\d{3})?$/;
+const RIGHT_TO_LEFT = "rtl";
+const RIGHT_TO_LEFT_LANGUAGES: ReadonlySet<string> = new Set(["ar", "fa", "he"]);
+const LANGUAGES_CHROME_SKIPS: ReadonlySet<string> = new Set(["nb"]);
+const LOCALE_FOLDER_EXCEPTION_MAP: Readonly<Record<string, string>> = { nb: "no" };
 
 let bootSnapshotSaveTimer: number | undefined;
 let storageAtLastHomeChange: string | null = null;
@@ -28,33 +41,68 @@ function getClientColorScheme(): ColorScheme {
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
-function getStoredTheme(): ColorScheme | null {
-    const storedValue = localStorage.getItem(THEME_STORAGE_KEY);
+function getStoredValue(storageKey: string): unknown {
+    const storedValue = localStorage.getItem(storageKey);
 
     if (storedValue === null) {
         return null;
     }
 
-    let theme: unknown;
-
     try {
-        theme = JSON.parse(storedValue);
+        return JSON.parse(storedValue);
     } catch {
-        theme = storedValue;
+        return storedValue;
     }
+}
+
+function getStoredTheme(): ColorScheme | null {
+    const theme = getStoredValue(THEME_STORAGE_KEY);
 
     return theme === "light" || theme === "dark" ? theme : null;
+}
+
+function getStoredLanguage(): string {
+    const language = getStoredValue(LANGUAGE_STORAGE_KEY);
+
+    return typeof language === "string" && LANGUAGE_CODE_PATTERN.test(language) ? language : AUTOMATIC_LANGUAGE;
 }
 
 function getExtensionVersion(): string | null {
     return globalThis.chrome?.runtime?.id === undefined ? null : chrome.runtime.getManifest().version;
 }
 
-function applyLanguage(): void {
-    const languageCode = globalThis.chrome?.i18n?.getMessage(LANGUAGE_CODE_MESSAGE) ?? "";
+function getLocaleFolder(languageCode: string): string {
+    return LOCALE_FOLDER_EXCEPTION_MAP[languageCode] ?? languageCode.replace("-", "_");
+}
 
-    if (languageCode.length > 0) {
-        document.documentElement.lang = languageCode;
+function resolveLanguage(language: string): LanguageInUse {
+    if (language !== AUTOMATIC_LANGUAGE) {
+        return { code: language, localeFolder: getLocaleFolder(language) };
+    }
+
+    const i18n = globalThis.chrome?.i18n;
+
+    if (i18n === undefined) {
+        return { code: DEFAULT_LANGUAGE_CODE, localeFolder: getLocaleFolder(DEFAULT_LANGUAGE_CODE) };
+    }
+
+    const chromeLanguage = i18n.getUILanguage();
+
+    if (LANGUAGES_CHROME_SKIPS.has(chromeLanguage)) {
+        return { code: chromeLanguage, localeFolder: getLocaleFolder(chromeLanguage) };
+    }
+
+    return { code: i18n.getMessage(LANGUAGE_CODE_MESSAGE) || DEFAULT_LANGUAGE_CODE, localeFolder: null };
+}
+
+function applyLanguage(languageCode: string): void {
+    const root = document.documentElement;
+    root.lang = languageCode;
+
+    if (RIGHT_TO_LEFT_LANGUAGES.has(languageCode.split("-")[0])) {
+        root.dir = RIGHT_TO_LEFT;
+    } else {
+        root.removeAttribute("dir");
     }
 }
 
@@ -239,5 +287,5 @@ function completeBootView(): void {
     watchBootSnapshot();
 }
 
-applyLanguage();
+applyLanguage(resolveLanguage(getStoredLanguage()).code);
 applyBootView();

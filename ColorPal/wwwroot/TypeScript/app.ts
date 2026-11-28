@@ -22,10 +22,15 @@ interface LocaleMessage {
     message: string;
 }
 
+type LocaleMessages = Readonly<Record<string, LocaleMessage | undefined>>;
+
 const COLOR_RECTANGLE_DRAGGING_CLASS = "color-rectangle--dragging";
 const COLOR_RECTANGLE_REPLACING_CLASS = "color-rectangle--replacing";
-const DEFAULT_LOCALE_MESSAGES_URL = "_locales/en/messages.json";
 const MESSAGE_PLACEHOLDER_PATTERN = /\$\w+\$/g;
+const RATING_REMINDER_SELECTOR = ".rating-reminder";
+const RATING_REMINDER_CARD_SELECTOR = ".rating-reminder__card";
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+const HIDDEN_HEIGHT_TOLERANCE_PX = 0.5;
 
 let stateServiceReference: DotNetObjectReference | null = null;
 let colorsGridComponent: DotNetObjectReference | null = null;
@@ -73,14 +78,47 @@ async function getManifestVersionAsync(): Promise<string> {
 }
 
 async function getLocalizedMessagesAsync(messageNames: string[], substitution: string): Promise<string[]> {
-    if (globalThis.chrome?.i18n !== undefined) {
-        return messageNames.map((messageName) => chrome.i18n.getMessage(messageName, substitution));
+    const storedLanguage = getStoredLanguage();
+
+    try {
+        return await loadLocalizedMessagesAsync(messageNames, substitution, storedLanguage);
+    } catch (error) {
+        if (storedLanguage === AUTOMATIC_LANGUAGE) {
+            throw error;
+        }
+
+        console.warn(`Loading the ${storedLanguage} texts failed, so ColorPal follows Chrome's language.`, error);
+        return await loadLocalizedMessagesAsync(messageNames, substitution, AUTOMATIC_LANGUAGE);
+    }
+}
+
+async function loadLocalizedMessagesAsync(messageNames: string[], substitution: string, language: string): Promise<string[]> {
+    const { code, localeFolder } = resolveLanguage(language);
+    const messages = localeFolder === null
+        ? messageNames.map((messageName) => chrome.i18n.getMessage(messageName, substitution))
+        : await readLocaleMessagesAsync(messageNames, substitution, localeFolder);
+
+    applyLanguage(code);
+    return messages;
+}
+
+async function readLocaleMessagesAsync(messageNames: string[], substitution: string, localeFolder: string): Promise<string[]> {
+    const defaultLocaleFolder = getLocaleFolder(DEFAULT_LANGUAGE_CODE);
+    const localeMessages = await fetchLocaleMessagesAsync(localeFolder);
+    const isMessageMissing = localeFolder !== defaultLocaleFolder && messageNames.some((messageName) => localeMessages[messageName] === undefined);
+    const defaultMessages = isMessageMissing ? await fetchLocaleMessagesAsync(defaultLocaleFolder) : localeMessages;
+
+    return messageNames.map((messageName) => (localeMessages[messageName] ?? defaultMessages[messageName])?.message.replace(MESSAGE_PLACEHOLDER_PATTERN, () => substitution) ?? "");
+}
+
+async function fetchLocaleMessagesAsync(localeFolder: string): Promise<LocaleMessages> {
+    const response = await fetch(`_locales/${localeFolder}/messages.json`);
+
+    if (!response.ok) {
+        throw new Error(`The ${localeFolder} texts answered HTTP ${response.status}.`);
     }
 
-    const response = await fetch(DEFAULT_LOCALE_MESSAGES_URL);
-    const localeMessages: Record<string, LocaleMessage | undefined> = await response.json();
-
-    return messageNames.map((messageName) => localeMessages[messageName]?.message.replace(MESSAGE_PLACEHOLDER_PATTERN, () => substitution) ?? "");
+    return await response.json();
 }
 
 function getLocalStorageItem(key: string): string | null {
@@ -145,6 +183,24 @@ function restoreLostFocus(selector: string): void {
     }
 
     document.querySelector<HTMLElement>(selector)?.focus();
+}
+
+function revealRatingReminder(): void {
+    const reminder = document.querySelector<HTMLElement>(RATING_REMINDER_SELECTOR);
+    const card = reminder?.querySelector<HTMLElement>(RATING_REMINDER_CARD_SELECTOR) ?? null;
+    if (reminder === null || card === null) {
+        return;
+    }
+
+    const stickyBottomOffset = parseFloat(getComputedStyle(reminder).bottom);
+    const visibleBottom = window.innerHeight - (Number.isNaN(stickyBottomOffset) ? 0 : stickyBottomOffset);
+    const hiddenHeight = card.getBoundingClientRect().bottom - visibleBottom;
+    if (hiddenHeight <= HIDDEN_HEIGHT_TOLERANCE_PX) {
+        return;
+    }
+
+    const behavior: ScrollBehavior = window.matchMedia(REDUCED_MOTION_QUERY).matches ? "instant" : "smooth";
+    document.scrollingElement?.scrollBy({ top: hiddenHeight, behavior });
 }
 
 // Activates eye dropper and returns hex color

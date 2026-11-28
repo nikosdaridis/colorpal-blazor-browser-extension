@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Giao diện tối"
   },
+  "language": {
+    "message": "Ngôn ngữ"
+  },
+  "automaticLanguage": {
+    "message": "Tự động"
+  },
   "autoSaveEyedropper": {
     "message": "Tự động lưu màu đã hút"
   },

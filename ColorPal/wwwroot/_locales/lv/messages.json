@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Tumšais motīvs"
   },
+  "language": {
+    "message": "Valoda"
+  },
+  "automaticLanguage": {
+    "message": "Automātiski"
+  },
   "autoSaveEyedropper": {
     "message": "Automātiski saglabāt pipetes krāsas"
   },

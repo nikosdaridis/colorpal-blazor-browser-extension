@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Madilim na tema"
   },
+  "language": {
+    "message": "Wika"
+  },
+  "automaticLanguage": {
+    "message": "Awtomatiko"
+  },
   "autoSaveEyedropper": {
     "message": "Auto-save mula sa eyedropper"
   },

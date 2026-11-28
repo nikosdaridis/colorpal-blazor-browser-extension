@@ -11,6 +11,7 @@
         @if (_colorName.Show && !string.IsNullOrWhiteSpace(_colorName.Selected))
         {
             <button class="selected-color__name cursor-pointer rounded-lg bg-white/50 px-2 py-1 text-center font-semibold text-[0.6875rem] shadow-xl backdrop-blur-xl transition-all duration-200 hover:bg-white/75 active:scale-90"
+                    dir="ltr"
                     aria-label=@LocalizationService.FormatMessage(MessageKey.CopyColorName, _colorName.Selected)
                     @onclick:stopPropagation
                     @onclick=@(async () => await JsInterop.InvokeVoidAsync(JsFunctions.CopyToClipboard, _colorName.Selected))>

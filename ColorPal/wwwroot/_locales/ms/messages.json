@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Tema gelap"
   },
+  "language": {
+    "message": "Bahasa"
+  },
+  "automaticLanguage": {
+    "message": "Automatik"
+  },
   "autoSaveEyedropper": {
     "message": "Simpan automatik warna daripada penitis"
   },

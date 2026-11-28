@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "المظهر الداكن"
   },
+  "language": {
+    "message": "اللغة"
+  },
+  "automaticLanguage": {
+    "message": "تلقائي"
+  },
   "autoSaveEyedropper": {
     "message": "حفظ ألوان القطارة تلقائيًا"
   },

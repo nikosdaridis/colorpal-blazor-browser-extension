@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Sötét téma"
   },
+  "language": {
+    "message": "Nyelv"
+  },
+  "automaticLanguage": {
+    "message": "Automatikus"
+  },
   "autoSaveEyedropper": {
     "message": "Automatikus mentés pipettázáskor"
   },

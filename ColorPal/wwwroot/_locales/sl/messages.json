@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Temna tema"
   },
+  "language": {
+    "message": "Jezik"
+  },
+  "automaticLanguage": {
+    "message": "Samodejno"
+  },
   "autoSaveEyedropper": {
     "message": "Samodejno shrani iz kapalke"
   },

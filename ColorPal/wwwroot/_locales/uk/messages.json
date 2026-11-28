@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Темна тема"
   },
+  "language": {
+    "message": "Мова"
+  },
+  "automaticLanguage": {
+    "message": "Автоматично"
+  },
   "autoSaveEyedropper": {
     "message": "Автозбереження з піпетки"
   },

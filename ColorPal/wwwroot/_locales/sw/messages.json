@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Mandhari meusi"
   },
+  "language": {
+    "message": "Lugha"
+  },
+  "automaticLanguage": {
+    "message": "Otomatiki"
+  },
   "autoSaveEyedropper": {
     "message": "Hifadhi kiotomatiki rangi zilizonaswa"
   },

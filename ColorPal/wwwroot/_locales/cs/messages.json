@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Tmavý motiv"
   },
+  "language": {
+    "message": "Jazyk"
+  },
+  "automaticLanguage": {
+    "message": "Automaticky"
+  },
   "autoSaveEyedropper": {
     "message": "Automaticky ukládat z kapátka"
   },

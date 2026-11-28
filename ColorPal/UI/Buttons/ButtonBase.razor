@@ -7,7 +7,7 @@
         @onclick=HandleOnClickAsync
 @onclick:stopPropagation>
 
-    <img class="@GetIconSizeClass() @(IconThemeFilter ? "theme-filter" : string.Empty) @(IconTextFilter ? "text-filter" : string.Empty)"
+    <img class="@GetIconSizeClass() @(IconThemeFilter ? "theme-filter" : string.Empty) @(IconTextFilter ? "text-filter" : string.Empty) @(IconMirroredInRightToLeft ? "rtl:-scale-x-100" : string.Empty)"
          alt=""
          draggable="false"
          src="@IconPath" />
@@ -31,6 +31,9 @@
 
     [Parameter]
     public bool IconTextFilter { get; set; } = false;
+
+    [Parameter]
+    public bool IconMirroredInRightToLeft { get; set; }
 
     [Parameter]
     public EventCallback<MouseEventArgs> HandleClick { get; set; }

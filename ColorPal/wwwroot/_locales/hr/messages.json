@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Tamna tema"
   },
+  "language": {
+    "message": "Jezik"
+  },
+  "automaticLanguage": {
+    "message": "Automatski"
+  },
   "autoSaveEyedropper": {
     "message": "Automatski spremi iz pipete"
   },

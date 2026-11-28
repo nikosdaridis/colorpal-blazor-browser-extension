@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Tema fosc"
   },
+  "language": {
+    "message": "Idioma"
+  },
+  "automaticLanguage": {
+    "message": "Automàtic"
+  },
   "autoSaveEyedropper": {
     "message": "Desa cada color capturat"
   },

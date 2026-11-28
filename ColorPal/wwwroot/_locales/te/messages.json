@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "డార్క్ థీమ్"
   },
+  "language": {
+    "message": "భాష"
+  },
+  "automaticLanguage": {
+    "message": "ఆటోమేటిక్"
+  },
   "autoSaveEyedropper": {
     "message": "ఐడ్రాపర్ రంగులను ఆటోమేటిక్‌గా సేవ్ చేయండి"
   },

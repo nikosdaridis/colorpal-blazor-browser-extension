@@ -86,6 +86,14 @@
     "message": "Dark theme",
     "description": "Screen reader name of the theme switch, on when the theme is dark."
   },
+  "language": {
+    "message": "Language",
+    "description": "Settings label of the menu that picks ColorPal's language."
+  },
+  "automaticLanguage": {
+    "message": "Automatic",
+    "description": "First choice in the Language menu: follow Chrome's language."
+  },
   "autoSaveEyedropper": {
     "message": "Auto save eyedropper",
     "description": "Settings switch: save every eyedropper pick to the palette."

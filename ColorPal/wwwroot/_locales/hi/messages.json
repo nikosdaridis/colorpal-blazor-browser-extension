@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "गहरे रंग वाली थीम"
   },
+  "language": {
+    "message": "भाषा"
+  },
+  "automaticLanguage": {
+    "message": "ऑटोमेटिक"
+  },
   "autoSaveEyedropper": {
     "message": "आईड्रॉपर के रंग अपने-आप सेव करें"
   },

@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Tamsioji tema"
   },
+  "language": {
+    "message": "Kalba"
+  },
+  "automaticLanguage": {
+    "message": "Automatinė"
+  },
   "autoSaveEyedropper": {
     "message": "Automatiškai išsaugoti pipetės spalvas"
   },

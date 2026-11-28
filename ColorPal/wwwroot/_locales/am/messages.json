@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "ጨለማ ገጽታ"
   },
+  "language": {
+    "message": "ቋንቋ"
+  },
+  "automaticLanguage": {
+    "message": "ራስ-ሰር"
+  },
   "autoSaveEyedropper": {
     "message": "የተወሰዱ ቀለሞችን በራስ-ሰር ማስቀመጥ"
   },

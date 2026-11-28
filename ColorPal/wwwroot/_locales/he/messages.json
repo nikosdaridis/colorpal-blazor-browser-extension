@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "עיצוב כהה"
   },
+  "language": {
+    "message": "שפה"
+  },
+  "automaticLanguage": {
+    "message": "אוטומטי"
+  },
   "autoSaveEyedropper": {
     "message": "שמירה אוטומטית מהטפטפת"
   },

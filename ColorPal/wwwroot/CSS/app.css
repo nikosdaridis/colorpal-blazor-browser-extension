@@ -53,7 +53,7 @@
     --theme-toggle-cloud-gradient: radial-gradient(#ffffff 30%, #e6e6e6);
     --rating-reminder-fade-duration: 200ms;
     --rating-reminder-floating-shadow: 0 0 0 2px var(--secondary-color), 0 0 1.25rem rgb(0 0 0 / 0.45);
-    --rating-reminder-scroll-padding: 8.25rem;
+    --rating-reminder-scroll-padding: 13.625rem;
     --popup-width: max(300px, 18.75rem);
     --home-min-height: max(273px, 17.0625rem);
     --selected-color-height: max(125px, 7.8125rem);
@@ -162,12 +162,17 @@ html:has(.rating-reminder) {
     position: absolute;
     width: 300px;
     height: 120px;
-    inset-inline-start: 50%;
-    inset-block-start: 50%;
+    left: 50%;
+    top: 50%;
     transform: translate(-50%,-50%);
+    direction: ltr;
     border-radius: 70px;
     background-color: var(--secondary-color);
     transition: background-color 1s;
+}
+
+.theme-toggle__track:dir(rtl) {
+    transform: translate(-50%,-50%) scaleX(-1);
 }
 
 .theme-toggle:focus-visible > .theme-toggle__track {
@@ -697,6 +702,7 @@ html:has(.rating-reminder) {
 .toggle-option {
     outline: 0;
     display: block;
+    flex-shrink: 0;
     width: 60px;
     height: 24px;
     position: relative;

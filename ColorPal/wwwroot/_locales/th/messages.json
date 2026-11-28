@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "ธีมมืด"
   },
+  "language": {
+    "message": "ภาษา"
+  },
+  "automaticLanguage": {
+    "message": "อัตโนมัติ"
+  },
   "autoSaveEyedropper": {
     "message": "บันทึกอัตโนมัติเมื่อดูดสี"
   },

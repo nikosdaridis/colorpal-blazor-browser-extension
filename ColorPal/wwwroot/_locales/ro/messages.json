@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Temă întunecată"
   },
+  "language": {
+    "message": "Limbă"
+  },
+  "automaticLanguage": {
+    "message": "Automată"
+  },
   "autoSaveEyedropper": {
     "message": "Salvează automat culorile din pipetă"
   },

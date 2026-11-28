@@ -1,4 +1,4 @@
-﻿<div class="grid h-9 grid-cols-5 items-center justify-center rounded-lg bg-[var(--secondary-color)] p-1">
+﻿<div class="grid h-9 grid-cols-[repeat(4,minmax(0,1fr))_minmax(min-content,1fr)] items-center justify-center rounded-lg bg-[var(--secondary-color)] p-1">
     @foreach (ColorCodeFormat colorFormat in _colorCodeFormats)
     {
         <ColorCodeFormatTab Name=@colorFormat.Value()

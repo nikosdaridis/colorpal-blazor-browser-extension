@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "어두운 테마"
   },
+  "language": {
+    "message": "언어"
+  },
+  "automaticLanguage": {
+    "message": "자동"
+  },
   "autoSaveEyedropper": {
     "message": "스포이드 색상 자동 저장"
   },

@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "Donker thema"
   },
+  "language": {
+    "message": "Taal"
+  },
+  "automaticLanguage": {
+    "message": "Automatisch"
+  },
   "autoSaveEyedropper": {
     "message": "Pipetkleuren automatisch opslaan"
   },

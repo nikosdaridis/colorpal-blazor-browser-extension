@@ -68,6 +68,12 @@
   "darkTheme": {
     "message": "டார்க் தீம்"
   },
+  "language": {
+    "message": "மொழி"
+  },
+  "automaticLanguage": {
+    "message": "தானியங்கு"
+  },
   "autoSaveEyedropper": {
     "message": "ஐடிராப்பர் வண்ணத்தைத் தானாகச் சேமி"
   },
